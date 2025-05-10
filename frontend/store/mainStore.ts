@@ -12,7 +12,7 @@ interface store{
 }
 
  const mainStore = create<store>((state)=>({
-    baseURL : urls.nihal,
+    baseURL : urls.nirmanyu,
 }))
 
 export default mainStore;
