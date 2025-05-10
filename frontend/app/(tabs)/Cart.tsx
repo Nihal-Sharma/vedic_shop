@@ -279,7 +279,9 @@ const Cart = () => {
             data={cartProducts}
             renderItem={({item})=>{return renderItem(item);}}
             keyExtractor={(item) => item._id.toString()}
-            contentContainerStyle={styles.cartList} />
+            contentContainerStyle={styles.cartList}
+             style={styles.flatList}
+            />
           
           
 
@@ -290,7 +292,7 @@ const Cart = () => {
           <TouchableOpacity style={styles.checkoutButton}>
             <Text style={styles.checkoutButtonText}>CHECK OUT</Text>
           </TouchableOpacity> */}
-           <DeliveryBanner amountToUnlock={251} pincode="160019"  onChangeLocation={() => {}} />
+           
         </>
       )}
     </SafeAreaView>
@@ -300,7 +302,7 @@ const Cart = () => {
 
 const styles = StyleSheet.create({
   container: {
-    
+    height :'100%',
     backgroundColor: '#F0F0F0',
     
   },
@@ -533,6 +535,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
     marginVertical: 8,
+    
   },
   'cart-card-contentContainer': {
     flexDirection: 'row',
@@ -668,7 +671,10 @@ const styles = StyleSheet.create({
     width: 1,
     backgroundColor: '#EEEEEE',
   },
-  
+  flatList: {
+    width: '100%', // Adjust width as needed
+    // Adjust height as needed
+  },
 });
 
 export default Cart;
