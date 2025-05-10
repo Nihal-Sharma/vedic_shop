@@ -7,8 +7,8 @@ const HomeScreen = () => {
   return (
     <View>
       {/* <Text>index</Text> */}
-      {/* <EcommRecomended/> */}
-      <EcommCard/>
+      <EcommRecomended/>
+      {/* <EcommCard/> */}
     </View>
   )
 }

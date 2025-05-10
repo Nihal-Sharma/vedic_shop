@@ -25,7 +25,7 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <Stack>
           <Stack.Screen name="SplashScreen" options={{ headerShown: false }} />
-          <Stack.Screen name="(splash)" options={{ headerShown: false }} />
+          {/* <Stack.Screen name="(splash)" options={{ headerShown: false }} /> */}
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>

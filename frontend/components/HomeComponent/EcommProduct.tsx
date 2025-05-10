@@ -1,10 +1,21 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
-import { Entypo, Ionicons } from "@expo/vector-icons";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  Image,
+  ImageSourcePropType,
+  Alert,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import useCart from "../../store/cart";
 
-
+/* ────────────── PROP TYPES ────────────── */
 export interface EcomProductProps {
   _id: string;
   productId: string;
@@ -23,7 +34,7 @@ export interface EcomProductProps {
     height: { value: number; unit: string };
     weight: { value: number; unit: string };
   };
-  productImages: string[];
+  productImages: string[]; // ⬅️ pure URLs again
   addedOn: string;
   shop: { id: string; name: string };
   isActive: boolean;
@@ -45,43 +56,34 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
     stock,
     productRating,
   } = props;
-  
+
   const router = useRouter();
 
-  // Access Quantity of the Product in the CART
-  const productQuantity = useCart((state) =>
-    state.cartProducts.find((p) => p._id === _id)?.quantity ?? 0
+  /* ─────── CART STATE ─────── */
+  const productQuantity = useCart(
+    (s) => s.cartProducts.find((p) => p._id === _id)?.quantity ?? 0
   );
+  const incGlobalQuantity = useCart((s) => s.incGlobalQuantity);
+  const decGlobalQuantity = useCart((s) => s.decGlobalQuantity);
+  const addToCart = useCart((s) => s.addToCart);
+  const incProductQuantity = useCart((s) => s.incProductQuantity);
+  const decProductQuantity = useCart((s) => s.decProductQuantity);
+  const removeFromCart = useCart((s) => s.removeFromCart);
 
-  //Function to increase the Global Cart Quantity
-  const incGlobalQuantity = useCart((state)=>state.incGlobalQuantity);
-
-  //Function to increase the Global Cart Quantity
-  const decGlobalQuantity = useCart((state)=>state.decGlobalQuantity);
-
-  //Function to add a product to Cart
-  const addToCart = useCart((state)=> state.addToCart)
-
-  //Function to increase Product Quantity by pressing +
-  const incProductQuantity = useCart((state)=> state.incProductQuantity)
-
-  //Function to Decrease Product Quanity by pressing -
-  const decProductQuantity = useCart((state)=> state.decProductQuantity)
-
-  //Function to remove a product from Cart
-  const removeFromCart = useCart((state)=>state.removeFromCart)
-
-
+  /* ─────── COMPUTED ─────── */
   const discount =
     originalPrice > discountedPrice
       ? Math.round(((originalPrice - discountedPrice) / originalPrice) * 100)
       : 0;
 
-  const defaultImage =
-    productImages && productImages.length > 0
-      ? productImages[0]
-      : "https://via.placeholder.com/150";
+  const defaultImage: ImageSourcePropType = {
+    uri:
+      productImages?.length > 0
+        ? productImages[0]
+        : "https://via.placeholder.com/150",
+  };
 
+  /* ─────── HANDLERS ─────── */
   const handlePress = () => {
     // router.push(`/product/${_id}`);
   };
@@ -97,8 +99,8 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
   };
 
   const increment = () => {
-    if(productQuantity > stock){
-      Alert.alert(`Only ${productQuantity} are available`);
+    if (productQuantity >= stock) {
+      Alert.alert("Stock limit", `Only ${stock} available`);
       return;
     }
     incProductQuantity(_id);
@@ -106,177 +108,221 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
   };
 
   const decrement = () => {
-   if(productQuantity ==1){
+    if (productQuantity === 1) {
       removeFromCart(_id);
       decGlobalQuantity();
-   }
-   else{
-    decProductQuantity(_id);
-    decGlobalQuantity();
-   }
+    } else {
+      decProductQuantity(_id);
+      decGlobalQuantity();
+    }
   };
 
+  /* ─────── LOCAL UI STATE ─────── */
   const [liked, setLiked] = useState(false);
+  const toggleLike = () => setLiked((v) => !v);
 
-  const toggleLike = () => {
-    setLiked(!liked); // toggles between true and false
-  };
-
+  /* ─────── RENDER ─────── */
   return (
-    <TouchableOpacity
-      onPress={handlePress}
-      style={{
-        backgroundColor: "#fff",
-        marginRight: 16,
-        borderColor: "#e5e7eb",
-        borderWidth: 1,
-        borderRadius: 12,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
-        elevation: 2,
-        width: 176,
-        padding: 12,
-      }}
-      accessible={true}
-      accessibilityLabel={`View details for ${productName}`}
-    >
-      <View style={{ position: "relative" }}>
-        {discount > 0 && (
-          <View
-            style={{
-              position: "absolute",
-              top: 8,
-              left: 8,
-              backgroundColor: "#ef4444",
-              paddingHorizontal: 8,
-              paddingVertical: 4,
-              borderRadius: 9999,
-              zIndex: 10,
-            }}
-          >
-            <Text style={{ color: "#fff", fontSize: 12 }}>{discount}% Off</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <TouchableOpacity onPress={handlePress} activeOpacity={0.9}>
+          <View style={styles.card}>
+            {/* discount badge */}
+            {discount > 0 && (
+              <View style={styles.discountBadge}>
+                <Text style={styles.discountText}>{discount}%</Text>
+                <Text style={styles.discountText}>OFF</Text>
+              </View>
+            )}
+
+            {/* PLUS (add‑to‑cart) icon */}
+            {productQuantity > 0 ? (
+              <View style={styles.qtyRow}>
+                <TouchableOpacity onPress={decrement} style={styles.qtyBtn}>
+                  <Text style={styles.qtyBtnText}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.qtyText}>{productQuantity}</Text>
+                <TouchableOpacity onPress={increment} style={styles.qtyBtn}>
+                  <Text style={styles.qtyBtnText}>+</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+            <TouchableOpacity
+              onPress={productQuantity > 0 ? increment : handleAddToCart}
+              style={styles.addIcon}
+              accessibilityLabel="Add to cart"
+            >
+              <LinearGradient
+                colors={["#FFFFFF", "#FFD7B9"]}
+                style={styles.plusBg}
+              >
+                <Entypo name="plus" size={28} color="#FF6B00" />
+              </LinearGradient>
+            </TouchableOpacity>)}
+
+            {/* product image + rating */}
+            <View style={{ position: "relative" }}>
+              <Image source={defaultImage} style={styles.image} />
+              <View style={styles.rating}>
+                <Text style={styles.ratingText}>
+                  {productRating.toFixed(1)} ★
+                </Text>
+              </View>
+            </View>
+
+            {/* details */}
+            <View style={{ paddingLeft: 10 }}>
+              <Text style={styles.title} numberOfLines={1}>
+                {productName}
+              </Text>
+              <View style={styles.priceRow}>
+                <Text style={styles.price}>₹{discountedPrice.toFixed(2)}</Text>
+                {originalPrice > discountedPrice && (
+                  <Text style={styles.originalPrice}>
+                    ₹{originalPrice.toFixed(2)}
+                  </Text>
+                )}
+              </View>
+              <Text style={styles.taxNote}>Inclusive of all Taxes.</Text>
+            </View>
+
+            {/* heart */}
+            <TouchableOpacity
+              onPress={toggleLike}
+              style={styles.heartIcon}
+              accessibilityLabel={
+                liked ? "Remove from wishlist" : "Add to wishlist"
+              }
+            >
+              <AntDesign
+                name={liked ? "heart" : "hearto"}
+                size={24}
+                color={liked ? "red" : "black"}
+              />
+            </TouchableOpacity>
+
+            {/* qty / add‑cart */}
+            {/* {productQuantity > 0 ? (
+              <View style={styles.qtyRow}>
+                <TouchableOpacity onPress={decrement} style={styles.qtyBtn}>
+                  <Text style={styles.qtyBtnText}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.qtyText}>{productQuantity}</Text>
+                <TouchableOpacity onPress={increment} style={styles.qtyBtn}>
+                  <Text style={styles.qtyBtnText}>+</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <TouchableOpacity
+                onPress={handleAddToCart}
+                style={styles.addToCartBar}
+              >
+                <Text style={styles.addToCartText}>Add to Cart</Text>
+              </TouchableOpacity>
+            )} */}
           </View>
-        )}
-        <TouchableOpacity
-          onPress={toggleLike}
-          style={{ position: "absolute", top: 8, right: 8, zIndex: 10 }}
-        >
-          {/* <EvilIcons name="heart" size={24} color="red" /> */}
-          <Entypo
-            name="heart"
-            size={24}
-            color={liked ? "red" : "white"} // red if liked, otherwise white
-          />
         </TouchableOpacity>
-        <Image
-          source={{ uri: defaultImage }}
-          style={{ width: "100%", height: 128, borderRadius: 12 }}
-          resizeMode="cover"
-        />
-      </View>
-      <Text
-        style={{
-          marginTop: 8,
-          fontWeight: "bold",
-          color: "#374151",
-        }}
-        numberOfLines={1}
-      >
-        {productName}
-      </Text>
-      <View
-        style={{ flexDirection: "row", alignItems: "center", marginTop: 4 }}
-      >
-        <Ionicons name="star" size={14} color="gold" />
-        <Text style={{ fontSize: 12, color: "#6b7280", marginLeft: 4 }}>
-          {productRating.toFixed(1)}
-        </Text>
-      </View>
-      <View
-        style={{ flexDirection: "row", alignItems: "center", marginTop: 4 }}
-      >
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: "bold",
-            color: "#111827",
-            marginRight: 8,
-          }}
-        >
-          ₹{discountedPrice.toFixed(2)}
-        </Text>
-        {originalPrice > discountedPrice && (
-          <Text
-            style={{
-              fontSize: 12,
-              color: "#9ca3af",
-              textDecorationLine: "line-through",
-            }}
-          >
-            ₹{originalPrice.toFixed(2)}
-          </Text>
-        )}
-      </View>
-      {productQuantity > 0 ? (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 8,
-          }}
-        >
-          <TouchableOpacity
-            onPress={decrement}
-            style={{
-              paddingHorizontal: 8,
-              paddingVertical: 4,
-              backgroundColor: "#3b82f6",
-              borderRadius: 6,
-            }}
-          >
-            <Text style={{ fontSize: 18, color: "#fff" }}>-</Text>
-          </TouchableOpacity>
-          <Text style={{ fontSize: 16 }}>{productQuantity}</Text>
-          <TouchableOpacity
-            onPress={increment}
-            style={{
-              paddingHorizontal: 8,
-              paddingVertical: 4,
-              backgroundColor: "#3b82f6",
-              borderRadius: 6,
-            }}
-          >
-            <Text style={{ fontSize: 18, color: "#fff" }}>+</Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <TouchableOpacity
-          onPress={handleAddToCart}
-          style={{
-            marginTop: 8,
-            backgroundColor: "#3b82f6",
-            borderRadius: 6,
-            paddingHorizontal: 12,
-            paddingVertical: 8,
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 14,
-              fontWeight: "500",
-            }}
-          >
-            Add to Cart
-          </Text>
-        </TouchableOpacity>
-      )}
-    </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default EcomProduct;
+
+/* ────────────── STYLES ────────────── */
+const styles = StyleSheet.create({
+  container: { backgroundColor: "#fff", alignItems: "center" },
+  scroll: { padding: 20, alignItems: "center" },
+  card: {
+    width: 192,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    backgroundColor: "#fff",
+    overflow: "hidden",
+    position: "relative",
+  },
+  discountBadge: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    backgroundColor: "#f60",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderTopLeftRadius: 5,
+    zIndex: 10,
+    // flexDirection: "row",
+  },
+  discountText: {
+    fontSize: 13,
+    color: "#fff",
+    fontWeight: "bold",
+    marginRight: 2,
+  },
+  addIcon: {
+    position: "absolute",
+    top: 6,
+    right: 6,
+    zIndex: 10,
+    borderWidth: 2,
+    borderColor: "#FF6B00",
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  plusBg: { padding: 5 },
+  image: { width: "100%", height: 170, marginBottom: 8 },
+  rating: {
+    position: "absolute",
+    bottom: 12,
+    left: 6,
+    backgroundColor: "green",
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 12,
+  },
+  ratingText: { color: "#fff", fontSize: 12, fontWeight: "bold" },
+  title: { fontWeight: "500", fontSize: 14, marginBottom: 4 },
+  priceRow: { flexDirection: "row", alignItems: "center", gap: 6 },
+  price: { fontSize: 16, fontWeight: "bold" },
+  originalPrice: {
+    fontSize: 13,
+    textDecorationLine: "line-through",
+    color: "#888",
+  },
+  taxNote: { fontSize: 10, color: "#666", marginTop: 2, paddingBottom: 15 },
+  heartIcon: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderTopLeftRadius: 8,
+    padding: 5,
+  },
+  qtyRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 8,
+    paddingHorizontal: 12,
+    paddingBottom: 10,
+  },
+  qtyBtn: {
+    backgroundColor: "#3b82f6",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  qtyBtnText: { color: "#fff", fontSize: 18, fontWeight: "600" },
+  qtyText: { fontSize: 16, fontWeight: "500" },
+  addToCartBar: {
+    marginTop: 8,
+    marginHorizontal: 12,
+    marginBottom: 12,
+    backgroundColor: "#3b82f6",
+    borderRadius: 6,
+    paddingVertical: 8,
+    alignItems: "center",
+  },
+  addToCartText: { color: "#fff", fontSize: 14, fontWeight: "500" },
+});

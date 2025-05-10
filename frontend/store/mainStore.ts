@@ -3,7 +3,7 @@ import {create} from 'zustand';
 const urls = {
     // ... your urls here
     nihal : "http://192.168.29.171:5001",
-    nirmanyu : "http://192.168.234.161:5001"
+    nirmanyu : "http://192.168.166.162:5001"
 }
 
 
