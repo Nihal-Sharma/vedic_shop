@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import useCart from "../../store/cart";
 
@@ -116,6 +116,12 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
    }
   };
 
+  const [liked, setLiked] = useState(false);
+
+  const toggleLike = () => {
+    setLiked(!liked); // toggles between true and false
+  };
+
   return (
     <TouchableOpacity
       onPress={handlePress}
@@ -153,6 +159,17 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
             <Text style={{ color: "#fff", fontSize: 12 }}>{discount}% Off</Text>
           </View>
         )}
+        <TouchableOpacity
+          onPress={toggleLike}
+          style={{ position: "absolute", top: 8, right: 8, zIndex: 10 }}
+        >
+          {/* <EvilIcons name="heart" size={24} color="red" /> */}
+          <Entypo
+            name="heart"
+            size={24}
+            color={liked ? "red" : "white"} // red if liked, otherwise white
+          />
+        </TouchableOpacity>
         <Image
           source={{ uri: defaultImage }}
           style={{ width: "100%", height: 128, borderRadius: 12 }}
