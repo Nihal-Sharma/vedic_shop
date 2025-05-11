@@ -1,6 +1,7 @@
-import { View, Text, Image, TextInput } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import React from "react";
 import { Entypo, FontAwesome5, Feather } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 const EcomNavBar = () => {
   return (
@@ -26,7 +27,9 @@ const EcomNavBar = () => {
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 15 }}>
           <Entypo name="notification" size={24} color="black" />
-          <FontAwesome5 name="user-circle" size={24} color="black" />
+          <TouchableOpacity onPress={() => router.push("/Profile/profile")}>
+            <FontAwesome5 name="user-circle" size={24} color="black" />
+          </TouchableOpacity>
         </View>
       </View>
 
