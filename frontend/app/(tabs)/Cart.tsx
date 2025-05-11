@@ -12,13 +12,17 @@ import {
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import useCart, { Eproduct } from '../../store/cart';
+import GiftnCoupon from '@/components/cartComponent/GiftnCoupon';
 const Cart = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
   const steps = ['Cart', 'Address', 'Payment'];
   const [checked, setChecked] = useState(false);
-  // Sample data - you would replace this with your actual data source
+  const pincode = "146001"
+  const onChangeLocation = () =>{}
+  // Loading Cart Products in a variable from the store
   const cartProducts = useCart((state)=>state.cartProducts)
+  // console.log(cartProducts)
   //Function to increase the Global Cart Quantity
   const incGlobalQuantity = useCart((state)=>state.incGlobalQuantity);
 
@@ -89,29 +93,6 @@ const Cart = () => {
   const renderItem = ( item : Eproduct ) =>{
     
     return (
-    //   <View style={styles.cartItem}>
-    //   <Image source={{ uri: item.productImages[0] }} style={styles.productImage} />
-    //   <View style={styles.productInfo}>
-    //     <Text style={styles.productName}>{item.productName}</Text>
-    //     <Text style={styles.productPrice}>₹ {item.discountedPrice}</Text>
-    //     <Text style={styles.productRating}>{item.productRating}</Text>
-    //   </View>
-    //   <View style={styles.quantityContainer}>
-    //     <TouchableOpacity
-    //       style={styles.quantityButton}
-    //       onPress={() => increaseQuantity(item._id)}
-    //     >
-    //       <Text style={styles.quantityButtonText}>+</Text>
-    //     </TouchableOpacity>
-    //     <Text style={styles.quantityText}>{item.quantity}</Text>
-    //     <TouchableOpacity
-    //       style={styles.quantityButton}
-    //       onPress={() => decreaseQuantity(item._id)}
-    //     >
-    //       <Text style={styles.quantityButtonText}>-</Text>
-    //     </TouchableOpacity>
-    //   </View>
-    // </View>
     <View style={styles['cart-card-container']}>
       <View style={styles['cart-card-contentContainer']}>
         {/* Checkbox and Image */}
@@ -143,7 +124,7 @@ const Cart = () => {
           {/* Price Section */}
           <View style={styles['cart-card-priceRow']}>
             <Text style={styles['cart-card-currentPrice']}>₹{item.discountedPrice}</Text>
-            <Text style={styles['cart-card-originalPrice']}>₹{item.discountedPrice}</Text>
+            <Text style={styles['cart-card-originalPrice']}>₹{item.originalPrice}</Text>
             <View style={styles['cart-card-discountBadge']}>
               <Text style={styles['cart-card-discountText']}>{"50"}% OFF</Text>
             </View>
@@ -163,7 +144,7 @@ const Cart = () => {
               
               <TouchableOpacity 
                 style={styles['cart-card-quantityButton']}
-                // onPress={increaseQuantity}
+                
                 onPress={()=>{increaseQuantity(item._id)}}
               >
                 <Text style={styles['cart-card-quantityButtonIcon']}>+</Text>
@@ -199,28 +180,27 @@ const Cart = () => {
     );
     };
 
+  const flatListFooter = () =>{
+    return(
+      <>
+      <GiftnCoupon/>
+      </>
+    )
+
+  }
   return (
     <SafeAreaProvider>
     <SafeAreaView style={styles.container}>
-      
-      
-      {cartProducts.length === 0 ? (
-        <View style={styles.emptyCartContainer}>
-          <Text style={styles.emptyCartText}>No items in cart</Text>
-        </View>
-      ) : (
-        <>
-        <View style={styles.cartTopbar}>
+      <View style={styles.cartTopbar}>
         <TouchableOpacity><AntDesign name="arrowleft" size={26} color="black" /></TouchableOpacity>
         <View style = {styles.topHeader}>
           <Text style ={styles.topHeaderTitle}>Cart</Text>
-          <Text style ={styles.topHeaderSubTitle}>2 Item</Text>
+          <Text style ={styles.topHeaderSubTitle}>{cartProducts.length} Item</Text>
         </View>
         <TouchableOpacity><AntDesign name="hearto" size={25} color="black" /></TouchableOpacity>
       </View>
 
-
-     <View style={styles['bar-container']}>
+       <View style={styles['bar-container']}>
       {/* Progress bar */}
       <View style={styles['bar-lineContainer']}>
         <View style={styles['bar-backgroundLine']} />
@@ -264,35 +244,57 @@ const Cart = () => {
       
     </View>
 
-    <DeliveryBanner amountToUnlock={251} pincode="160019"  onChangeLocation={() => {}} />
-    
-    <View style = {styles.selected}>
+        {cartProducts.length ===0 ? <></> :  <DeliveryBanner amountToUnlock={251} pincode="160019"    />}
+
+      <View style={styles['banner-locationContainer']}>
+              <Text style={styles['banner-locationText']}>Deliver to: <Text style={styles['banner-locationPin']} >{pincode}</Text> </Text>
+              <TouchableOpacity 
+                style={styles['banner-changeButton']}
+                onPress={onChangeLocation}
+              >
+                <Text style={styles['banner-changeButtonText']}>Change</Text>
+              </TouchableOpacity>
+            </View>
+      
+      {cartProducts.length === 0 ? (
+        <View style={styles.emptyCartContainer}>
+          <View style ={styles.emptyimgcontainer}>
+            <Image source={require('../../assets/images/Empty_Cart.png')} style={styles.emptyimg} />
+          </View>
+          <Text style={styles.emptyCartText}>No items in cart</Text>
+          <Text style={styles.emptyCartSubText}>There is nothing in your bag. Let’s add some items.</Text>
+          <TouchableOpacity style = {styles.shopBut}>
+            <Text style = {styles.butShopTxt}>SHOP</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <>
+        <View style = {styles.selected}>
       <Pressable style={styles.maincheckBox} onPress={() => setChecked(!checked)}>
            <Text style={styles.checkbox}>
              {checked ? '☐' : '☑'}
                  </Text>
             </Pressable>
       <Text style = {{color :'white' , fontSize :12, marginLeft :9 }}>1/1 ITEM SELECTED {` ( ₹ ${totalPrice} )`}</Text>
-    </View>
+        </View>
        
         <FlatList
             data={cartProducts}
             renderItem={({item})=>{return renderItem(item);}}
             keyExtractor={(item) => item._id.toString()}
             contentContainerStyle={styles.cartList}
-             style={styles.flatList}
-            />
-          
-          
-
-          {/* <View style={styles.totalContainer}>
-            <Text style={styles.totalText}>Total Price : ₹ {totalPrice}</Text>
-          </View>
-          
-          <TouchableOpacity style={styles.checkoutButton}>
-            <Text style={styles.checkoutButtonText}>CHECK OUT</Text>
-          </TouchableOpacity> */}
-           
+            style={styles.flatList}
+            ListFooterComponent={flatListFooter}
+            /> 
+        <View style ={styles.bottomContinue}>
+            <View style={styles.contBut_container}>
+              <View style ={styles.totalTxt}><Text style = {styles.totalPriceTxt}>₹ {totalPrice}</Text></View>
+              
+              <TouchableOpacity style ={styles.contBut}>
+                <Text style ={{color :"white" ,fontSize :15, fontWeight :600 }}>Continue</Text>
+              </TouchableOpacity>
+            </View>
+           </View>
         </>
       )}
     </SafeAreaView>
@@ -304,7 +306,7 @@ const styles = StyleSheet.create({
   container: {
     height :'100%',
     backgroundColor: '#F0F0F0',
-    
+    flex :1
   },
   cartTitle: {
     fontSize: 24,
@@ -378,11 +380,41 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  emptyimgcontainer:{
+    height :134,
+    width :134,
+    
+  }
+  ,emptyimg:{
+    height :134,
+    width :134,
+  }
+  ,
   emptyCartText: {
-    fontSize: 18,
-    color: 'grey',
-    fontWeight: 'bold',
+    fontSize: 16,
+    color :"#535353",
+    fontWeight: 500
   },
+  emptyCartSubText: {
+    fontSize: 12,
+    color :"#535353",
+    fontWeight: 400,
+    marginTop :10
+  },
+  shopBut :{
+    marginTop :35,
+    borderWidth :0.5,
+    borderColor : "#FF6B00",
+    paddingHorizontal :29,
+    paddingVertical :8,
+    borderRadius :5
+  },
+  butShopTxt:{
+    color :'#FF6B00',
+    fontSize :16,
+    fontWeight :400
+  }
+  ,
   totalContainer: {
     backgroundColor: '#f5f5f5',
     padding: 15,
@@ -675,6 +707,69 @@ const styles = StyleSheet.create({
     width: '100%', // Adjust width as needed
     // Adjust height as needed
   },
+  'banner-locationContainer': {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 14,
+    backgroundColor: '#fff',
+    
+  },
+  'banner-locationText': {
+    fontSize: 14,
+    color: 'grey',
+  },
+  'banner-locationPin': {
+    fontSize: 14,
+    color: 'black',
+  },
+  'banner-changeButton': {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderWidth: 1,
+    borderColor: '#FF3C00',
+    borderRadius: 20,
+  },
+  'banner-changeButtonText': {
+    color: '#FF3C00',
+    fontWeight: '500',
+    fontSize :12
+  },
+  bottomContinue:{
+    paddingHorizontal :15,
+    paddingVertical :10,
+    backgroundColor :"white"
+  },
+  contBut_container:{
+    borderWidth : 0.6,
+    borderColor :"#A9A9A999",
+    borderRadius :100,
+    display :'flex',
+    flexDirection :'row',
+    padding :5
+  },
+  totalTxt:{
+    width :"30%",
+    display :'flex',
+    borderRadius :71,
+    justifyContent :'center',
+    alignItems:'center'
+  },
+  contBut:{
+    backgroundColor :"#E2660C",
+    width:'70%',
+    display :'flex',
+    justifyContent :'center',
+    alignItems :'center',
+    borderRadius :71,
+    paddingVertical :12,
+    
+  },
+  totalPriceTxt:{
+ fontSize :18,
+  fontWeight :700,
+   color :'#FF6505',
+  }
 });
 
 export default Cart;

@@ -123,7 +123,7 @@ const EcommBrass = () => {
                   <EcomProduct {...product} />
                 </View>
               ))}
-              {pair.length === 1 && <View style={styles.cardWrapper} />} {/* spacer */}
+              {pair.length === 1 && <View style={styles.cardWrapper} />} 
             </View>
           )}
           ListEmptyComponent={
