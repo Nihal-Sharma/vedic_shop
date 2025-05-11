@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import {
   View,
   Text,
+  Image,
   TouchableOpacity,
   Animated,
   Easing,
@@ -68,7 +69,7 @@ function QuickActionsTab({ accessibilityState, ...rest }: any) {
   };
 
   return (
-    <View style={{ width: 70, alignItems: "center" }}>
+    <View style={{ width: 75, alignItems: "center" }}>
       {/* ── ACTION 1 ── */}
       <Animated.View style={[styles.actionContainer, astroStyle]}>
         <TouchableOpacity
@@ -129,6 +130,13 @@ function QuickActionsTab({ accessibilityState, ...rest }: any) {
             style={{ transform: [{ rotate: open ? "180deg" : "0deg" }] }}
           />
         </LinearGradient> */}
+        <Image
+          source={{
+            uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/about.png",
+          }}
+          style={{
+            width: 46,  height: 46, borderRadius: 23,}}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -199,7 +207,7 @@ export default function TabLayout() {
         name="quick-actions" // this file can be empty; we never navigate to it
         options={{
           // href: null, // don't show in the router hierarchy
-          title: "Quick",
+          // title: "Quick",
           tabBarButton: QuickActionsTab, // ← our custom button
         }}
       />
@@ -235,7 +243,7 @@ const styles = StyleSheet.create({
     color: "#2E0443",
   },
   mainFabWrapper: {
-    marginTop: 0, // pull it up a bit so it sits on the bar
+    marginTop: 3, // pull it up a bit so it sits on the bar
   },
   mainFabCircle: {
     width: CIRCLE,

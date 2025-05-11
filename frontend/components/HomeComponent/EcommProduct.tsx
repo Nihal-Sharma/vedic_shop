@@ -184,10 +184,10 @@ export default EcomProduct;
 
 /* --- styles (unchanged) --- */
 const styles = StyleSheet.create({
-  container: { backgroundColor: "#fff", alignItems: "center" },
-  scroll: { padding: 20, alignItems: "center" },
+  container: { alignItems: "center" },
+  scroll: { paddingRight: 10, alignItems: "center" },
   card: {
-    width: 192,
+    width: 185,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#ddd",
