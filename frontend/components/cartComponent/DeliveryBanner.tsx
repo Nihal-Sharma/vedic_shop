@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 const DeliveryBanner = ({ 
   amountToUnlock = 251, 
   pincode = '160019',
-  onChangeLocation = () => {}
 }) => {
   return (
     <View style={styles['banner-container']}>
@@ -31,15 +30,6 @@ const DeliveryBanner = ({
       </View>
       
       {/* Location section */}
-      <View style={styles['banner-locationContainer']}>
-        <Text style={styles['banner-locationText']}>Deliver to: <Text style={styles['banner-locationPin']} >{pincode}</Text> </Text>
-        <TouchableOpacity 
-          style={styles['banner-changeButton']}
-          onPress={onChangeLocation}
-        >
-          <Text style={styles['banner-changeButtonText']}>Change</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -47,6 +37,7 @@ const DeliveryBanner = ({
 const styles = StyleSheet.create({
   'banner-container': {
     width: '100%',
+    marginBottom :10
   },
   'banner-deliveryContainer': {
     backgroundColor: '#c1e6c1', // Light green background
