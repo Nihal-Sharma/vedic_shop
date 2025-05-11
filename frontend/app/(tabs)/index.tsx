@@ -13,6 +13,7 @@ import EcommCombo from '@/components/HomeComponent/EcommCombo'
 import EcommGrid from '@/components/HomeComponent/EcommGrid'
 import EcommSacred from '@/components/HomeComponent/EcommSacred'
 import EcommBanner2 from '@/components/HomeComponent/EcommBanner2'
+import EcommOccasion from '@/components/HomeComponent/EcommOcassion'
 // import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated'
 
 const HomeScreen = () => {
@@ -30,6 +31,7 @@ const HomeScreen = () => {
         <EcommGrid/>
         <EcommSacred/>
         <EcommBanner2/>
+        <EcommOccasion/>
         {/* <Text>index</Text> */}
         {/* <EcommRecomended/> */}
         {/* <EcommCard/> */}
