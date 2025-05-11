@@ -32,7 +32,7 @@ const EcommBestSeller: React.FC = () => {
   const loadProducts = useCallback(async () => {
     try {
       const { data } = await axios.get(`${baseURL}/fetch-all-products`);
-
+      
       const mapped: EcomProductProps[] = data.map((p: any) => ({
         _id: p._id,
         productId: p.productId,

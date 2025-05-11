@@ -14,6 +14,7 @@ import { AntDesign, Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import useCart from "../../store/cart";
+import useWishlist from "@/store/wishList";
 
 /* ───────── unified product interface ───────── */
 export interface EcomProductProps {
@@ -60,6 +61,24 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
   } = props;
 
   const router = useRouter();
+  // Logic For  WishList
+  
+  const wishList = useWishlist((state)=>state.wishlist);
+  const exists = wishList.some(item =>item._id === props._id);
+  const liked = exists;
+  const addToWishlist = useWishlist((state)=> state.addToWishlist);
+  const removeFromWhishlist = useWishlist((state)=>state.removeFromWishlist);
+  const handleLike = ()=>{
+    if(liked) {
+      removeFromWhishlist(props._id);
+    }
+    else{
+      addToWishlist(props);
+      
+    }
+  }
+
+
 
   /* cart (Zustand) */
   const productQuantity = useCart(
@@ -68,7 +87,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
   const incGlobalQuantity = useCart((s) => s.incGlobalQuantity);
   const addToCart = useCart((s) => s.addToCart);
 
-  const [liked, setLiked] = useState(false);
+  
 
   const discount =
     originalPrice > discountedPrice
@@ -135,6 +154,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
                 <Text style={styles.ratingText}>
                   {productRating.toFixed(1)} ★
                 </Text>
+
               </View>
             </View>
 
@@ -156,7 +176,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
 
             {/* wishlist */}
             <TouchableOpacity
-              onPress={() => setLiked((v) => !v)}
+              onPress={handleLike}
               style={styles.heartIcon}
             >
               <AntDesign

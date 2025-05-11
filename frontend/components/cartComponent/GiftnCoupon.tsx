@@ -8,7 +8,7 @@ const GiftnCoupon = () => {
       <ImageBackground
         source={require('../../assets/images/gift.webp')} // Path to your image
         style={styles.giftContainer}
-        resizeMode="cover" // or 'stretch', 'contain', 'repeat', 'center'
+        resizeMode="center" // or 'stretch', 'contain', 'repeat', 'center'
     >
     <View style = {styles.left}>
         <AntDesign name="gift" size={30} color="#C90338" />
@@ -30,7 +30,7 @@ const GiftnCoupon = () => {
             <Text style ={{fontSize : 13, fontWeight :'regular' , color :'#666666'}}>Save more with coupons available for you</Text>
         </View>
         <View style = {styles.CouponRight}>
-            <EvilIcons name="arrow-right" size={30} color="#666666" />
+            <EvilIcons name="arrow-right" size={30} color="#666666" style = {{  height :30}}/>
         </View>
     </TouchableOpacity>
     </View>
@@ -54,9 +54,7 @@ const styles = StyleSheet.create({
       alignItems :'center' ,
       paddingVertical : 14,
       
-      borderWidth :1, 
-      borderColor :"white",
-      borderRadius :50,
+      
     },
     left:{
         display :'flex',
@@ -87,6 +85,8 @@ const styles = StyleSheet.create({
         backgroundColor :'white'
     },
     CouponLeft:{},
-    CouponRight :{}
+    CouponRight :{
+        
+    }
     
 })
