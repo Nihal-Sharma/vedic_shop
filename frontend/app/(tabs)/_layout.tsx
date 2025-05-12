@@ -23,6 +23,7 @@ import {
 
 import { HapticTab } from "@/components/HapticTab";
 import TabBarBackground from "@/components/ui/TabBarBackground";
+import { Background } from "@react-navigation/elements";
 
 /* ─────────────────────────────────────────────────────────── */
 /*  Custom expandable‑fab TabBarButton                         */
@@ -55,6 +56,7 @@ function QuickActionsTab({ accessibilityState, ...rest }: any) {
       },
     ],
     opacity: anim,
+    
   };
   const vedicStyle = {
     transform: [
@@ -69,7 +71,7 @@ function QuickActionsTab({ accessibilityState, ...rest }: any) {
   };
 
   return (
-    <View style={{ width: 75, alignItems: "center" }}>
+    <View style={{   marginRight :10, alignItems: "center" }}>
       {/* ── ACTION 1 ── */}
       <Animated.View style={[styles.actionContainer, astroStyle]}>
         <TouchableOpacity

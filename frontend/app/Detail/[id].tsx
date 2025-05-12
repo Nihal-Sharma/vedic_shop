@@ -14,6 +14,8 @@ import { useLocalSearchParams } from "expo-router";
 import useMainStore from "../../store/mainStore";
 import { AntDesign, FontAwesome6, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import axios from "axios";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -67,10 +69,12 @@ const ProductDetail: React.FC = () => {
     }
   };
 
-  const handleCheck = () => {
+  const handleCheck = async() => {
     if (pincode.length === 6) {
       // Proceed with check
-      console.log("Valid Pincode:", pincode);
+      const response = await axios.get(`https://vedicvaibhav.com/api/ecom/serviceability/check?shopId=66f66310c69f3a5db919d17a&deliveryPin=${pincode}`);
+      alert(`Estimated Delivery in ${response.data.cheapestCourier.estimated_delivery_days} days`)
+
     } else {
       alert("Please enter a valid 6-digit pincode.");
     }
@@ -128,6 +132,7 @@ const ProductDetail: React.FC = () => {
     );
 
   return (
+    <SafeAreaProvider><SafeAreaView>
     <ScrollView contentContainerStyle={styles.container}>
       {/* Header */}
       <View style={styles.header}>
@@ -169,6 +174,7 @@ const ProductDetail: React.FC = () => {
           paddingBottom: 16,
           borderRadius: 15,
           marginHorizontal: 15,
+          marginTop :19
         }}
       >
         <Text style={styles.title}>{product.productName}</Text>
@@ -347,7 +353,7 @@ const ProductDetail: React.FC = () => {
       <Text style={styles.text}>
         {new Date(product.addedOn).toLocaleDateString()}
       </Text>
-    </ScrollView>
+    </ScrollView></SafeAreaView></SafeAreaProvider>
   );
 };
 
