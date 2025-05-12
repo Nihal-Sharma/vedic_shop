@@ -92,6 +92,9 @@ const EcommCombo = () => {
             <Text style={{ padding: 16 }}>No Special Combo Offers found.</Text>
           }
           contentContainerStyle={{ paddingHorizontal: 4, paddingVertical: 12 }}
+          initialNumToRender={2}
+        maxToRenderPerBatch={2}
+        windowSize={2}
         />
       </View>
     </SafeAreaView>

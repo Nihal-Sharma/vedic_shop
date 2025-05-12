@@ -192,7 +192,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
   );
 };
 
-export default EcommBestSellerCard;
+export default React.memo(EcommBestSellerCard);
 
 /* ───────── styles (unchanged) ───────── */
 const styles = StyleSheet.create({

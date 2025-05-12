@@ -196,7 +196,7 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
   );
 };
 
-export default EcomProduct;
+export default React.memo(EcomProduct);
 
 /* --- styles (unchanged) --- */
 const styles = StyleSheet.create({

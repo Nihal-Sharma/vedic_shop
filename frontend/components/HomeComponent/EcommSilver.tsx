@@ -132,6 +132,9 @@ const EcommSilver = () => {
               No Silver Idols found.
             </Text>
           }
+          initialNumToRender={2}
+           maxToRenderPerBatch={2}
+           windowSize={2}
         />
 
         {/* ── pagination dots ── */}

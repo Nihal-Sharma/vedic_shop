@@ -28,6 +28,7 @@ const EcommBestSeller: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
   /* fetch once */
   const loadProducts = useCallback(async () => {
     try {
@@ -85,6 +86,7 @@ const EcommBestSeller: React.FC = () => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Best Sellers</Text>
+      
       <FlatList
         data={products}
         horizontal
@@ -94,6 +96,9 @@ const EcommBestSeller: React.FC = () => {
         ListEmptyComponent={
           <Text style={{ padding: 16 }}>No products found.</Text>
         }
+        initialNumToRender={2}
+        maxToRenderPerBatch={2}
+        windowSize={2}
       />
     </View>
   );
