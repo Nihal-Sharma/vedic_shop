@@ -16,7 +16,7 @@ import { useRouter } from "expo-router";
 import useCart from "../../store/cart";
 import useWishlist from "@/store/wishList";
 
-/* ───────– props shared by every list –─────── */
+/* ───────── unified product interface ───────── */
 export interface EcomProductProps {
   _id: string;
   productId: string;
@@ -42,13 +42,14 @@ export interface EcomProductProps {
   isFeatured: boolean;
   isApproved: boolean;
   productRating: number;
-  productReview: string; // raw string (unused in card—still good to keep)
-  reviewCount?: number; // optional so other lists compile
+  productReview: string; // raw text from backend (“1 234 reviews”)
+  reviewCount: number; // numeric count (always present)
   __v: number;
   productBasePrice: number;
 }
 
-const EcomProduct: React.FC<EcomProductProps> = (props) => {
+/* ─────────── Best‑Seller Card ─────────── */
+const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
   const {
     _id,
     productName,
@@ -60,33 +61,7 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
   } = props;
 
   const router = useRouter();
-
-  /* cart state (Zustand) */
-  const productQuantity = useCart(
-    (s) => s.cartProducts.find((p) => p._id === _id)?.quantity ?? 0
-  );
-  const incGlobalQuantity = useCart((s) => s.incGlobalQuantity);
-  const decGlobalQuantity = useCart((s) => s.decGlobalQuantity);
-  const addToCart = useCart((s) => s.addToCart);
-  const incProductQuantity = useCart((s) => s.incProductQuantity);
-  const decProductQuantity = useCart((s) => s.decProductQuantity);
-  const removeFromCart = useCart((s) => s.removeFromCart);
-
-  /* computed */
-  const discount =
-    originalPrice > discountedPrice
-      ? Math.round(((originalPrice - discountedPrice) / originalPrice) * 100)
-      : 0;
-
-  const defaultImage: ImageSourcePropType = {
-    uri:
-      productImages?.length > 0
-        ? productImages[0]
-        : "https://via.placeholder.com/150",
-  };
-
-  /* local UI */
-   // Logic For  WishList
+  // Logic For  WishList
   
   const wishList = useWishlist((state)=>state.wishlist);
   const exists = wishList.some(item =>item._id === props._id);
@@ -103,7 +78,29 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
     }
   }
 
-  /* handlers */
+
+
+  /* cart (Zustand) */
+  const productQuantity = useCart(
+    (s) => s.cartProducts.find((p) => p._id === _id)?.quantity ?? 0
+  );
+  const incGlobalQuantity = useCart((s) => s.incGlobalQuantity);
+  const addToCart = useCart((s) => s.addToCart);
+
+  
+
+  const discount =
+    originalPrice > discountedPrice
+      ? Math.round(((originalPrice - discountedPrice) / originalPrice) * 100)
+      : 0;
+
+  const defaultImage: ImageSourcePropType = {
+    uri:
+      productImages?.length > 0
+        ? productImages[0]
+        : "https://via.placeholder.com/150",
+  };
+
   const handleAddToCart = () => {
     if (stock <= 0) {
       Alert.alert("Out of Stock", "This product is out of stock.");
@@ -114,13 +111,11 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
     Alert.alert("Added to Cart", `${productName} has been added to your cart.`);
   };
 
-  /* render */
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <TouchableOpacity activeOpacity={0.9}>
           <View style={styles.card}>
-            {/* discount badge */}
             {discount > 0 && (
               <View style={styles.discountBadge}>
                 <Text style={styles.discountText}>{discount}%</Text>
@@ -159,6 +154,7 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
                 <Text style={styles.ratingText}>
                   {productRating.toFixed(1)} ★
                 </Text>
+
               </View>
             </View>
 
@@ -196,14 +192,14 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
   );
 };
 
-export default React.memo(EcomProduct);
+export default React.memo(EcommBestSellerCard);
 
-/* --- styles (unchanged) --- */
+/* ───────── styles (unchanged) ───────── */
 const styles = StyleSheet.create({
-  container: { alignItems: "center" },
-  scroll: { paddingRight: 10, alignItems: "center" },
+  container: { backgroundColor: "#fff", alignItems: "center" },
+  scroll: {  alignItems: "center",paddingRight:10 },
   card: {
-    width: 185,
+    width: 192,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#ddd",

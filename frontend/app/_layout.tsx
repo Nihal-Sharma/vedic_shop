@@ -27,6 +27,8 @@ export default function RootLayout() {
           <Stack.Screen name="SplashScreen" options={{ headerShown: false }} />
           {/* <Stack.Screen name="(splash)" options={{ headerShown: false }} /> */}
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="Profile" options={{ headerShown: false }} />
+          
           <Stack.Screen name="+not-found" />
         </Stack>
       </QueryClientProvider>
