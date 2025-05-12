@@ -131,6 +131,9 @@ const EcommBrass = () => {
               No Divine Brass items found.
             </Text>
           }
+          initialNumToRender={2}
+        maxToRenderPerBatch={2}
+        windowSize={2}
         />
 
         {/* dots */}

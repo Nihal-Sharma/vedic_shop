@@ -116,7 +116,13 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
       <ScrollView contentContainerStyle={styles.scroll}>
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={() => router.push("/Detail/ProductDetail")}
+          onPress={() =>
+            // push to /Detail/<productId>
+            router.push({
+              pathname: "/Detail/[id]",
+              params: { id: _id },
+            })
+          }
         >
           <View style={styles.card}>
             {discount > 0 && (
@@ -191,7 +197,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
   );
 };
 
-export default EcommBestSellerCard;
+export default React.memo(EcommBestSellerCard);
 
 /* ───────── styles (unchanged) ───────── */
 const styles = StyleSheet.create({
