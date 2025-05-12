@@ -114,7 +114,10 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll}>
-        <TouchableOpacity activeOpacity={0.9}>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => router.push("/Detail/ProductDetail")}
+        >
           <View style={styles.card}>
             {discount > 0 && (
               <View style={styles.discountBadge}>
@@ -154,7 +157,6 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
                 <Text style={styles.ratingText}>
                   {productRating.toFixed(1)} ★
                 </Text>
-
               </View>
             </View>
 
@@ -175,10 +177,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
             </View>
 
             {/* wishlist */}
-            <TouchableOpacity
-              onPress={handleLike}
-              style={styles.heartIcon}
-            >
+            <TouchableOpacity onPress={handleLike} style={styles.heartIcon}>
               <AntDesign
                 name={liked ? "heart" : "hearto"}
                 size={24}
