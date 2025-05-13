@@ -1,3 +1,5 @@
+// ./Detail/[id].tsx
+
 import React, { useEffect, useState, useRef } from "react";
 import {
   View,
@@ -9,10 +11,18 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  LayoutAnimation,
+  Platform,
+  UIManager,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import useMainStore from "../../store/mainStore";
-import { AntDesign, FontAwesome6, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 const { width: screenWidth } = Dimensions.get("window");
@@ -49,32 +59,31 @@ export interface EcomProductProps {
 }
 
 const ProductDetail: React.FC = () => {
+  // ─── all hooks at the top ───────────────────────────────────────────────────
   const { id } = useLocalSearchParams<{ id: string }>();
-  const baseURL = useMainStore((state) => state.baseURL);
+  const baseURL = useMainStore((s) => s.baseURL);
 
   const [product, setProduct] = useState<EcomProductProps | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const scrollRef = useRef<ScrollView>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollRef = useRef<ScrollView>(null);
+
   const [pincode, setPincode] = useState("");
+  const [expanded, setExpanded] = useState(false);
 
-  const handleInputChange = (text: string) => {
-    const numericText = text.replace(/[^0-9]/g, '');
-    if (numericText.length <= 6) {
-      setPincode(numericText);
-    }
-  };
+  const [shippingExpanded, setShippingExpanded] = useState(false);
 
-  const handleCheck = () => {
-    if (pincode.length === 6) {
-      // Proceed with check
-      console.log("Valid Pincode:", pincode);
-    } else {
-      alert("Please enter a valid 6-digit pincode.");
+  // Enable LayoutAnimation on Android once
+  useEffect(() => {
+    if (
+      Platform.OS === "android" &&
+      UIManager.setLayoutAnimationEnabledExperimental
+    ) {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
     }
-  };
+  }, []);
 
   // Fetch product data
   useEffect(() => {
@@ -82,11 +91,10 @@ const ProductDetail: React.FC = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${baseURL}/fetch-product-by-id/${id}`);
-        if (!response.ok) throw new Error(`Error ${response.status}`);
-        const json = await response.json();
-        const data: EcomProductProps = json.Product;
-        setProduct(data);
+        const res = await fetch(`${baseURL}/fetch-product-by-id/${id}`);
+        if (!res.ok) throw new Error(`Error ${res.status}`);
+        const json = await res.json();
+        setProduct(json.Product as EcomProductProps);
       } catch (err: any) {
         setError(err.message || "Something went wrong");
       } finally {
@@ -100,14 +108,15 @@ const ProductDetail: React.FC = () => {
   useEffect(() => {
     if (!product?.productImages.length) return;
     const total = product.productImages.length;
-    const interval = setInterval(() => {
+    const iv = setInterval(() => {
       const next = (currentIndex + 1) % total;
       setCurrentIndex(next);
       scrollRef.current?.scrollTo({ x: next * screenWidth, animated: true });
     }, 4000);
-    return () => clearInterval(interval);
+    return () => clearInterval(iv);
   }, [currentIndex, product]);
 
+  // ─── early returns ──────────────────────────────────────────────────────────
   if (loading)
     return (
       <View style={styles.center}>
@@ -127,6 +136,28 @@ const ProductDetail: React.FC = () => {
       </View>
     );
 
+  // ─── handlers ───────────────────────────────────────────────────────────────
+  const handleInputChange = (text: string) => {
+    const num = text.replace(/[^0-9]/g, "");
+    if (num.length <= 6) setPincode(num);
+  };
+  const handleCheck = () => {
+    if (pincode.length === 6) {
+      console.log("Valid Pincode:", pincode);
+    } else {
+      alert("Please enter a valid 6-digit pincode.");
+    }
+  };
+  const toggle = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpanded((prev) => !prev);
+  };
+   const toggleShipping = () => {
+       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+       setShippingExpanded(prev => !prev);
+     };
+
+  // ─── render ─────────────────────────────────────────────────────────────────
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Header */}
@@ -135,7 +166,7 @@ const ProductDetail: React.FC = () => {
         <Ionicons name="bag-handle-outline" size={24} color="black" />
       </View>
 
-      {/* Carousel */}
+      {/* Image Carousel */}
       <View style={styles.carouselContainer}>
         <ScrollView
           ref={scrollRef}
@@ -162,18 +193,9 @@ const ProductDetail: React.FC = () => {
         </View>
       </View>
 
-      {/* Product Info */}
-      <View
-        style={{
-          backgroundColor: "#fff",
-          paddingBottom: 16,
-          borderRadius: 15,
-          marginHorizontal: 15,
-        }}
-      >
+      {/* Basic Info */}
+      <View style={styles.infoBox}>
         <Text style={styles.title}>{product.productName}</Text>
-        {/* <Text style={styles.subtitle}>{product.productCategory.name}</Text> */}
-
         <View style={styles.priceRow}>
           <Text style={styles.price}>
             ₹{Math.floor(product.discountedPrice)}
@@ -182,130 +204,102 @@ const ProductDetail: React.FC = () => {
             ₹{Math.floor(product.originalPrice)}
           </Text>
         </View>
-
-        {/* <Text style={styles.basePrice}>
-        Base Price: ₹{product.productBasePrice.toFixed(2)}
-      </Text> */}
-
-        {/* <View style={styles.row}>
-        <Text>Rating: {product.productRating} </Text>
-        <Text>({product.reviewCount} reviews)</Text>
-      </View> */}
-        {/* <Text>
-        Stock:{" "}
-        {product.stock > 0 ? `${product.stock} available` : "Out of stock"}
-      </Text> */}
-        <View style={{ paddingHorizontal: 16 }}>
-          <Text>Inclusive of all Taxes.</Text>
-          <Text>GST included. FREE delivery over ₹ 499</Text>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              borderWidth: 1,
-              borderColor: "#ccc",
-              borderRadius: 10,
-              paddingHorizontal: 12,
-              paddingVertical: 2,
-              marginTop: 16,
-            }}
+        <Text style={styles.taxText}>Inclusive of all Taxes.</Text>
+        <Text style={styles.taxText}>
+          GST included. FREE delivery over ₹499
+        </Text>
+        <View style={styles.pincodeRow}>
+          <TextInput
+            style={styles.pincodeInput}
+            placeholder="Enter Pincode"
+            keyboardType="numeric"
+            value={pincode}
+            onChangeText={handleInputChange}
+            maxLength={6}
+          />
+          <TouchableOpacity onPress={handleCheck}>
+            <Text style={styles.pincodeButton}>Check</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.deliveryRow}>
+          <LinearGradient
+            colors={["#FFFFFF", "rgba(45,127,45,0.27)"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.deliveryBadge}
           >
-            <TextInput
-              style={{ flex: 1, fontSize: 16 }}
-              placeholder="Enter Pincode"
-              keyboardType="numeric"
-              value={pincode}
-              onChangeText={handleInputChange}
-              maxLength={6} // Optional: UI limit
+            <MaterialCommunityIcons
+              name="lightning-bolt"
+              size={24}
+              color="#008000"
             />
-            <TouchableOpacity onPress={handleCheck}>
-              <Text style={{ color: "orange", fontWeight: "bold" }}>Check</Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{ flexDirection: "row", alignItems: "center", marginTop: 8 }}
-          >
-            <LinearGradient
-              colors={["#FFFFFF", "rgba(45, 127, 45, 0.27)"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                padding: 10,
-                borderRadius: 12,
-              }}
-            >
-              <MaterialCommunityIcons
-                name="lightning-bolt"
-                size={24}
-                color="#008000"
-              />
-              <Text style={{ color: "#008000" }}>
-                Estimated Delivery Time: 4-5 Days
-              </Text>
-            </LinearGradient>
-          </View>
+            <Text style={styles.deliveryText}>
+              Estimated Delivery: 4–5 Days
+            </Text>
+          </LinearGradient>
         </View>
       </View>
-      <View
-        style={{
-          marginBlock: 10,
-          marginHorizontal: 15,
-          backgroundColor: "#fff",
-          borderRadius: 15,
-          flexDirection: "row",
-          justifyContent: "space-around",
-          padding: 13,
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: "#F7F7F7",
-            width: "48%",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 20,
-            paddingTop: 15,
-            paddingBottom: 15,
-            paddingHorizontal: 10,
-          }}
-        >
+
+      {/* COD / Returns */}
+      <View style={styles.rowCards}>
+        <View style={styles.card}>
           <Image
             source={{
               uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/money.png",
             }}
-            style={{ width: 50, height: 50 }}
+            style={styles.cardIcon}
           />
-          <Text style={{ textAlign: "center",paddingTop: 5 }}>
-            Cash On Delivery Available
-          </Text>
+          <Text style={styles.cardText}>Cash On Delivery Available</Text>
         </View>
-        <View
-          style={{
-            backgroundColor: "#F7F7F7",
-            width: "48%",
-            alignItems: "center",
-            borderRadius: 20,
-            paddingTop: 15,
-            paddingBottom: 15,
-            paddingHorizontal: 10,
-          }}
-        >
+        <View style={styles.card}>
           <Image
             source={{
               uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/return.png",
             }}
-            style={{ width: 50, height: 50 }}
+            style={styles.cardIcon}
           />
-          <Text style={{ textAlign: "center",paddingTop:5 }}>14 Days Return & Exchange</Text>
+          <Text style={styles.cardText}>14 Days Return & Exchange</Text>
         </View>
       </View>
-      <Text style={styles.sectionHeader}>Description</Text>
-      <Text style={styles.text}>
-        {product.description.replace(/<[^>]+>/g, "")}
-      </Text>
 
+      {/* Accordion */}
+      <TouchableOpacity onPress={toggle} style={styles.accordionHeader}>
+        <Text style={styles.headerText}>Product Description</Text>
+        <MaterialIcons
+          name={expanded ? "keyboard-arrow-up" : "keyboard-arrow-down"}
+          size={24}
+        />
+      </TouchableOpacity>
+      {expanded && (
+        <View style={styles.accordionBody}>
+          <Text style={styles.bodyText}>
+            {product.description.replace(/<[^>]+>/g, "")}
+          </Text>
+        </View>
+      )}
+      {/* Shipping Accordion */}
+     <TouchableOpacity onPress={toggleShipping} style={styles.accordionHeader}>
+       <Text style={styles.headerText}>Shipping</Text>
+     <MaterialIcons         name={shippingExpanded ? "keyboard-arrow-up" : "keyboard-arrow-down"}
+         size={24}
+       />
+     </TouchableOpacity>
+     {shippingExpanded && (
+       <View style={styles.accordionBody}>
+         <Text style={styles.bodyText}>
+           Free Shipping{"\n"}
+           We offer free shipping across India.{"\n\n"}
+           1–2 Days Dispatch{"\n"}
+           We dispatch orders within 1–2 days.{"\n\n"}
+           2–5 Days Delivery{"\n"}
+           We usually take 2–5 working days depending on your location.{"\n\n"}
+           • Metros 2–3 days{"\n"}
+           • Rest of India 3–5 days
+         </Text>
+      </View>
+     )}
+
+      {/* Other Details */}
       <Text style={styles.sectionHeader}>Sub-Categories</Text>
       <Text style={styles.text}>{product.subCategories.join(", ")}</Text>
 
@@ -354,22 +348,19 @@ const ProductDetail: React.FC = () => {
 export default ProductDetail;
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: "#F0F0F0" },
+  container: { backgroundColor: "#F0F0F0", paddingBottom: 16 },
+  center: { flex: 1, justifyContent: "center", alignItems: "center" },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 16,
-    alignItems: "center",
   },
-  center: { flex: 1, justifyContent: "center", alignItems: "center" },
   carouselContainer: {
     overflow: "hidden",
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
   },
-  image: {
-    height: 300,
-  },
+  image: { height: 300 },
   dotsContainer: {
     position: "absolute",
     bottom: 10,
@@ -385,8 +376,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc",
     marginHorizontal: 4,
   },
-  activeDot: {
-    backgroundColor: "#000",
+  activeDot: { backgroundColor: "#000" },
+  infoBox: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    marginHorizontal: 15,
+    paddingBottom: 16,
+    marginTop: 12,
   },
   title: {
     fontSize: 24,
@@ -394,45 +390,77 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingHorizontal: 16,
   },
-  subtitle: {
-    fontSize: 16,
-    color: "#666",
-    marginBottom: 8,
-    paddingHorizontal: 16,
-  },
   priceRow: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 16,
   },
-  price: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
+  price: { fontSize: 20, fontWeight: "bold" },
   originalPrice: {
     fontSize: 16,
     textDecorationLine: "line-through",
     color: "#888",
     marginLeft: 12,
   },
-  basePrice: {
-    paddingHorizontal: 16,
-    marginBottom: 8,
-  },
-  row: {
+  taxText: { paddingHorizontal: 16, marginTop: 4 },
+  pincodeRow: {
     flexDirection: "row",
-    paddingHorizontal: 16,
-    marginBottom: 4,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    margin: 16,
+    paddingHorizontal: 12,
   },
+  pincodeInput: { flex: 1, fontSize: 16 },
+  pincodeButton: { color: "orange", fontWeight: "bold" },
+  deliveryRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+  },
+  deliveryBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 12,
+  },
+  deliveryText: { marginLeft: 8, color: "#008000" },
+  rowCards: {
+    margin: 10,
+    marginHorizontal: 15,
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 13,
+  },
+  card: {
+    backgroundColor: "#F7F7F7",
+    width: "48%",
+    alignItems: "center",
+    borderRadius: 20,
+    padding: 15,
+  },
+  cardIcon: { width: 50, height: 50 },
+  cardText: { textAlign: "center", marginTop: 5 },
+  accordionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 16,
+    backgroundColor: "#F7F7F7",
+    marginTop: 12,
+  },
+  headerText: { fontSize: 16, fontWeight: "600" },
+  accordionBody: { padding: 16, backgroundColor: "#FFF" },
+  bodyText: { fontSize: 14, lineHeight: 20 },
   sectionHeader: {
     marginTop: 16,
     fontSize: 18,
     fontWeight: "600",
     paddingHorizontal: 16,
   },
-  text: {
-    paddingHorizontal: 16,
-    marginTop: 4,
-  },
+  text: { paddingHorizontal: 16, marginTop: 4 },
   errorText: { color: "red" },
 });
