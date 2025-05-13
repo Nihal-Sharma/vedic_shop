@@ -1,4 +1,4 @@
-/* app/_layout.tsx  (or wherever your Tabs live) */
+/* app/_layout.tsx */
 import React, { useRef, useState } from "react";
 import {
   View,
@@ -11,59 +11,50 @@ import {
   Platform,
 } from "react-native";
 import { Tabs, useRouter } from "expo-router";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { LinearGradient } from "expo-linear-gradient";
 import {
-  AntDesign,
   Entypo,
+  Ionicons,
   MaterialIcons,
   FontAwesome5,
-  Ionicons,
 } from "@expo/vector-icons";
-
 import { HapticTab } from "@/components/HapticTab";
 import TabBarBackground from "@/components/ui/TabBarBackground";
-import { Background } from "@react-navigation/elements";
 
-/* ─────────────────────────────────────────────────────────── */
-/*  Custom expandable‑fab TabBarButton                         */
-/* ─────────────────────────────────────────────────────────── */
+const CIRCLE = 60;
+
 function QuickActionsTab({ accessibilityState, ...rest }: any) {
-  const selected = accessibilityState?.selected;
   const router = useRouter();
-
-  // local open / close state
   const [open, setOpen] = useState(false);
-  const anim = useRef(new Animated.Value(0)).current; // 0 ⇒ closed, 1 ⇒ open
+  const anim = useRef(new Animated.Value(0)).current;
 
   const toggle = () => {
     Animated.timing(anim, {
       toValue: open ? 0 : 1,
-      duration: 220,
+      duration: 500,
       easing: Easing.out(Easing.quad),
-      useNativeDriver: true,
+    //  useNativeDriver: true,
+     useNativeDriver: false,    // ← disable native driver so height can animate
     }).start(() => setOpen(!open));
   };
 
-  /* translate & fade the two option buttons */
+
   const astroStyle = {
     transform: [
       {
         translateY: anim.interpolate({
           inputRange: [0, 1],
-          outputRange: [0, -150], // top circle
+          outputRange: [0, -130],
         }),
       },
     ],
     opacity: anim,
-    
   };
   const vedicStyle = {
     transform: [
       {
         translateY: anim.interpolate({
           inputRange: [0, 1],
-          outputRange: [0, -60], // middle circle
+          outputRange: [0, -60],
         }),
       },
     ],
@@ -71,104 +62,114 @@ function QuickActionsTab({ accessibilityState, ...rest }: any) {
   };
 
   return (
-    <View style={{   marginRight :10, alignItems: "center" }}>
-      {/* ── ACTION 1 ── */}
+    <View style={styles.anchor}>
+      {/* White pill behind the FAB */}
+      <Animated.View
+        pointerEvents="none"
+        style={[
+          styles.backPlate,
+          {
+            height: anim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0 , 200],
+            }),
+            shadowOpacity: anim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.15],
+            }),
+          },
+        ]}
+      />
+
+      {/* Astro Vaibhav */}
       <Animated.View style={[styles.actionContainer, astroStyle]}>
         <TouchableOpacity
           onPress={() => {
             setOpen(false);
             anim.setValue(0);
-            // router.push("/astro"); // 🔀 change to your route
+            // router.push("/astro");
           }}
           activeOpacity={0.8}
         >
-          <LinearGradient
-            colors={["#2E0443", "#2E0443"]}
-            style={[styles.actionCircle, { borderWidth: 0 }]}
-          >
-            <Entypo name="baidu" size={26} color="#fff" />
-          </LinearGradient>
-          <Text style={styles.actionLabel}>Astro Vaibhav</Text>
+          <View style={[styles.actionCircle]}>
+            <Image
+              source={{
+                uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/astroLogo.png",
+              }}
+              style={{
+                width: 45,
+                height: 45,
+              }}
+            />
+          </View>
+          <Text style={styles.actionLabel}>Astro Vaibhav</Text>
         </TouchableOpacity>
       </Animated.View>
 
-      {/* ── ACTION 2 ── */}
+      {/* Vedic Vaibhav */}
       <Animated.View style={[styles.actionContainer, vedicStyle]}>
         <TouchableOpacity
           onPress={() => {
             setOpen(false);
             anim.setValue(0);
-            // router.push("/vedic"); // 🔀 change to your route
+            // router.push("/vedic");
           }}
           activeOpacity={0.8}
         >
-          <LinearGradient
-            colors={["#FF6B00", "#FF6B00"]}
-            style={styles.actionCircle}
-          >
-            <Entypo name="lab-flask" size={26} color="#fff" />
-          </LinearGradient>
+          <View style={[styles.actionCircle]}>
+            <Image
+              source={{
+                uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/vedicVaibhav.png",
+              }}
+              style={{
+                width: 45,
+                height: 45,
+              }}
+            />
+          </View>
           <Text style={[styles.actionLabel, { color: "#FF6B00" }]}>
-            Vedic Vaibhav
+            Vedic Vaibhav
           </Text>
         </TouchableOpacity>
       </Animated.View>
 
-      {/* ── MAIN FAB (the actual tab icon) ── */}
+      {/* Main FAB */}
       <TouchableOpacity
         {...rest}
         activeOpacity={0.9}
         onPress={toggle}
         style={styles.mainFabWrapper}
       >
-        {/* <LinearGradient
-          colors={["#ffffff", "#ffffff"]}
-          style={styles.mainFabCircle}
-        >
-          <AntDesign
-            name={open ? "close" : "down"}
-            size={26}
-            color="#FF6B00"
-            style={{ transform: [{ rotate: open ? "180deg" : "0deg" }] }}
-          />
-        </LinearGradient> */}
         <Image
           source={{
             uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/about.png",
           }}
-          style={{
-            width: 46,  height: 46, borderRadius: 23,}}
+          style={{height:45, width:45, borderRadius: 22.5}}
         />
       </TouchableOpacity>
     </View>
   );
 }
 
-/* ─────────────────────────────────────────────────────────── */
-/*  Tabs Navigator                                             */
-/* ─────────────────────────────────────────────────────────── */
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "#FD4380",
         tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
+        tabBarBackground: () => <View style={styles.fullBarBackground} />,
         tabBarStyle: Platform.select({
           ios: { position: "absolute" },
           default: {},
         }),
       }}
     >
-      {/* regular tabs */}
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color }: { color: string }) => (
             <Ionicons name="home" size={24} color={color} />
           ),
         }}
@@ -177,18 +178,16 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: "Categories",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color }: { color: string }) => (
             <MaterialIcons name="category" size={24} color={color} />
           ),
         }}
       />
-
-      {/* continue with the rest of your tabs */}
       <Tabs.Screen
         name="Wishlist"
         options={{
           title: "Wishlist",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color }: { color: string }) => (
             <FontAwesome5 name="heart" size={24} color={color} />
           ),
         }}
@@ -197,68 +196,70 @@ export default function TabLayout() {
         name="Cart"
         options={{
           title: "Cart",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color }: { color: string }) => (
             <Ionicons name="bag-handle-outline" size={24} color={color} />
           ),
         }}
       />
-      {/* ────────────────────────────────────────────── */}
-      {/*    ➕  THE NEW EXPANDABLE “QUICK ACTIONS” TAB   */}
-      {/* ────────────────────────────────────────────── */}
       <Tabs.Screen
-        name="quick-actions" // this file can be empty; we never navigate to it
-        options={{
-          // href: null, // don't show in the router hierarchy
-          // title: "Quick",
-          tabBarButton: QuickActionsTab, // ← our custom button
-        }}
+        name="quick-actions"
+        options={{ tabBarButton: QuickActionsTab }}
       />
     </Tabs>
   );
 }
 
-/* ─────────────────────────────────────────────────────────── */
-/*  Styles                                                     */
-/* ─────────────────────────────────────────────────────────── */
-const CIRCLE = 60;
 const styles = StyleSheet.create({
-  /* each popped‑up action lives in its own absolute wrapper
-     so touches are handled properly */
+  fullBarBackground: {
+    flex: 1,
+    backgroundColor: "#FFF",
+    borderTopWidth: 1,
+    borderTopColor: "#EEE",
+  },
+  anchor: {
+    // width: CIRCLE + 20, 
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  backPlate: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    backgroundColor: "#FFF",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    shadowColor: "#000",
+    // shadowOffset: { width: 0, height: -3 },
+    // shadowRadius: 6,
+    // elevation: 8,
+  },
   actionContainer: {
     position: "absolute",
     alignItems: "center",
     bottom: 0,
   },
   actionCircle: {
-    width: CIRCLE,
-    height: CIRCLE,
+    // width: CIRCLE,
+    // height: CIRCLE,
     borderRadius: CIRCLE / 2,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "#fff",
-    borderWidth: 3,
   },
   actionLabel: {
     // marginTop: 6,
-    fontSize: 11,
+    fontSize: 7, // ← positive fontSize
     fontWeight: "600",
     color: "#2E0443",
+    textAlign: "center",
   },
   mainFabWrapper: {
-    marginTop: 3, // pull it up a bit so it sits on the bar
-  },
-  mainFabCircle: {
-    width: CIRCLE,
-    height: CIRCLE,
+    // marginTop: 3,
+    backgroundColor: "#fff",
     borderRadius: CIRCLE / 2,
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "#E5E5E5",
-    borderWidth: 2,
-    // shadowColor: "#000",
-    // shadowOpacity: 0.15,
-    // shadowRadius: 5,
-    // shadowOffset: { width: 0, height: 3 },
-    // elevation: 4,
+  },
+  mainFabImage: {
+    width: CIRCLE ,
+    height: CIRCLE,
+    borderRadius: (CIRCLE - 14) / 2,
   },
 });
