@@ -2,8 +2,10 @@ import DeliveryBanner from '@/components/cartComponent/DeliveryBanner';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import React, { useEffect, useState } from 'react';
 import {
+  Button,
   FlatList,
   Image,
+  
   Pressable,
   StyleSheet,
   Text,
@@ -13,13 +15,45 @@ import {
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import useCart, { Eproduct } from '../../store/cart';
 import GiftnCoupon from '@/components/cartComponent/GiftnCoupon';
+import Modal from 'react-native-modal';
+import Entypo from '@expo/vector-icons/Entypo';
+import AddressModal from '@/components/Modal/AddressModal';
 const Cart = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
   const steps = ['Cart', 'Address', 'Payment'];
   const [checked, setChecked] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   const pincode = "146001"
   const onChangeLocation = () =>{}
+
+function BottomTabModal() {
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
+  
+    return (
+      <View style={styles.modalcontainer}>
+  
+        <Modal
+          isVisible={isModalVisible}
+          onBackdropPress={toggleModal}
+          style={styles.modal}
+        >
+          <View style = {styles.modalhead}>
+            <Text style = {{fontSize :16, fontWeight :500 }}>Select Delivery Address</Text>
+            <TouchableOpacity style = {styles.modalCross} onPress={toggleModal}>
+              <Entypo name="cross" size={26} color="#4E4E4E" />
+            </TouchableOpacity>
+          </View>
+          <AddressModal/>
+        </Modal>
+      </View>
+    );
+  }
+  const handleContinue = ()=>{
+    setModalVisible(!isModalVisible);
+  }
   // Loading Cart Products in a variable from the store
   const cartProducts = useCart((state)=>state.cartProducts)
   // console.log(cartProducts)
@@ -286,17 +320,28 @@ const Cart = () => {
             style={styles.flatList}
             ListFooterComponent={flatListFooter}
             /> 
-        <View style ={styles.bottomContinue}>
+       {/* {isModalVisible ? <BottomTabModal/> :<View style ={styles.bottomContinue}>
             <View style={styles.contBut_container}>
               <View style ={styles.totalTxt}><Text style = {styles.totalPriceTxt}>₹ {totalPrice}</Text></View>
               
-              <TouchableOpacity style ={styles.contBut}>
+              <TouchableOpacity style ={styles.contBut} onPress={handleContinue}>
+                <Text style ={{color :"white" ,fontSize :15, fontWeight :600 }}>Continue</Text>
+              </TouchableOpacity>
+            </View>
+           </View> } */}
+           {isModalVisible ? <BottomTabModal/> :<></>}
+           <View style ={styles.bottomContinue}>
+            <View style={styles.contBut_container}>
+              <View style ={styles.totalTxt}><Text style = {styles.totalPriceTxt}>₹ {totalPrice}</Text></View>
+              
+              <TouchableOpacity style ={styles.contBut} onPress={handleContinue}>
                 <Text style ={{color :"white" ,fontSize :15, fontWeight :600 }}>Continue</Text>
               </TouchableOpacity>
             </View>
            </View>
         </>
       )}
+      
     </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -769,7 +814,37 @@ const styles = StyleSheet.create({
  fontSize :18,
   fontWeight :700,
    color :'#FF6505',
-  }
+  }, 
+  modalcontainer: {
+    
+    justifyContent: 'center',
+    
+  },
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+    
+  },
+  modalhead :{
+    backgroundColor :'white',
+    display :'flex',
+    flexDirection :'row',
+    justifyContent :'space-between',
+    paddingTop :22,
+    paddingHorizontal :15,
+    alignItems :'center',
+    paddingBottom :13,
+    borderTopLeftRadius :20,
+    borderTopRightRadius :20,
+    borderBottomWidth :0.3,
+    borderColor :"#999999"
+  },
+  modalCross:{
+    padding :5,
+    borderRadius :'50%',
+    backgroundColor :'#F7F7F7'
+  },
+ 
 });
 
 export default Cart;
