@@ -56,9 +56,9 @@ const HomeScreen = () => {
         return null;
     }
   }}
-      initialNumToRender={4}
+     initialNumToRender={3}
       maxToRenderPerBatch={1}
-      windowSize={4}
+      windowSize={9}
 /></>
   );
 }
