@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { router } from 'expo-router';
 const AddressCard = (item :any) =>{
     return (
         <TouchableOpacity style = {styles.CardContainer}>
@@ -49,7 +50,7 @@ const AddressModal = () => {
             renderItem={({item}) =>{return AddressCard(item)}}
             keyExtractor={(item) => item._id.toString()}
         />
-        <TouchableOpacity style = {styles.ConfirmBut}>
+        <TouchableOpacity style = {styles.ConfirmBut} onPress={() => {router.push('/Pages/Thankyou')}}>
                 <Text style = {{textAlign :'center', color :'white', fontSize :14 , fontWeight :600}}>CONFIRM</Text>
         </TouchableOpacity>
     </View>

@@ -26,7 +26,8 @@ const EcomNavBar = () => {
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>Vedic Shop</Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 15 }}>
-          <Entypo name="notification" size={24} color="black" />
+          <TouchableOpacity onPress={() => router.push("/Pages/Notification")}>
+          <Entypo name="notification" size={24} color="black" /></TouchableOpacity>
           <TouchableOpacity onPress={() => router.push("/Profile/profile")}>
             <FontAwesome5 name="user-circle" size={24} color="black" />
           </TouchableOpacity>
