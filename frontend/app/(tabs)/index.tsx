@@ -17,7 +17,7 @@ import EcommOccasion from '@/components/HomeComponent/EcommOcassion'
 // import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated'
 
 const HomeScreen = () => {
-  const sections = [ "EcommFirstCategory" , "EcommBanner" , "EcommBestSeller", "EcommSilver", "EcommSecondCategory", "EcommBrass", "EcommCombo", "EcommGrid", "EcommSacred", "EcommBanner2" , "EcommOccasion"];
+  const sections = [ "1" , "2" , "3", "4", "5", "6", "7", "8", "9", "10" , "11"];
   return (
      <>
       <EcomNavBar />
@@ -26,28 +26,31 @@ const HomeScreen = () => {
          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => {
            switch (item) {
-                case 'EcommFirstCategory':
+                case '1':
                       return <EcommFirstCategory />;
-                 case 'EcommBanner':
+                 case '2':
                       return <EcommBanner />;
-                 case 'EcommBestSeller':
+                 case '3':
                       return <EcommBestSeller />;
-                 case 'EcommSilver':
+                 case '4':
                       return <EcommSilver />;
-                 case 'EcommSecondCategory':
+                 case '5':
                       return <EcommSecondCategory />;
-                 case 'EcommBrass':
-                      return <EcommBrass />;
-                 case 'EcommCombo':
-                      return <EcommCombo />;
-                 case 'EcommGrid':
-                      return <EcommGrid />;
-                 case 'EcommBanner2':
+                 case '6':
                       return <EcommSacred />;
-                 case 'bestSeller':
-                      return <EcommBanner2 />;
-                 case 'EcommOccasion':
+                 case '7':
                       return <EcommOccasion />;
+                 case '8':
+                      return <EcommBrass />;
+                 case '9':
+                      return <EcommCombo />;
+                 case '10':
+                      return <EcommBanner2 />;
+                 case '11':
+                      return <EcommGrid />;
+                 
+                
+               
       // ... other cases
       default:
         return null;
