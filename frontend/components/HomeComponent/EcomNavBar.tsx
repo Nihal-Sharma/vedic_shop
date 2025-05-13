@@ -5,7 +5,7 @@ import { router } from "expo-router";
 
 const EcomNavBar = () => {
   return (
-    <View style={{ backgroundColor: "#fff", paddingTop: 35 }}>
+    <View style={{ backgroundColor: "white", paddingTop: 35 ,paddingBottom:10, elevation :2}}>
       {/* Nav Bar */}
       <View
         style={{
