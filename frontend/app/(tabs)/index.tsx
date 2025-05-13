@@ -17,15 +17,15 @@ import EcommOccasion from '@/components/HomeComponent/EcommOcassion'
 // import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated'
 
 const HomeScreen = () => {
-  const sections = ["EcomNavBar" , "EcommFirstCategory" , "EcommBanner" , "EcommBestSeller", "EcommSilver", "EcommSecondCategory", "EcommBrass", "EcommCombo", "EcommGrid", "EcommSacred", "EcommBanner2" , "EcommOccasion"];
+  const sections = [ "EcommFirstCategory" , "EcommBanner" , "EcommBestSeller", "EcommSilver", "EcommSecondCategory", "EcommBrass", "EcommCombo", "EcommGrid", "EcommSacred", "EcommBanner2" , "EcommOccasion"];
   return (
+     <>
+      <EcomNavBar />
     <FlatList
        data={sections} // an array like ['firstCategory', 'banner', 'bestSeller', ...]
          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => {
            switch (item) {
-               case 'EcomNavBar':
-                     return <EcomNavBar />;
                 case 'EcommFirstCategory':
                       return <EcommFirstCategory />;
                  case 'EcommBanner':
@@ -56,7 +56,7 @@ const HomeScreen = () => {
       initialNumToRender={4}
       maxToRenderPerBatch={1}
       windowSize={4}
-/>
+/></>
   );
 }
 
