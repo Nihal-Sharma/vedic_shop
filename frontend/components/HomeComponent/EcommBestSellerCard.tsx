@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   container: { backgroundColor: "#fff", alignItems: "center" },
   scroll: {  alignItems: "center",paddingRight:10 },
   card: {
-    width: 192,
+    width: 185,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#ddd",

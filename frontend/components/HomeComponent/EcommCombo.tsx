@@ -51,9 +51,10 @@ const EcommCombo = () => {
       <View
         style={{
           backgroundColor: "#2E5C51",
-          marginTop: -50,
+          marginTop: -20,
           marginHorizontal: 10,
           borderRadius: 15,
+          marginBottom:10
         }}
       >
         <View

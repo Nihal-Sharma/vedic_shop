@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   container: { alignItems: "center" },
   scroll: { paddingRight: 10, alignItems: "center" },
   card: {
-    width: 185,
+    width: 180,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#ddd",

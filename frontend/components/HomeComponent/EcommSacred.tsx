@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   wrapper: {
     width: SCREEN_WIDTH,
     paddingVertical: 20,
-    marginTop: 15,
+    marginTop: -15,
   },
   header: {
     fontSize: 18,
