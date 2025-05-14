@@ -19,6 +19,7 @@ import GiftnCoupon from '@/components/cartComponent/GiftnCoupon';
 import Modal from 'react-native-modal';
 import Entypo from '@expo/vector-icons/Entypo';
 import AddressModal from '@/components/Modal/AddressModal';
+import Bill from '@/components/cartComponent/Bill';
 const Cart = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
@@ -220,6 +221,7 @@ function BottomTabModal() {
     return(
       <>
       <GiftnCoupon/>
+      <Bill/>
       </>
     )
 
@@ -237,7 +239,8 @@ function BottomTabModal() {
         <TouchableOpacity><AntDesign name="hearto" size={25} color="black" /></TouchableOpacity>
       </View>
 
-       <View style={styles['bar-container']}>
+      {cartProducts.length == 0 ? <></> : <View> 
+      <View style={styles['bar-container']}>
       {/* Progress bar */}
       <View style={styles['bar-lineContainer']}>
         <View style={styles['bar-backgroundLine']} />
@@ -281,7 +284,7 @@ function BottomTabModal() {
       
     </View>
 
-        {cartProducts.length ===0 ? <></> :  <DeliveryBanner amountToUnlock={251} pincode="160019"    />}
+    <DeliveryBanner amountToUnlock={251} pincode="160019"    />
 
       <View style={styles['banner-locationContainer']}>
               <Text style={styles['banner-locationText']}>Deliver to: <Text style={styles['banner-locationPin']} >{pincode}</Text> </Text>
@@ -291,7 +294,7 @@ function BottomTabModal() {
               >
                 <Text style={styles['banner-changeButtonText']}>Change</Text>
               </TouchableOpacity>
-            </View>
+      </View></View>}
       
       {cartProducts.length === 0 ? (
         <View style={styles.emptyCartContainer}>
