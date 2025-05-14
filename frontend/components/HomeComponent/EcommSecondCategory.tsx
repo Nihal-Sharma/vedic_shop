@@ -44,7 +44,7 @@ const EcommSecondCategory = () => {
           //   alignItems: "center",
         }}
       >
-        <View style={{ paddingHorizontal: 15 }}>
+        <View style={{ paddingHorizontal: 15,paddingTop: 20 }}>
           <View
             style={{
               padding: 10,

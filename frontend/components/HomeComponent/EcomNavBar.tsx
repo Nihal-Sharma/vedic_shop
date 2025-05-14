@@ -2,10 +2,26 @@ import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import React from "react";
 import { Entypo, FontAwesome5, Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useFonts } from "expo-font";
 
 const EcomNavBar = () => {
+  const [fontsLoaded] = useFonts({
+    "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
+    "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
+    "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
+    "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
+    "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+    "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+  });
   return (
-    <View style={{ backgroundColor: "white", paddingTop: 35 ,paddingBottom:10, elevation :2}}>
+    <View
+      style={{
+        backgroundColor: "white",
+        paddingTop: 35,
+        paddingBottom: 10,
+        elevation: 2,
+      }}
+    >
       {/* Nav Bar */}
       <View
         style={{
@@ -23,11 +39,16 @@ const EcomNavBar = () => {
             resizeMode="contain"
             style={{ width: 46, height: 47 }}
           />
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Vedic Shop</Text>
+          <Text
+            style={{ fontSize: 18, fontFamily: "SAMARN__", color: "#E2660C" }}
+          >
+            Vedic Shop
+          </Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 15 }}>
           <TouchableOpacity onPress={() => router.push("/Pages/Notification")}>
-         <FontAwesome5 name="bell" size={24} color="black" /></TouchableOpacity>
+            <FontAwesome5 name="bell" size={24} color="black" />
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push("/Profile/profile")}>
             <FontAwesome5 name="user-circle" size={24} color="black" />
           </TouchableOpacity>

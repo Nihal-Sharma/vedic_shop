@@ -14,10 +14,11 @@ import EcommGrid from '@/components/HomeComponent/EcommGrid'
 import EcommSacred from '@/components/HomeComponent/EcommSacred'
 import EcommBanner2 from '@/components/HomeComponent/EcommBanner2'
 import EcommOccasion from '@/components/HomeComponent/EcommOcassion'
+import EcommFestival from '@/components/HomeComponent/EcommFestivel'
 // import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated'
 
 const HomeScreen = () => {
-  const sections = [ "1" , "2" , "3", "4", "5", "6", "7", "8", "9", "10" , "11"];
+  const sections = [ "1" , "2" , "3", "4", "5", "6", "7", "8", "9", "10" , "11","12"];
   return (
      <>
       <EcomNavBar />
@@ -41,12 +42,14 @@ const HomeScreen = () => {
                  case '7':
                       return <EcommOccasion />;
                  case '8':
-                      return <EcommBrass />;
+                      return <EcommFestival />;
                  case '9':
-                      return <EcommCombo />;
+                      return <EcommBrass />;
                  case '10':
-                      return <EcommBanner2 />;
+                      return <EcommCombo />;
                  case '11':
+                      return <EcommBanner2 />;
+                 case '12':
                       return <EcommGrid />;
                  
                 

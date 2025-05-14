@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Animated,
   FlatList,
+  Image,
   StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,185 +17,175 @@ import mainStore from "../../store/mainStore";
 import { fetchAllProducts } from "../api/FetchProduct";
 import EcomProduct, { EcomProductProps } from "./EcommProduct";
 
-/* ───────── helpers ───────── */
+/* ───────── constants ───────── */
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const CURVE_HEIGHT = 25;
+const GAP = 12;
+const CARD_WIDTH = (SCREEN_WIDTH - GAP * 3) / 2 - 1;
 
-/** Split an array into chunks of `size` */
+/* helper */
 const chunkArray = <T,>(arr: T[], size: number): T[][] => {
-  const chunks: T[][] = [];
-  for (let i = 0; i < arr.length; i += size) {
-    chunks.push(arr.slice(i, i + size));
-  }
-  return chunks;
+  const out: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
 };
 
-const GAP = 12;                                   // horizontal gap
-const CARD_WIDTH = (SCREEN_WIDTH - GAP * 3) / 2 - 1; // buffer to avoid clipping
-
-/* ───────── component ───────── */
 const EcommBrass = () => {
-  const baseURL = mainStore((state) => state.baseURL);
-
+  /* fetch */
+  const baseURL = mainStore((s) => s.baseURL);
   const [products, setProducts] = useState<EcomProductProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  /* fetch once on mount */
   useEffect(() => {
     (async () => {
       try {
         const data = await fetchAllProducts(baseURL);
         setProducts(data);
       } catch (err: any) {
-        setError(err.message || "Could not load products.");
+        setError(err.message ?? "Could not load products.");
       } finally {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [baseURL]);
 
-  /* filter for “Divine Brass” */
-  const brassProducts = products
+  /* data prep */
+  const brass = products
     .filter((p) => p.productCategory?.name?.toLowerCase() === "divine brass")
     .slice(0, 12);
+  const pages = chunkArray(brass, 2);
 
-  const pages = chunkArray(brassProducts, 2); // two cards per page
-
-  /* animated value for pagination dots */
+  /* carousel control */
   const scrollX = useRef(new Animated.Value(0)).current;
-
-  /* FlatList ref for auto‑scroll */
   const listRef = useRef<FlatList>(null);
 
-  /* auto‑scroll every 3 seconds */
   useEffect(() => {
-    if (pages.length <= 1) return;
+    if (pages.length < 2) return;
     let page = 0;
-    const timer = setInterval(() => {
+    const t = setInterval(() => {
       page = (page + 1) % pages.length;
       listRef.current?.scrollToOffset({
         offset: page * SCREEN_WIDTH,
         animated: true,
       });
     }, 3000);
-    return () => clearInterval(timer);
+    return () => clearInterval(t);
   }, [pages.length]);
 
-  /* UI states */
-  if (loading) return <ActivityIndicator style={{ marginTop: 20 }} />;
-  if (error)
-    return <Text style={{ color: "red", padding: 16 }}>Error: {error}</Text>;
+  /* render guards */
+  if (loading)
+    return <ActivityIndicator style={{ marginTop: 24 }} size="large" />;
+  if (error) return <Text style={{ color: "red", padding: 16 }}>{error}</Text>;
 
   return (
-    <SafeAreaView>
-      <View style={{ backgroundColor: "#AD865E" }}>
-        {/* SVG Curve at the top */}
-        <Svg width={SCREEN_WIDTH} height={100} style={StyleSheet.absoluteFill}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View style={styles.section}>
+        {/* curved mask */}
+        <Svg
+          width={SCREEN_WIDTH}
+          height={CURVE_HEIGHT}
+          style={styles.curveSvg}
+          pointerEvents="none"
+        >
           <Path
-            d={`
-              M0,100
-              C${SCREEN_WIDTH * 0.25},0 ${
-              SCREEN_WIDTH * 0.75
-            },0 ${SCREEN_WIDTH},100
-              L${SCREEN_WIDTH},0
-              L0,0
-              Z
-            `}
-            fill="#AD865E"
+            d={`M0,${CURVE_HEIGHT} C${SCREEN_WIDTH * 0.3},0 ${
+              SCREEN_WIDTH * 0.7
+            },0 ${SCREEN_WIDTH},${CURVE_HEIGHT} L${SCREEN_WIDTH},0 L0,0 Z`}
+            fill="#fff" /* page bg colour */
           />
         </Svg>
-        {/* header row */}
-        <View style={styles.headerRow}>
-          <Text style={styles.headerTitle}>DIVINE BRASS</Text>
 
-          <TouchableOpacity
-            style={styles.exploreBtn}
-            onPress={() => {
-              /* navigation.navigate("DivineBrassScreen"); */
-            }}
-          >
+        {/* content */}
+        <View style={styles.headerRow}>
+          <Text style={styles.headerTitle}>BRASS IDOL</Text>
+          <TouchableOpacity style={styles.exploreBtn}>
             <Text>Explore All</Text>
           </TouchableOpacity>
         </View>
 
-        {/* carousel */}
         <Animated.FlatList
           ref={listRef}
           data={pages}
           horizontal
           pagingEnabled
-          keyExtractor={(_, idx) => `page-${idx}`}
           showsHorizontalScrollIndicator={false}
-          snapToAlignment="start"
-          decelerationRate="fast"
+          keyExtractor={(_, i) => `${i}`}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
             { useNativeDriver: false }
           )}
           scrollEventThrottle={16}
-          renderItem={({ item: pair }: { item: EcomProductProps[] }) => (
+          renderItem={({ item: pair }) => (
             <View style={styles.page}>
-              {pair.map((product: EcomProductProps) => (
-                <View key={product._id} style={styles.cardWrapper}>
-                  <EcomProduct {...product} />
+              {pair.map((p: EcomProductProps) => (
+                <View key={p._id} style={styles.cardWrapper}>
+                  <EcomProduct {...p} />
                 </View>
               ))}
               {pair.length === 1 && <View style={styles.cardWrapper} />}
             </View>
           )}
-          ListEmptyComponent={
-            <Text style={{ padding: 16, color: "white" }}>
-              No Divine Brass items found.
-            </Text>
-          }
-          initialNumToRender={2}
-          maxToRenderPerBatch={2}
-          windowSize={2}
         />
 
-        {/* dots */}
         <View style={styles.dotRow}>
           {pages.map((_, i) => {
-            const inputRange = [
-              (i - 1) * SCREEN_WIDTH,
-              i * SCREEN_WIDTH,
-              (i + 1) * SCREEN_WIDTH,
-            ];
             const opacity = scrollX.interpolate({
-              inputRange,
+              inputRange: [
+                (i - 1) * SCREEN_WIDTH,
+                i * SCREEN_WIDTH,
+                (i + 1) * SCREEN_WIDTH,
+              ],
               outputRange: [0.3, 1, 0.3],
               extrapolate: "clamp",
             });
-            return (
-              <Animated.View
-                key={`dot-${i}`}
-                style={[styles.dot, { opacity }]}
-              />
-            );
+            return <Animated.View key={i} style={[styles.dot, { opacity }]} />;
           })}
+        </View>
+        <View style={{position:'absolute',bottom:-13,left:20}}>
+          <Image
+            source={{
+              uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/box.png",
+            }}
+            style={{height:40,width:40}}
+          />
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
+export default EcommBrass;
+
 /* ───────── styles ───────── */
 const styles = StyleSheet.create({
+  section: {
+    backgroundColor: "#AD865E",
+    paddingTop: CURVE_HEIGHT - 30, // push content below the curve
+    paddingBottom: 16,
+    position:'relative'
+  },
+  curveSvg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 1,
+  },
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 15,
+    paddingHorizontal: 15,
+    marginBottom: 8,
+    marginTop: 35,
   },
-  headerTitle: { fontSize: 19, color: "white" },
+  headerTitle: { fontSize: 19, color: "white", fontWeight: "bold" },
   exploreBtn: {
     backgroundColor: "white",
     borderRadius: 24,
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 6,
   },
-
-  /* page */
   page: {
     width: SCREEN_WIDTH,
     flexDirection: "row",
@@ -202,15 +193,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: GAP,
     paddingVertical: 12,
   },
-  cardWrapper: {
-    width: CARD_WIDTH,
-  },
-
-  /* dots */
+  cardWrapper: { width: CARD_WIDTH },
   dotRow: {
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 8,
+    paddingTop: 8,
   },
   dot: {
     width: 8,
@@ -220,5 +207,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
 });
-
-export default EcommBrass;

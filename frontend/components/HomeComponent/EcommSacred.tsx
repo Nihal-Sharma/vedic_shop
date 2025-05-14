@@ -62,6 +62,14 @@ const EcommSacred = () => {
       colors={["rgba(229,130,13,0.8)", "rgba(242,239,19,0.0624)"]} // subtle yellow–peach, tweak as desired
       style={styles.wrapper}
     >
+      <Image
+        source={{
+          uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/bar55.png",
+          
+        }}
+        style={{
+          height:5,width: SCREEN_WIDTH, position: "absolute", top: 0,}}
+      />
       <Text style={styles.header}>Sacred Spaces</Text>
 
       <FlatList
@@ -71,7 +79,7 @@ const EcommSacred = () => {
         renderItem={renderItem}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: GAP }}
-        ItemSeparatorComponent={() => <View style={{ width: GAP }} />}
+        ItemSeparatorComponent={() => <View style={{ width: 1 }} />}
         snapToAlignment="start"
         decelerationRate="fast"
         snapToInterval={CARD_SIZE + GAP} // optional: “pew pew” snapping
@@ -85,12 +93,15 @@ const styles = StyleSheet.create({
   wrapper: {
     width: SCREEN_WIDTH,
     paddingVertical: 20,
-    marginTop: -15,
+    paddingLeft: 15,
+    marginTop: -25,
+    position: "relative",
   },
   header: {
     fontSize: 18,
     fontWeight: "700",
     marginLeft: GAP,
+    color: "white",
     marginBottom: 14,
   },
   image: {

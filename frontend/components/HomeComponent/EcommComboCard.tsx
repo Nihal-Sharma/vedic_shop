@@ -40,7 +40,7 @@ const EcommComboCard: React.FC<EcomProductProps> = (props) => {
   const { width } = useWindowDimensions();
   const isSmall = width < 392;
   const stylesDynamic = StyleSheet.create({
-    card: { width: isSmall ? 155 : 170 },
+    card: { width: isSmall ? 155 : 175 },
     image: { height: isSmall ? 140 : 170 },
     title: { fontSize: isSmall ? 13 : 14 },
     price: { fontSize: isSmall ? 14 : 16 },

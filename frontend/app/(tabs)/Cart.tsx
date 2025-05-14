@@ -121,6 +121,7 @@ function BottomTabModal() {
   // Delete product from cart
   const deleteProduct = (_id: string) => {
     removeFromCart(_id)
+    decGlobalQuantity();
   };
 
   // Render item component for FlatList

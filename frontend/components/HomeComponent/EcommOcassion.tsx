@@ -5,53 +5,72 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  useWindowDimensions,
 } from "react-native";
 
 const OCCASIONS = [
   {
-    title: "Happy Birthday",
+    
     image:
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/birthday.webp",
   },
   {
-    title: "Anniversary",
+    
     image:
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/anniversery.webp",
   },
   {
-    title: "Marriage",
+    
     image:
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/marriage.webp",
   },
   {
-    title: "Grah Pravesh",
+    
     image:
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/grah.webp",
   },
 ];
 
-const CARD_SIZE = 90; // width of card image
-
 const EcommOccasion = () => {
+  const { width } = useWindowDimensions();
+  const isSmall = width < 392;
+
+  // dynamic sizes
+  const cardSize = isSmall ? 70 : 85;
+
+  const imageHeight = isSmall ? 65 : 75;
+  // const fontSize = isSmall ? 12 : 12;
+
   const handlePress = (title: string) => {
     console.log("Pressed:", title);
   };
 
   return (
-    <View style={{ paddingHorizontal: 16, marginTop: 8 }}>
+    <View
+      style={{
+        paddingHorizontal: 16,
+        marginTop: 8,
+        backgroundColor: "#F8F8F8",
+        paddingBottom: 26,
+      }}
+    >
       <Text style={styles.header}>SHOP BY OCCASION</Text>
 
-      {/* single‑row grid */}
       <View style={styles.row}>
         {OCCASIONS.map((item) => (
           <TouchableOpacity
-            key={item.title}
+            key={item.image}
             activeOpacity={0.8}
-            onPress={() => handlePress(item.title)}
-            style={styles.card}
+            onPress={() => handlePress(item.image)}
+            style={[styles.card, { width: cardSize }]}
           >
-            <Image source={{ uri: item.image }} style={styles.image} />
-            {/* <Text style={styles.caption}>{item.title}</Text> */}
+            <Image
+              source={{ uri: item.image }}
+              style={[styles.image, { width: cardSize, height: imageHeight }]}
+            />
+            {/* <Text style={[styles.caption, { fontSize }]} numberOfLines={1}>
+              {item.title}
+            </Text> */}
           </TouchableOpacity>
         ))}
       </View>
@@ -59,7 +78,6 @@ const EcommOccasion = () => {
   );
 };
 
-/* ————— styles ————— */
 const styles = StyleSheet.create({
   header: {
     fontSize: 18,
@@ -68,20 +86,17 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    justifyContent: "space-between", // ⬅️ even spacing, no extra gap components
+    justifyContent: "space-between",
   },
   card: {
     alignItems: "center",
-    width: CARD_SIZE,
+    // height: 95,
   },
   image: {
-    width: CARD_SIZE,
-    height: 80,
     borderRadius: 16,
   },
   caption: {
     marginTop: 6,
-    fontSize: 14,
     fontWeight: "600",
     textAlign: "center",
   },
