@@ -9,6 +9,7 @@ import {
   Alert,
   TouchableOpacity,
   StyleSheet,
+  useWindowDimensions,
 } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -60,6 +61,34 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
   } = props;
 
   const router = useRouter();
+
+  const { width } = useWindowDimensions();
+  const isSmallScreen = width < 392;
+
+  const dynamicStyles = StyleSheet.create({
+    card: {
+      width: isSmallScreen ? 155 : 175,
+    },
+    image: {
+      height: isSmallScreen ? 140 : 170,
+    },
+    title: {
+      fontSize: isSmallScreen ? 13 : 14,
+    },
+    price: {
+      fontSize: isSmallScreen ? 14 : 16,
+    },
+    originalPrice: {
+      fontSize: isSmallScreen ? 11 : 13,
+    },
+    taxNote: {
+      fontSize: isSmallScreen ? 9 : 10,
+    },
+    ratingText: {
+      fontSize: isSmallScreen ? 11 : 12,
+    },
+  });
+
 
   /* cart state (Zustand) */
   const productQuantity = useCart(
@@ -119,7 +148,7 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <TouchableOpacity activeOpacity={0.9}>
-          <View style={styles.card}>
+          <View style={[styles.card, dynamicStyles.card]}>
             {/* discount badge */}
             {discount > 0 && (
               <View style={styles.discountBadge}>
@@ -156,7 +185,7 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
             <View style={{ position: "relative" }}>
               <Image source={defaultImage} style={styles.image} />
               <View style={styles.rating}>
-                <Text style={styles.ratingText}>
+                <Text style={[styles.ratingText, dynamicStyles.ratingText]}>
                   {productRating.toFixed(1)} ★
                 </Text>
               </View>
@@ -164,25 +193,31 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
 
             {/* details */}
             <View style={{ paddingLeft: 10 }}>
-              <Text style={styles.title} numberOfLines={1}>
+              <Text
+                style={[styles.title, dynamicStyles.title]}
+                numberOfLines={1}
+              >
                 {productName}
               </Text>
               <View style={styles.priceRow}>
-                <Text style={styles.price}>₹{discountedPrice.toFixed(2)}</Text>
+                <Text style={[styles.price, dynamicStyles.price]}>
+                  ₹{discountedPrice.toFixed(2)}
+                </Text>
                 {originalPrice > discountedPrice && (
-                  <Text style={styles.originalPrice}>
+                  <Text
+                    style={[styles.originalPrice, dynamicStyles.originalPrice]}
+                  >
                     ₹{originalPrice.toFixed(2)}
                   </Text>
                 )}
               </View>
-              <Text style={styles.taxNote}>Inclusive of all Taxes</Text>
+              <Text style={[styles.taxNote, dynamicStyles.taxNote]}>
+                Inclusive of all Taxes
+              </Text>
             </View>
 
             {/* wishlist */}
-            <TouchableOpacity
-              onPress={handleLike}
-              style={styles.heartIcon}
-            >
+            <TouchableOpacity onPress={handleLike} style={styles.heartIcon}>
               <AntDesign
                 name={liked ? "heart" : "hearto"}
                 size={24}

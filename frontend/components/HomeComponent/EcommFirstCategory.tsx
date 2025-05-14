@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, Image, TouchableOpacity, Dimensions, useWindowDimensions } from "react-native";
 import React from "react";
 import { Entypo } from "@expo/vector-icons";
 
@@ -28,6 +28,16 @@ const categories = [
 ];
 
 const EcommFirstCategory = () => {
+
+  const { width } = useWindowDimensions();
+
+  // Responsive size for small screens
+  const isSmallScreen = width < 392;
+  const itemSize = isSmallScreen ? 55 : 69;
+  const itemHeight = isSmallScreen ? 53 : 67;
+  const fontSize = isSmallScreen ? 10 : 12;
+
+  
   return (
     <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
       <View
@@ -43,14 +53,16 @@ const EcommFirstCategory = () => {
             <Image
               source={{ uri: item.image }}
               style={{
-                width: 69,
-                height: 67,
+                width: itemSize,
+                height: itemHeight,
                 borderRadius: 10,
                 backgroundColor: "#f0f0f0",
               }}
               resizeMode="cover"
             />
-            <Text style={{ marginTop: 5, fontSize: 12 }}>{item.title}</Text>
+            <Text style={{ marginTop: 5, fontSize: fontSize }}>
+              {item.title}
+            </Text>
           </View>
         ))}
 
@@ -61,14 +73,16 @@ const EcommFirstCategory = () => {
               uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/categorySeeAll.png",
             }}
             style={{
-              width: 69,
-              height: 67,
+              width: itemSize,
+              height: itemHeight,
               borderRadius: 10,
               backgroundColor: "#f0f0f0",
             }}
             resizeMode="cover"
           />
-          <Text style={{ color: "#ff6600", fontWeight: "bold", fontSize: 12 }}>
+          <Text
+            style={{ color: "#ff6600", fontWeight: "bold", fontSize: fontSize }}
+          >
             See All
           </Text>
         </TouchableOpacity>

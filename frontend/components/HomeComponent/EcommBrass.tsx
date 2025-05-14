@@ -10,6 +10,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Svg, { Path } from "react-native-svg";
 
 import mainStore from "../../store/mainStore";
 import { fetchAllProducts } from "../api/FetchProduct";
@@ -87,6 +88,21 @@ const EcommBrass = () => {
   return (
     <SafeAreaView>
       <View style={{ backgroundColor: "#AD865E" }}>
+        {/* SVG Curve at the top */}
+        <Svg width={SCREEN_WIDTH} height={100} style={StyleSheet.absoluteFill}>
+          <Path
+            d={`
+              M0,100
+              C${SCREEN_WIDTH * 0.25},0 ${
+              SCREEN_WIDTH * 0.75
+            },0 ${SCREEN_WIDTH},100
+              L${SCREEN_WIDTH},0
+              L0,0
+              Z
+            `}
+            fill="#AD865E"
+          />
+        </Svg>
         {/* header row */}
         <View style={styles.headerRow}>
           <Text style={styles.headerTitle}>DIVINE BRASS</Text>
@@ -123,7 +139,7 @@ const EcommBrass = () => {
                   <EcomProduct {...product} />
                 </View>
               ))}
-              {pair.length === 1 && <View style={styles.cardWrapper} />} 
+              {pair.length === 1 && <View style={styles.cardWrapper} />}
             </View>
           )}
           ListEmptyComponent={
@@ -132,8 +148,8 @@ const EcommBrass = () => {
             </Text>
           }
           initialNumToRender={2}
-        maxToRenderPerBatch={2}
-        windowSize={2}
+          maxToRenderPerBatch={2}
+          windowSize={2}
         />
 
         {/* dots */}

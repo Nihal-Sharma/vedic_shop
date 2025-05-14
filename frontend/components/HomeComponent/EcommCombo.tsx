@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import mainStore from "../../store/mainStore";
 import { fetchAllProducts } from "../api/FetchProduct";
 import EcomProduct, { EcomProductProps } from "./EcommProduct";
+import EcommComboCard from "./EcommComboCard";
 
 const EcommCombo = () => {
   const baseURL = mainStore((state) => state.baseURL);
@@ -54,7 +55,7 @@ const EcommCombo = () => {
           marginTop: -20,
           marginHorizontal: 10,
           borderRadius: 15,
-          marginBottom:10
+          marginBottom: 10,
         }}
       >
         <View
@@ -87,15 +88,15 @@ const EcommCombo = () => {
           data={comboProducts}
           horizontal
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => <EcomProduct {...item} />}
+          renderItem={({ item }) => <EcommComboCard {...item} />}
           showsHorizontalScrollIndicator={false}
           ListEmptyComponent={
             <Text style={{ padding: 16 }}>No Special Combo Offers found.</Text>
           }
           contentContainerStyle={{ paddingHorizontal: 4, paddingVertical: 12 }}
           initialNumToRender={2}
-        maxToRenderPerBatch={2}
-        windowSize={2}
+          maxToRenderPerBatch={2}
+          windowSize={2}
         />
       </View>
     </SafeAreaView>

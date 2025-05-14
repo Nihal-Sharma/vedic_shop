@@ -9,6 +9,7 @@ import {
   Alert,
   TouchableOpacity,
   StyleSheet,
+  useWindowDimensions,
 } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -79,6 +80,31 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
   }
 
 
+  const { width } = useWindowDimensions();
+  const isSmallScreen = width < 392;
+
+  const dynamicStyles = StyleSheet.create({
+    card: {
+      width: isSmallScreen ? 165 : 185,
+    },
+    image: {
+      height: isSmallScreen ? 150 : 170,
+    },
+    title: {
+      fontSize: isSmallScreen ? 13 : 14,
+    },
+    price: {
+      fontSize: isSmallScreen ? 14 : 16,
+    },
+    originalPrice: {
+      fontSize: isSmallScreen ? 11 : 13,
+    },
+    taxNote: {
+      fontSize: isSmallScreen ? 9 : 10,
+    },
+  });
+
+
 
   /* cart (Zustand) */
   const productQuantity = useCart(
@@ -124,7 +150,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
             })
           }
         >
-          <View style={styles.card}>
+          <View style={[styles.card, dynamicStyles.card]}>
             {discount > 0 && (
               <View style={styles.discountBadge}>
                 <Text style={styles.discountText}>{discount}%</Text>
@@ -158,7 +184,10 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
 
             {/* image + rating */}
             <View style={{ position: "relative" }}>
-              <Image source={defaultImage} style={styles.image} />
+              <Image
+                source={defaultImage}
+                style={[styles.image, dynamicStyles.image]}
+              />
               <View style={styles.rating}>
                 <Text style={styles.ratingText}>
                   {productRating.toFixed(1)} ★
@@ -168,18 +197,27 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
 
             {/* details */}
             <View style={{ paddingLeft: 10 }}>
-              <Text style={styles.title} numberOfLines={1}>
+              <Text
+                style={[styles.title, dynamicStyles.title]}
+                numberOfLines={1}
+              >
                 {productName}
               </Text>
               <View style={styles.priceRow}>
-                <Text style={styles.price}>₹{discountedPrice.toFixed(2)}</Text>
+                <Text style={[styles.price, dynamicStyles.price]}>
+                  ₹{discountedPrice.toFixed(2)}
+                </Text>
                 {originalPrice > discountedPrice && (
-                  <Text style={styles.originalPrice}>
+                  <Text
+                    style={[styles.originalPrice, dynamicStyles.originalPrice]}
+                  >
                     ₹{originalPrice.toFixed(2)}
                   </Text>
                 )}
               </View>
-              <Text style={styles.taxNote}>Inclusive of all Taxes</Text>
+              <Text style={[styles.taxNote, dynamicStyles.taxNote]}>
+                Inclusive of all Taxes
+              </Text>
             </View>
 
             {/* wishlist */}
@@ -262,7 +300,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
     color: "#888",
   },
-  taxNote: { fontSize: 10, color: "#666", marginTop: 2, paddingBottom: 15 },
+  taxNote: { fontSize: 10, color: "#666", marginTop: 2, paddingBottom: 20 },
   heartIcon: {
     position: "absolute",
     bottom: 0,
