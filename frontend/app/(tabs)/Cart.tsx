@@ -7,6 +7,7 @@ import {
   Image,
   
   Pressable,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -226,6 +227,7 @@ function BottomTabModal() {
   return (
     <SafeAreaProvider>
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <View style={styles.cartTopbar}>
         <TouchableOpacity><AntDesign name="arrowleft" size={26} color="black" /></TouchableOpacity>
         <View style = {styles.topHeader}>

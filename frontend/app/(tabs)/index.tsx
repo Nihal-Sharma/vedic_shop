@@ -56,6 +56,7 @@ const HomeScreen = () => {
         return null;
     }
   }}
+   contentContainerStyle ={{backgroundColor :"white"}}
      initialNumToRender={3}
       maxToRenderPerBatch={1}
       windowSize={9}
