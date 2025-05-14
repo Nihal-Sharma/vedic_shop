@@ -109,8 +109,8 @@ export default function Profile() {
             <AntDesign name="right" size={24} color="black" />
           </TouchableOpacity>
         ))}
-         {/* Notification Toggle */}
-         <View
+        {/* Notification Toggle */}
+        <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
@@ -180,10 +180,12 @@ export default function Profile() {
             borderRadius: 6, // rounded-md
             marginRight: 12, // space between
           }}
-          onPress={() => console.log("Help Centre")}
+          onPress={() => router.push("/Profile/CustomerCare")}
         >
           <Feather name="headphones" size={20} color="grey" />
-          <Text style={{ fontWeight: "500",paddingLeft:10 /* font-medium */ }}>
+          <Text
+            style={{ fontWeight: "500", paddingLeft: 10 /* font-medium */ }}
+          >
             Help Centre
           </Text>
           <AntDesign
@@ -213,7 +215,9 @@ export default function Profile() {
             color="gray"
             style={{ marginLeft: 8 }}
           />
-          <Text style={{ fontWeight: "500",paddingLeft:10 /* font-medium */ }}>
+          <Text
+            style={{ fontWeight: "500", paddingLeft: 10 /* font-medium */ }}
+          >
             Share the App
           </Text>
           <AntDesign

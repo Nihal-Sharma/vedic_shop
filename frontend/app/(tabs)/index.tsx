@@ -1,4 +1,4 @@
-import { View, Text,ScrollView, FlatList } from 'react-native'
+import { View, Text,ScrollView, FlatList, StatusBar } from 'react-native'
 import React from 'react'
 import EcommRecomended from '@/components/HomeComponent/EcommRecomended'
 import EcommCard from '@/components/HomeComponent/EcommCard'
@@ -21,6 +21,7 @@ const HomeScreen = () => {
   const sections = [ "1" , "2" , "3", "4", "5", "6", "7", "8", "9", "10" , "11","12"];
   return (
      <>
+     <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <EcomNavBar />
     <FlatList
        data={sections} // an array like ['firstCategory', 'banner', 'bestSeller', ...]

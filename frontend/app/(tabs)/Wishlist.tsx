@@ -28,7 +28,17 @@ const WishlistHeader = () => {
 };
 
 const WishlistCard   = (item : EcomProductProps) => {
-   
+  const addToCart = useCart((state)=>state.addToCart)
+  const incCart = useCart((state)=>state.incGlobalQuantity)
+  const removeFromWishlist = useWishlist((state)=>state.removeFromWishlist)
+  const handleMoveToCart = () =>{
+    addToCart(item);
+    incCart();
+    removeFromWishlist(item._id)
+   }
+  const handleCross = () =>{
+    removeFromWishlist(item._id)
+  }
   return (
     <View style={styles['card-container']}>
       {/* Discount badge */}
@@ -37,7 +47,7 @@ const WishlistCard   = (item : EcomProductProps) => {
       </View>
       
       {/* Close button */}
-      <TouchableOpacity style={styles['card-closeButton']}>
+      <TouchableOpacity style={styles['card-closeButton']} onPress={handleCross}>
         <AntDesign name="close" size={16} color="#666" />
       </TouchableOpacity>
       
@@ -65,12 +75,37 @@ const WishlistCard   = (item : EcomProductProps) => {
       </View>
       
       {/* Button */}
-      <TouchableOpacity style={styles['card-moveToCartButton']}>
+      <TouchableOpacity style={styles['card-moveToCartButton']} onPress={ handleMoveToCart}>
         <Text style={styles['card-moveToCartText']}>MOVE TO CART</Text>
       </TouchableOpacity>
     </View>
   );
 };
+
+const EmptyWishlist = () =>{return (  <View style={empty_styles.container}>
+      <View style={empty_styles.iconContainer}>
+        {/* Placeholder for the shopping bag with heart icon */}
+        <Image 
+         source={require('../../assets/images/Empty_wish.png')}
+          style={empty_styles.icon}
+          resizeMode="contain"
+        />
+      </View>
+      
+      <Text style={empty_styles.title}>Your wishlist is empty</Text>
+      
+      <Text style={empty_styles.description}>
+        Save items that you like in your wishlist.
+        {'\n'}Review them anytime and easily move them to the Cart
+      </Text>
+      
+      <TouchableOpacity 
+        style={empty_styles.shopNowButton} 
+         
+      >
+        <Text style={empty_styles.shopNowText}>SHOP NOW</Text>
+      </TouchableOpacity>
+    </View>)}
 
 const Wishlist = () => {
  
@@ -80,20 +115,62 @@ const Wishlist = () => {
      <SafeAreaView style={styles.screenContainer}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <WishlistHeader />
-      <FlatList
+      {wishList.length ==0 ? <EmptyWishlist/> : <FlatList
         data={wishList}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => <WishlistCard {...item} />}
         contentContainerStyle={styles.listContainer}
          
-      />
+      />}
     </SafeAreaView>
     </SafeAreaProvider>
   )
 }
 
 export default Wishlist
-
+const empty_styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#FFFFFF',
+  },
+  iconContainer: {
+    marginBottom: 20,
+  },
+  icon: {
+    width: 110,
+    height: 110,
+    tintColor: '#FF8C00', // Orange color similar to the image
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    textAlign: 'center',
+    color: '#333333',
+  },
+  description: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 24,
+    color: '#666666',
+    lineHeight: 20,
+  },
+  shopNowButton: {
+    borderWidth: 1,
+    borderColor: '#FF6B00',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 4,
+  },
+  shopNowText: {
+    color: '#FF6B00',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+});
 const styles = StyleSheet.create({
     screenContainer: {
     flex: 1,
