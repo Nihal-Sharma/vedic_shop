@@ -1,6 +1,6 @@
 // ./Detail/[id].tsx
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import {
   View,
   Text,
@@ -28,6 +28,8 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
+import useWishlist from "@/store/wishList";
+import useCart from "@/store/cart";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -87,12 +89,47 @@ const ProductDetail: React.FC = () => {
 
   const [shippingExpanded, setShippingExpanded] = useState(false);
 
-  const [liked, setLiked] = useState(false);
+  const cart = useCart((state)=>state.cartProducts)
+  const incCartQuantity = useCart((state)=>state.incGlobalQuantity)
+  //CART *******************
+  const inCart = useMemo(() => {
+  return product ? cart.some(item => item._id === product._id) : false;
+}, [cart, product]);
 
   const [addedToCart, setAddedToCart] = useState(false);
+
+ useEffect(() => {
+  setAddedToCart(inCart);
+  }, [inCart]);
+
+
+  const addToCart = useCart((state)=>state.addToCart)
   const [estimatedDays, setEstimatedDays] = useState<number | null>(null);
 
   const [checkingDelivery, setCheckingDelivery] = useState(false);
+
+  // ***WishList logic*******
+  const wishList = useWishlist((state)=>state.wishlist);
+  const exists = product 
+  ? wishList.some(item => item._id === product._id) 
+  : false;
+  const liked = exists;
+  const addToWishlist = useWishlist((state)=> state.addToWishlist);
+  const removeFromWhishlist = useWishlist((state)=>state.removeFromWishlist);
+  const handleLike = ()=>{
+    if(liked) {
+      if (product) {
+         removeFromWhishlist(product._id);
+}
+    }
+    else{
+      if(product){
+        addToWishlist(product);
+      }
+      
+    }
+  }
+
 
 
 
@@ -117,12 +154,18 @@ const ProductDetail: React.FC = () => {
   // how tall you want the body
  const highlightHeight = useRef(new Animated.Value(HEADER_H)).current;
 
+  // CART LOGIC
   const handlePress = () => {
     if (addedToCart) {
       router.push("/(tabs)/Cart"); // Navigate to cart page
     } else {
       // Simulate adding to cart
-      setAddedToCart(true);
+      if(product){
+        addToCart(product);
+        incCartQuantity()
+        setAddedToCart(true);
+      }
+      
     }
   };
 
@@ -597,7 +640,7 @@ const ProductDetail: React.FC = () => {
                 justifyContent: "center",
                 width: "10%",
               }}
-              onPress={() => setLiked((prev) => !prev)}
+              onPress={handleLike}
               activeOpacity={0.7}
             >
               <AntDesign
@@ -642,7 +685,7 @@ const ProductDetail: React.FC = () => {
   );
 };
 
-export default ProductDetail;
+export default React.memo(ProductDetail);
 
 const styles = StyleSheet.create({
   container: { backgroundColor: "#F0F0F0", paddingBottom: 16 },

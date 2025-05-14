@@ -19,6 +19,8 @@ import {
 } from "@expo/vector-icons";
 import { HapticTab } from "@/components/HapticTab";
 import TabBarBackground from "@/components/ui/TabBarBackground";
+import useCart from "@/store/cart";
+import useWishlist from "@/store/wishList";
 
 const CIRCLE = 60;
 
@@ -152,6 +154,8 @@ function QuickActionsTab({ accessibilityState, ...rest }: any) {
 }
 
 export default function TabLayout() {
+  const globalCount = useCart((state)=>state.globalQuantity)
+  const wishCount = useWishlist((state)=>state.wishlistCount)
   return (
     <Tabs
       screenOptions={{
@@ -187,8 +191,14 @@ export default function TabLayout() {
         name="Wishlist"
         options={{
           title: "Wishlist",
-          tabBarIcon: ({ color }: { color: string }) => (
-            <FontAwesome5 name="heart" size={24} color={color} />
+          tabBarIcon: ({ color }: { color: string }) => ( <View style={{ position: 'relative' }}>
+        <FontAwesome5 name="heart" size={24} color={color} />
+        {wishCount > 0 && (
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{wishCount}</Text>
+          </View>
+        )}
+      </View>
           ),
         }}
       />
@@ -196,9 +206,16 @@ export default function TabLayout() {
         name="Cart"
         options={{
           title: "Cart",
-          tabBarIcon: ({ color }: { color: string }) => (
-            <Ionicons name="bag-handle-outline" size={24} color={color} />
-          ),
+          tabBarIcon: ({ color }) => (
+        <View style={{ position: 'relative' }}>
+        <Ionicons name="bag-handle-outline" size={24} color={color} />
+        {globalCount > 0 && (
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{globalCount}</Text>
+          </View>
+        )}
+      </View>
+    ),
         }}
       />
       <Tabs.Screen
@@ -261,5 +278,21 @@ const styles = StyleSheet.create({
     width: CIRCLE ,
     height: CIRCLE,
     borderRadius: (CIRCLE - 14) / 2,
+  }, badge: {
+    position: 'absolute',
+    right: -6,
+    top: -4,
+    backgroundColor: 'orange',
+    borderRadius: 8,
+    minWidth: 16,
+    height: 16,
+    paddingHorizontal: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
   },
 });
