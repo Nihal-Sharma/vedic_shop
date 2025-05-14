@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import mainStore from "../../store/mainStore";
 import { fetchAllProducts } from "../api/FetchProduct";
 import EcomProduct, { EcomProductProps } from "./EcommProduct";
+import { useFonts } from "expo-font";
 
 /* ───────── helpers ───────── */
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -33,6 +34,17 @@ const CARD_WIDTH = (SCREEN_WIDTH - GAP * 3) / 2 +5; // ←  -1px “buffer”
 
 /* ───────── component ───────── */
 const EcommSilver = () => {
+  const [fontsLoaded] = useFonts({
+            "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
+            "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
+            "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
+            "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
+            "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
+            "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+            "Roboto-Medium": require("../../assets/fonts/Roboto-Medium.ttf"),
+            "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+          });
+          
   const baseURL = mainStore((state) => state.baseURL);
 
   const [products, setProducts] = useState<EcomProductProps[]>([]);
@@ -87,7 +99,7 @@ const EcommSilver = () => {
 
   return (
     <SafeAreaView>
-      <View style={{ backgroundColor: "#0A1F44" }}>
+      <View style={{ backgroundColor: "#0A1F44" ,marginTop:-15}}>
         {/* ── header row ── */}
         <View style={styles.headerRow}>
           <Text style={styles.headerTitle}>SILVER IDOL</Text>
@@ -170,13 +182,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 15,
+    // marginTop:-100,
   },
-  headerTitle: { fontSize: 19, color: "white" },
+  headerTitle: { fontSize: 19, color: "white",fontFamily:'Poppins-Medium' },
   exploreBtn: {
     backgroundColor: "white",
     borderRadius: 24,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    fontFamily: "Poppins-Regular",
+    fontSize:12,
   },
 
   /* carousel page */

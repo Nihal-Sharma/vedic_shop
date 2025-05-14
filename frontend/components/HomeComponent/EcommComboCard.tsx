@@ -109,11 +109,11 @@ const EcommComboCard: React.FC<EcomProductProps> = (props) => {
           </Text>
           <View style={styles.priceRow}>
             <Text style={[styles.price, stylesDynamic.price]}>
-              ₹{discountedPrice.toFixed(2)}
+              ₹{discountedPrice.toFixed(2).split(".")[0]}
             </Text>
             {originalPrice > discountedPrice && (
               <Text style={[styles.originalPrice, stylesDynamic.originalPrice]}>
-                ₹{originalPrice.toFixed(2)}
+                ₹{originalPrice.toFixed(2).split(".")[0]}
               </Text>
             )}
           </View>
@@ -154,13 +154,19 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     zIndex: 10,
   },
-  discountText: { fontSize: 12, color: "#fff", fontWeight: "bold" },
+  discountText: { fontSize: 12, color: "#fff", fontFamily: "Roboto-Medium" },
+  discountText1: {
+    fontSize: 13,
+    color: "#fff",
+    fontFamily: "Roboto-Medium",
+    marginTop: -5,
+  },
   addIcon: {
     position: "absolute",
     top: 6,
     right: 6,
     zIndex: 10,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "#FF6B00",
     borderRadius: 10,
     overflow: "hidden",
@@ -177,12 +183,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   ratingText: { color: "#fff", fontWeight: "bold" },
-  title: { fontWeight: "500", marginBottom: 4 },
+  title: { fontFamily: "Poppins-Regular", marginBottom: 4 },
   priceRow: { flexDirection: "row", alignItems: "center", gap: 6 },
-  price: { fontWeight: "bold" },
+  price: { fontSize: 16, fontFamily: "OpenSans-SemiBold" },
   originalPrice: {
     textDecorationLine: "line-through",
     color: "#888",
+    fontFamily: "OpenSans-Regular",
   },
   taxNote: { color: "#666", marginTop: 2, paddingBottom: 18 },
   heartIcon: {

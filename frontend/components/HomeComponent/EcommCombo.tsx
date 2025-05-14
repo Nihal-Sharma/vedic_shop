@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // padding: 15,
   },
-  headerTitle: { fontSize: 19, color: "white" },
+  headerTitle: { fontSize: 19, color: "white",fontFamily: "Poppins-Medium", },
   exploreBtn: {
     backgroundColor: "white",
     borderRadius: 24,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   slide: {
-    width: SCREEN_WIDTH,          // ← full width
+    width: SCREEN_WIDTH,         
     flexDirection: "row",
     justifyContent: "space-evenly",
     paddingVertical: 12,},

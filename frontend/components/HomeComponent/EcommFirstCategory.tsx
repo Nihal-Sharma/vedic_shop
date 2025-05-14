@@ -1,6 +1,7 @@
 import { View, Text, Image, TouchableOpacity, Dimensions, useWindowDimensions } from "react-native";
 import React from "react";
 import { Entypo } from "@expo/vector-icons";
+import { useFonts } from "expo-font";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -18,7 +19,7 @@ const categories = [
   {
     title: "Silver Idol",
     image:
-      "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/category3.png",
+      "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/trishul.png",
   },
   {
     title: "Temple",
@@ -28,6 +29,15 @@ const categories = [
 ];
 
 const EcommFirstCategory = () => {
+  const [fontsLoaded] = useFonts({
+      "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
+      "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
+      "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
+      "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
+      "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
+      "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+      "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+    });
 
   const { width } = useWindowDimensions();
 
@@ -60,7 +70,13 @@ const EcommFirstCategory = () => {
               }}
               resizeMode="cover"
             />
-            <Text style={{ marginTop: 5, fontSize: fontSize }}>
+            <Text
+              style={{
+                marginTop: 5,
+                fontSize: fontSize,
+                fontFamily: "Inter_18pt-Regular",
+              }}
+            >
               {item.title}
             </Text>
           </View>
@@ -81,7 +97,12 @@ const EcommFirstCategory = () => {
             resizeMode="cover"
           />
           <Text
-            style={{ color: "#ff6600", fontWeight: "bold", fontSize: fontSize }}
+            style={{
+              color: "#ff6600",
+              fontFamily: "Inter_18pt-Regular",
+              fontSize: fontSize,
+              marginTop: 5,
+            }}
           >
             See All
           </Text>

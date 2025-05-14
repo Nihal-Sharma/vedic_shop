@@ -7,6 +7,7 @@ import { useFonts } from "expo-font";
 const EcomNavBar = () => {
   const [fontsLoaded] = useFonts({
     "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
+    "Inter_18pt-Black": require("../../assets/fonts/Inter_18pt-Black.ttf"),
     "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
     "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
     "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),

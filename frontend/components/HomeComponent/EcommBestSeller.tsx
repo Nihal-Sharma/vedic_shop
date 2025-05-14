@@ -10,6 +10,7 @@ import axios from "axios";
 
 import EcommBestSellerCard, { EcomProductProps } from "./EcommBestSellerCard";
 import mainStore from "../../store/mainStore";
+import { useFonts } from "expo-font";
 
 /* util: turn “1 234 reviews” → 1234 */
 const parseReviewCount = (v: unknown): number => {
@@ -22,6 +23,16 @@ const parseReviewCount = (v: unknown): number => {
 };
 
 const EcommBestSeller: React.FC = () => {
+   const [fontsLoaded] = useFonts({
+        "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
+        "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
+        "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
+        "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
+        "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
+        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+      });
+      
   const baseURL = mainStore((s) => s.baseURL) ?? "http://localhost:5001";
 
   const [products, setProducts] = useState<EcomProductProps[]>([]);
@@ -116,7 +127,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily:'Poppins-Medium',
     color: "#1f2937",
     marginBottom: 12,
   },

@@ -74,8 +74,8 @@ const EcommGrid = () => {
   
 
   return (
-    <View style={{ paddingHorizontal: GAP, marginTop: 8 }}>
-      <Text style={styles.header}>VEDIC VAIBHAV WORLD (WHAT WE HAVE)</Text>
+    <View style={{ paddingHorizontal: GAP, marginTop: 25 }}>
+      <Text style={styles.header}>VEDIC VAIBHAV WORLD</Text>
 
       <FlatList
         data={CARD_DATA}
@@ -94,8 +94,9 @@ const EcommGrid = () => {
 const styles = StyleSheet.create({
   header: {
     fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 16,
+    // fontWeight: "bold",
+    fontFamily: "Poppins-Medium",
+    marginBottom: 10,
   },
   cardBase: {
     width: CARD_WIDTH,
@@ -119,7 +120,8 @@ const styles = StyleSheet.create({
     right: 10,
     color: "#fff",
     fontSize: 16,
-    fontWeight: "600",
+    // fontWeight: "600",
+    fontFamily:'Roboto-Medium',
   },
 });
 

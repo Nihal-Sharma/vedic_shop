@@ -1,3 +1,4 @@
+import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
@@ -42,6 +43,17 @@ const GAP =6; // space between cards
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const EcommSacred = () => {
+  const [fontsLoaded] = useFonts({
+                "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
+                "Alkatra-Medium": require("../../assets/fonts/Alkatra-Medium.ttf"),
+                "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
+                "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
+                "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
+                "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
+                "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+                "Roboto-Medium": require("../../assets/fonts/Roboto-Medium.ttf"),
+                "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+              });
   const handlePress = (title: string) => {
     console.log("Pressed:", title); // hook into navigation / filters
   };
@@ -70,7 +82,7 @@ const EcommSacred = () => {
         style={{
           height:5,width: SCREEN_WIDTH, position: "absolute", top: 0,}}
       />
-      <Text style={styles.header}>Sacred Spaces</Text>
+      <Text style={styles.header}>Sacred Spaces .</Text>
 
       <FlatList
         data={CARD_DATA}
@@ -99,7 +111,8 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 18,
-    fontWeight: "700",
+    // fontWeight: "700",
+    fontFamily: "Alkatra-Medium",
     marginLeft: GAP,
     color: "white",
     marginBottom: 14,
@@ -110,10 +123,11 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   caption: {
-    marginTop: 8,
+    marginTop: 4,
     textAlign: "center",
-    fontWeight: "600",
-    fontSize: 16,
+    // fontWeight: "600",
+    fontFamily: "Poppins-Medium",
+    fontSize: 14,
   },
 });
 

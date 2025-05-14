@@ -16,6 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import useCart from "../../store/cart";
 import useWishlist from "@/store/wishList";
+import { useFonts } from "expo-font";
 
 /* ───────── unified product interface ───────── */
 export interface EcomProductProps {
@@ -51,6 +52,17 @@ export interface EcomProductProps {
 
 /* ─────────── Best‑Seller Card ─────────── */
 const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
+  
+  const [fontsLoaded] = useFonts({
+          "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
+          "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
+          "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
+          "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
+          "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
+          "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+          "Roboto-Medium": require("../../assets/fonts/Roboto-Medium.ttf"),
+          "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+        });
   const {
     _id,
     productName,
@@ -154,7 +166,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
             {discount > 0 && (
               <View style={styles.discountBadge}>
                 <Text style={styles.discountText}>{discount}%</Text>
-                <Text style={styles.discountText}>OFF</Text>
+                <Text style={styles.discountText1}>OFF</Text>
               </View>
             )}
 
@@ -201,20 +213,25 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
                 style={[styles.title, dynamicStyles.title]}
                 numberOfLines={1}
               >
-                {productName}
+                {productName.split("Idol")[0] + "Idol"}
               </Text>
+
               <View style={styles.priceRow}>
                 <Text style={[styles.price, dynamicStyles.price]}>
-                  ₹{discountedPrice.toFixed(2)}
+                  ₹{discountedPrice.toFixed(2).split(".")[0]}
+                  {/* <Text>.{discountedPrice.toFixed(2).split(".")[1]}</Text> */}
                 </Text>
+
                 {originalPrice > discountedPrice && (
                   <Text
                     style={[styles.originalPrice, dynamicStyles.originalPrice]}
                   >
-                    ₹{originalPrice.toFixed(2)}
+                    ₹{originalPrice.toFixed(2).split(".")[0]}
+                    
                   </Text>
                 )}
               </View>
+
               <Text style={[styles.taxNote, dynamicStyles.taxNote]}>
                 Inclusive of all Taxes
               </Text>
@@ -240,7 +257,7 @@ export default React.memo(EcommBestSellerCard);
 /* ───────── styles (unchanged) ───────── */
 const styles = StyleSheet.create({
   container: { backgroundColor: "#fff", alignItems: "center" },
-  scroll: {  alignItems: "center",paddingRight:10 },
+  scroll: { alignItems: "center", paddingRight: 10 },
   card: {
     width: 185,
     borderRadius: 12,
@@ -255,18 +272,24 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     backgroundColor: "#f60",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
     borderTopLeftRadius: 5,
     zIndex: 10,
   },
-  discountText: { fontSize: 13, color: "#fff", fontWeight: "bold" },
+  discountText: { fontSize: 13, color: "#fff", fontFamily: "Roboto-Medium" },
+  discountText1: {
+    fontSize: 13,
+    color: "#fff",
+    fontFamily: "Roboto-Medium",
+    marginTop: -5,
+  },
   addIcon: {
     position: "absolute",
     top: 6,
     right: 6,
     zIndex: 10,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "#FF6B00",
     borderRadius: 10,
     overflow: "hidden",
@@ -292,13 +315,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   ratingText: { color: "#fff", fontSize: 12, fontWeight: "bold" },
-  title: { fontWeight: "500", fontSize: 14, marginBottom: 4 },
+  title: { fontFamily: "Poppins-Regular", fontSize: 14,  },
   priceRow: { flexDirection: "row", alignItems: "center", gap: 6 },
-  price: { fontSize: 16, fontWeight: "bold" },
+  price: { fontSize: 16, fontFamily: "OpenSans-SemiBold" },
   originalPrice: {
     fontSize: 13,
     textDecorationLine: "line-through",
     color: "#888",
+    fontFamily: "OpenSans-Regular",
   },
   taxNote: { fontSize: 10, color: "#666", marginTop: 2, paddingBottom: 20 },
   heartIcon: {

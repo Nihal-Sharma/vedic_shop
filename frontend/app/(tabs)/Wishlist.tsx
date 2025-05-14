@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, StatusBar } from 'react-native';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import useWishlist from '@/store/wishList';
@@ -78,6 +78,7 @@ const Wishlist = () => {
   return (
     <SafeAreaProvider>
      <SafeAreaView style={styles.screenContainer}>
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <WishlistHeader />
       <FlatList
         data={wishList}
