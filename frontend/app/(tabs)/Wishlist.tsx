@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, StatusBar } from 'react-native';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import useWishlist from '@/store/wishList';
 import {EcomProductProps} from '../../components/HomeComponent/EcommProduct'
 import useCart from '@/store/cart';
+import mainStore from '@/store/mainStore';
 
 
 const WishlistHeader = () => {

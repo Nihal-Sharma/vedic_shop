@@ -1,6 +1,7 @@
-import { View, Text, Image, TouchableOpacity, ImageBackground } from "react-native";
+import { View, Text, Image, TouchableOpacity, ImageBackground ,ScrollView } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
+ 
 
 const categories = [
   {
@@ -72,12 +73,7 @@ const EcommSecondCategory = () => {
             </Text>
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
+          <ScrollView horizontal = {true} showsHorizontalScrollIndicator={false}>
             {categories.map((item) => (
               <TouchableOpacity
                 key={item.title}
@@ -99,7 +95,7 @@ const EcommSecondCategory = () => {
                 </Text>
               </TouchableOpacity>
             ))}
-          </View>
+          </ScrollView>
         </View>
       </ImageBackground>
     </View>

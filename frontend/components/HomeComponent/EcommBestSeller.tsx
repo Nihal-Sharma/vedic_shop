@@ -38,13 +38,13 @@ const EcommBestSeller: React.FC = () => {
   const [products, setProducts] = useState<EcomProductProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const addProducts = mainStore((state)=>state.addProducts)
 
   /* fetch once */
   const loadProducts = useCallback(async () => {
     try {
       const { data } = await axios.get(`${baseURL}/fetch-all-products`);
-      
+      addProducts(data)
       const mapped: EcomProductProps[] = data.map((p: any) => ({
         _id: p._id,
         productId: p.productId,
@@ -120,7 +120,7 @@ export default EcommBestSeller;
 const styles = StyleSheet.create({
   wrapper: {
     marginTop: 16,
-    paddingHorizontal: 16,
+    paddingHorizontal: 11,
     paddingVertical: 12,
     backgroundColor: "#fff",
     borderRadius: 12,
