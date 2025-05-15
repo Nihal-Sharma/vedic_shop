@@ -14,10 +14,6 @@ interface store{
     getProducts : (allProducts : EcomProductProps[]) => void
 }
 
-<<<<<<< HEAD
- const mainStore = create<store>((state)=>({
-    baseURL : urls.nirmanyu,
-=======
  const mainStore = create<store>((set, get)=>({
     baseURL : urls.nirmanyu,
     allProducts : [],
@@ -25,7 +21,6 @@ interface store{
         allProducts : products
     })); },
     getProducts : (allProducts) =>{console.log("From Store :" ,  allProducts)}
->>>>>>> cca703f61c506635092b7406af46f93866e506fe
 }))
 
 export default mainStore;
