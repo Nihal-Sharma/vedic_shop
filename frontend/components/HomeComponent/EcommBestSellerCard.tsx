@@ -151,7 +151,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scroll}>
+      
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() =>
@@ -259,7 +259,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
-      </ScrollView>
+      
     </SafeAreaView>
   );
 };
@@ -268,7 +268,7 @@ export default React.memo(EcommBestSellerCard);
 
 /* ───────── styles (unchanged) ───────── */
 const styles = StyleSheet.create({
-  container: { backgroundColor: "#fff", alignItems: "center" },
+  container: { backgroundColor: "white", alignItems: "center"  },
   scroll: { alignItems: "center", paddingRight: 10 },
   card: {
     width: 185,
@@ -278,6 +278,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     overflow: "hidden",
     position: "relative",
+    marginRight :8
   },
   discountBadge: {
     position: "absolute",

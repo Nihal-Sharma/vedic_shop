@@ -1,5 +1,5 @@
-import { View, Text,ScrollView, FlatList, StatusBar, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import { View, Text,ScrollView, FlatList, StatusBar, TouchableOpacity, Image, TextInput } from 'react-native'
+import React, { useState } from 'react'
 import EcommRecomended from '@/components/HomeComponent/EcommRecomended'
 import EcommCard from '@/components/HomeComponent/EcommCard'
 import EcomNavBar from '@/components/HomeComponent/EcomNavBar'
@@ -16,15 +16,59 @@ import EcommBanner2 from '@/components/HomeComponent/EcommBanner2'
 import EcommOccasion from '@/components/HomeComponent/EcommOcassion'
 import EcommFestival from '@/components/HomeComponent/EcommFestivel'
 import { router } from 'expo-router'
+import { Feather } from "@expo/vector-icons";
 // import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated'
 
 const HomeScreen = () => {
   const sections = [ "1" , "2" , "3", "4", "5", "6", "7", "8", "9", "10" , "11","12"];
+  const [text, setText] = useState('');
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      <View style={{ position: "relative"}}>
+      <View style={{ position: "relative" , backgroundColor :'white'}}>
         <EcomNavBar />
+        {/* Search BAr */}
+        <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: "#fff",
+          borderWidth: 1,
+          borderColor: "#B2B2B2",
+          borderRadius: 10,
+          marginHorizontal: 10,
+          paddingHorizontal: 15,
+          marginTop: 1,
+          marginBottom :10,
+          elevation :2
+        }}
+      >
+        <TextInput
+          placeholder="Search “Om Bracelet”"
+          placeholderTextColor="#999"
+          style={{ flex: 1, height: 40 }}
+          onChangeText={newText => setText(newText)}
+        />
+        <Feather name="search" size={20} color="#444" />
+         </View>
+        {text !== '' && (
+       <View style={{
+        position: 'absolute',
+        top: 150, // adjust this based on EcomNavBar height
+        left: 11,
+        right: 11,
+        backgroundColor: '#FFF0E7',
+
+        zIndex: 10,
+        padding: 10,
+        borderRadius : 10,
+
+        
+      }}>
+        <Text>{text}</Text>
+      </View>
+    )}
+
         <FlatList
           data={sections} // an array like ['firstCategory', 'banner', 'bestSeller', ...]
           keyExtractor={(item, index) => index.toString()}

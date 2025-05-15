@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import {
   View,
   Text,
@@ -7,14 +7,22 @@ import {
   FlatList,
   Image,
   StatusBar,
-  SafeAreaView,
+  
   Dimensions,
   useWindowDimensions,
 } from "react-native";
-import { AntDesign, Feather } from "@expo/vector-icons";
-import useWishlist from "@/store/wishList";
-import useCart from "@/store/cart";
-import { EcomProductProps } from "../../components/HomeComponent/EcommProduct";
+// import { AntDesign, Feather } from "@expo/vector-icons";
+// import useWishlist from "@/store/wishList";
+// import useCart from "@/store/cart";
+// import { EcomProductProps } from "../../components/HomeComponent/EcommProduct";
+import React, { useEffect } from 'react';
+
+import { AntDesign, Feather } from '@expo/vector-icons';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import useWishlist from '@/store/wishList';
+import {EcomProductProps} from '../../components/HomeComponent/EcommProduct'
+import useCart from '@/store/cart';
+import mainStore from '@/store/mainStore';
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_WIDTH = (SCREEN_WIDTH - 16 * 2 - 8) /* row gaps */ / 2;

@@ -50,23 +50,26 @@ const EcommSilver = () => {
   const [products, setProducts] = useState<EcomProductProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const silverProds = mainStore((state)=>state.allProducts)
   /* fetch once on mount */
   useEffect(() => {
     (async () => {
-      try {
-        const data = await fetchAllProducts(baseURL);
-        setProducts(data);
-      } catch (err: any) {
-        setError(err.message || "Could not load products.");
-      } finally {
-        setLoading(false);
-      }
+      // try {
+      //   const data = await fetchAllProducts(baseURL);
+      //   setProducts(data);
+      // } catch (err: any) {
+      //   setError(err.message || "Could not load products.");
+      // } finally {
+      //   setLoading(false);
+      // }
+      if(silverProds){setLoading(false)}
+      console.log("Silver Component rendered")
     })();
-  }, []);
+  }, [silverProds]);
+
 
   /* filter for “Silver Idols” */
-  const silverIdols = products
+  const silverIdols = silverProds
     .filter((p) => p.productCategory?.name?.toLowerCase() === "silver idols")
     .slice(0, 12);
 
