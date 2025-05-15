@@ -8,6 +8,7 @@ export default function SplashLayout() {
       <Stack.Screen name="MyOrder" />
       <Stack.Screen name="AddressBook"  />
       <Stack.Screen name="CustomerCare"  />
+      <Stack.Screen name="ChatBot"  />
     </Stack>
   );
 }

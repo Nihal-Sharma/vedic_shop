@@ -160,7 +160,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#FD4380",
+        tabBarActiveTintColor: "#FF730D",
         tabBarButton: HapticTab,
         tabBarBackground: () => <View style={styles.fullBarBackground} />,
         tabBarStyle: Platform.select({
@@ -191,14 +191,15 @@ export default function TabLayout() {
         name="Wishlist"
         options={{
           title: "Wishlist",
-          tabBarIcon: ({ color }: { color: string }) => ( <View style={{ position: 'relative' }}>
-        <FontAwesome5 name="heart" size={24} color={color} />
-        {wishCount > 0 && (
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>{wishCount}</Text>
-          </View>
-        )}
-      </View>
+          tabBarIcon: ({ color }: { color: string }) => (
+            <View style={{ position: "relative" }}>
+              <FontAwesome5 name="heart" size={24} color={color} />
+              {wishCount > 0 && (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>{wishCount}</Text>
+                </View>
+              )}
+            </View>
           ),
         }}
       />
@@ -207,15 +208,15 @@ export default function TabLayout() {
         options={{
           title: "Cart",
           tabBarIcon: ({ color }) => (
-        <View style={{ position: 'relative' }}>
-        <Ionicons name="bag-handle-outline" size={24} color={color} />
-        {globalCount > 0 && (
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>{globalCount}</Text>
-          </View>
-        )}
-      </View>
-    ),
+            <View style={{ position: "relative" }}>
+              <Ionicons name="bag-handle-outline" size={24} color={color} />
+              {globalCount > 0 && (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>{globalCount}</Text>
+                </View>
+              )}
+            </View>
+          ),
         }}
       />
       <Tabs.Screen

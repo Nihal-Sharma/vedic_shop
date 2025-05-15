@@ -74,7 +74,7 @@ const EcommGrid = () => {
   
 
   return (
-    <View style={{ paddingHorizontal: GAP, marginTop: 25 }}>
+    <View style={{ paddingHorizontal: GAP, marginTop: 25,marginBottom:160 }}>
       <Text style={styles.header}>VEDIC VAIBHAV WORLD</Text>
 
       <FlatList

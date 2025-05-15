@@ -186,12 +186,12 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
               <Image source={defaultImage} style={styles.image} />
               <View style={styles.rating}>
                 <Text style={[styles.ratingText, dynamicStyles.ratingText]}>
-                  {productRating.toFixed(1)} ★
+                  {typeof productRating === "number"
+                    ? productRating.toFixed(1) + " ★"
+                    : "★"}
                 </Text>
               </View>
             </View>
-
-            {/* details */}
             <View style={{ paddingLeft: 10 }}>
               <Text
                 style={[styles.title, dynamicStyles.title]}
@@ -199,18 +199,33 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
               >
                 {productName.split("Idol")[0] + "Idol"}
               </Text>
+
               <View style={styles.priceRow}>
-                <Text style={[styles.price, dynamicStyles.price]}>
-                  ₹{discountedPrice.toFixed(2).split(".")[0]}
-                </Text>
-                {originalPrice > discountedPrice && (
-                  <Text
-                    style={[styles.originalPrice, dynamicStyles.originalPrice]}
-                  >
-                    ₹{originalPrice.toFixed(2).split(".")[0]}
+                {typeof discountedPrice === "number" ? (
+                  <Text style={[styles.price, dynamicStyles.price]}>
+                    ₹{discountedPrice.toFixed(2).split(".")[0]}
+                    {/* <Text>.{discountedPrice.toFixed(2).split(".")[1]}</Text> */}
+                  </Text>
+                ) : (
+                  <Text style={[styles.price, dynamicStyles.price]}>
+                    Price Unavailable
                   </Text>
                 )}
+
+                {typeof originalPrice === "number" &&
+                  typeof discountedPrice === "number" &&
+                  originalPrice > discountedPrice && (
+                    <Text
+                      style={[
+                        styles.originalPrice,
+                        dynamicStyles.originalPrice,
+                      ]}
+                    >
+                      ₹{originalPrice.toFixed(2).split(".")[0]}
+                    </Text>
+                  )}
               </View>
+
               <Text style={[styles.taxNote, dynamicStyles.taxNote]}>
                 Inclusive of all Taxes
               </Text>

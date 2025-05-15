@@ -97,7 +97,9 @@ const EcommComboCard: React.FC<EcomProductProps> = (props) => {
           <Image source={imgSrc} style={[styles.image, stylesDynamic.image]} />
           <View style={styles.rating}>
             <Text style={[styles.ratingText, stylesDynamic.ratingText]}>
-              {productRating.toFixed(1)} ★
+              {typeof productRating === "number"
+                ? productRating.toFixed(1) + " ★"
+                : "★"}
             </Text>
           </View>
         </View>
@@ -105,18 +107,32 @@ const EcommComboCard: React.FC<EcomProductProps> = (props) => {
         {/* Details */}
         <View style={{ paddingLeft: 10 }}>
           <Text style={[styles.title, stylesDynamic.title]} numberOfLines={1}>
-            {productName}
+            {productName.split("Idol")[0] + "Idol"}
           </Text>
+
           <View style={styles.priceRow}>
-            <Text style={[styles.price, stylesDynamic.price]}>
-              ₹{discountedPrice.toFixed(2).split(".")[0]}
-            </Text>
-            {originalPrice > discountedPrice && (
-              <Text style={[styles.originalPrice, stylesDynamic.originalPrice]}>
-                ₹{originalPrice.toFixed(2).split(".")[0]}
+            {typeof discountedPrice === "number" ? (
+              <Text style={[styles.price, stylesDynamic.price]}>
+                ₹{discountedPrice.toFixed(2).split(".")[0]}
+                {/* <Text>.{discountedPrice.toFixed(2).split(".")[1]}</Text> */}
+              </Text>
+            ) : (
+              <Text style={[styles.price, stylesDynamic.price]}>
+                Price Unavailable
               </Text>
             )}
+
+            {typeof originalPrice === "number" &&
+              typeof discountedPrice === "number" &&
+              originalPrice > discountedPrice && (
+                <Text
+                  style={[styles.originalPrice, stylesDynamic.originalPrice]}
+                >
+                  ₹{originalPrice.toFixed(2).split(".")[0]}
+                </Text>
+              )}
           </View>
+
           <Text style={[styles.taxNote, stylesDynamic.taxNote]}>
             Inclusive of all Taxes
           </Text>

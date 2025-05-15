@@ -40,6 +40,13 @@ export interface Product {
   productBasePrice: number;
 }
 
+export interface Category {
+  _id: string;
+  categoryName: string;
+  productCategoryImage: string[]; // array of image URLs
+  // …you can add other fields if needed
+}
+
 // ✅ 1. Create a standalone API function
 export async function fetchAllProducts(baseURL: string): Promise<Product[]> {
    
@@ -77,15 +84,45 @@ export function useFetchProducts() {
   return { products, loading, error };
 }
 
-export const fetchProductsByCategory = async (
-  baseURL: string,
-  categoryId: string
-) => {
-  const res = await fetch(`${baseURL}/products?categoryId=${categoryId}`);
+// export const fetchProductsByCategory = async (
+//   baseURL: string,
+//   categoryId: string
+// ) => {
+//   const res = await fetch(`${baseURL}/products?categoryId=${categoryId}`);
 
-  if (!res.ok) throw new Error("Could not load category products");
+//   if (!res.ok) throw new Error("Could not load category products");
 
-  // adjust if your backend wraps data differently
-  const data = await res.json();
+//   // adjust if your backend wraps data differently
+//   const data = await res.json();
+//   return data;
+// };
+export async function fetchAllCategories(baseURL: string): Promise<Category[]> {
+  const res = await fetch(`${baseURL}/fetch-product-category`);
+  if (!res.ok) {
+    throw new Error(`Failed to load categories (status ${res.status})`);
+  }
+  const data: Category[] = await res.json();
   return data;
-};
+}
+
+export function useFetchCategories() {
+  const [cats, setCats] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const baseURL = mainStore((s) => s.baseURL);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await fetchAllCategories(baseURL);
+        setCats(data);
+      } catch (e: any) {
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [baseURL]);
+
+  return { cats, loading, error };
+}
