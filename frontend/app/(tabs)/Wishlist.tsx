@@ -272,11 +272,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 14,
   },
-  ratingText: { color: "white", fontSize: 12, fontFamily:'Poppins-Regular' },
+  ratingText: { color: "white", fontSize: 12, fontFamily: "Poppins-Regular" },
 
-  detailsContainer: { paddingTop: 5,paddingLeft:10 },
-  productName: { fontSize: 16, fontWeight: "500", color: "#333" },
-  priceContainer: { flexDirection: "row", alignItems: "center", marginTop: 4 },
+  detailsContainer: { paddingTop: 10, paddingLeft: 10 },
+  productName: { fontSize: 14, fontFamily: "Poppins-Regular", color: "#333" },
+  priceContainer: { flexDirection: "row", alignItems: "center", },
   currentPrice: { fontSize: 16, fontWeight: "bold", color: "#000" },
   originalPrice: {
     fontSize: 14,
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
     marginLeft: 8,
   },
-  taxInfo: { fontSize: 12, color: "#888", marginTop: 4 },
+  taxInfo: { fontSize: 9, color: "#888", marginTop: 4 ,marginBottom: 12},
 
   moveToCartButton: {
     borderTopWidth: 1,

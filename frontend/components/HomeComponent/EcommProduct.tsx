@@ -197,7 +197,11 @@ const EcomProduct: React.FC<EcomProductProps> = (props) => {
                 style={[styles.title, dynamicStyles.title]}
                 numberOfLines={1}
               >
-                {productName.split("Idol")[0] + "Idol"}
+                {typeof productName === "string"
+                  ? productName.includes("Idol")
+                    ? productName.split("Idol")[0] + "Idol"
+                    : productName
+                  : "Unnamed"}
               </Text>
 
               <View style={styles.priceRow}>
@@ -314,6 +318,7 @@ const styles = StyleSheet.create({
   price: { fontSize: 16, fontFamily: "OpenSans-SemiBold" },
   originalPrice: {
     fontSize: 13,
+    
     textDecorationLine: "line-through",
     color: "#888",
     fontFamily: "OpenSans-Regular",

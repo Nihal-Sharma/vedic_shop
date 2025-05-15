@@ -1,7 +1,6 @@
 // products.ts (or useProducts.ts)
+import { useEffect, useState } from "react";
 import mainStore from "../../store/mainStore";
-import axios from "axios";
-import { useState, useEffect } from "react";
 
 // Define the shape of your product data based on the API response
 export interface Product {
@@ -49,14 +48,13 @@ export interface Category {
 
 // ✅ 1. Create a standalone API function
 export async function fetchAllProducts(baseURL: string): Promise<Product[]> {
-   
   // const response = await fetch("http://192.168.29.171:5001/fetch-all-products");
   const response = await fetch(`${baseURL}/fetch-all-products`);
   if (!response.ok) {
     throw new Error(`Network response was not OK (status ${response.status})`);
   }
   const data: Product[] = await response.json();
- 
+
   return data;
 }
 
@@ -65,7 +63,7 @@ export function useFetchProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const baseURL = mainStore((state)=>state.baseURL)
+  const baseURL = mainStore((state) => state.baseURL);
   useEffect(() => {
     (async () => {
       try {
