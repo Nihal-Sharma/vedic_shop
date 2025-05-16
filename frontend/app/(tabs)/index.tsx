@@ -56,6 +56,7 @@ import EcommBrass from "@/components/HomeComponent/EcommBrass";
 import EcommCombo from "@/components/HomeComponent/EcommCombo";
 import EcommBanner2 from "@/components/HomeComponent/EcommBanner2";
 import EcommGrid from "@/components/HomeComponent/EcommGrid";
+import mainStore from "@/store/mainStore";
 
 export default function HomeScreen() {
   const sections = [
@@ -74,14 +75,14 @@ export default function HomeScreen() {
   ];
   const [text, setText] = useState("");
   const [filtered, setFiltered] = useState<Product[]>([]);
-
+  const products = mainStore((state)=>state.allProducts)
   useEffect(() => {
     if (text.trim() === "") {
       setFiltered([]);
       return;
     }
     // find up to 4 matches
-    const matches = PRODUCTS.filter((p) =>
+    const matches = products.filter((p) =>
       p.productName.toLowerCase().includes(text.toLowerCase())
     );
     setFiltered(matches.slice(0, 4));
@@ -171,10 +172,10 @@ export default function HomeScreen() {
                 return null;
             }
           }}
-          contentContainerStyle={{ paddingBottom: 200 }}
           initialNumToRender={3}
           maxToRenderPerBatch={1}
           windowSize={9}
+        
         />
 
         {/* Chatbot FAB */}

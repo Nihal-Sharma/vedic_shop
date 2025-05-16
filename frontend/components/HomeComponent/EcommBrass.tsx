@@ -162,7 +162,7 @@ const EcommBrass = () => {
   );
 };
 
-export default EcommBrass;
+export default React.memo(EcommBrass);
 
 /* ───────── styles ───────── */
 const styles = StyleSheet.create({

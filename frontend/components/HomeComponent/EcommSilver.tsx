@@ -225,4 +225,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EcommSilver;
+export default React.memo(EcommSilver);

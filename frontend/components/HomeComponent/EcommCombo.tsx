@@ -109,7 +109,7 @@ const EcommCombo = () => {
   );
 };
 
-export default EcommCombo;
+export default React.memo(EcommCombo);
 
 const styles = StyleSheet.create({
   headerContainer: {

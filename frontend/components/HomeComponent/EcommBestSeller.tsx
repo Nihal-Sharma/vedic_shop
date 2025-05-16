@@ -99,6 +99,7 @@ const EcommBestSeller: React.FC = () => {
       if (!Array.isArray(data)) throw new Error("Invalid data format");
       if(isMounted){
          setProducts(data)
+         addProducts(data)
          setError(null);
       }
      
@@ -135,7 +136,6 @@ const EcommBestSeller: React.FC = () => {
 }, [baseURL]);
 
   /* states */
-  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   if (loading) return <ActivityIndicator style={{ marginTop: 20 }} />;
   if (error) return <Text style={styles.error}>{error}</Text>;
  else {
@@ -177,7 +177,7 @@ const EcommBestSeller: React.FC = () => {
   
 };
 
-export default EcommBestSeller;
+export default React.memo(EcommBestSeller);
 
 const styles = StyleSheet.create({
   wrapper: {
