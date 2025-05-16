@@ -5,7 +5,7 @@ import { router } from "expo-router";
 const SplashScreen: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/(tabs)"); // Replace with your actual route
+      router.push("/(splash)/login"); // Replace with your actual route
     }, 2000);
 
     return () => clearTimeout(timer);

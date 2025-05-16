@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert, Image } from "react-native";
 import { router } from "expo-router";
 
 const MAX_RESENDS = 3; // how many times the user can tap "Resend OTP"
@@ -14,7 +14,7 @@ const Login: React.FC = () => {
 
   /* --------------------------------- timer --------------------------------- */
   useEffect(() => {
-    let timer: number | undefined;
+    let timer: ReturnType<typeof setInterval> | undefined;
     if (isOtpSent && counter > 0) {
       timer = setInterval(
         () => setCounter((prev) => (prev > 0 ? prev - 1 : 0)),
@@ -23,6 +23,7 @@ const Login: React.FC = () => {
     }
     return () => clearInterval(timer);
   }, [isOtpSent, counter]);
+  
 
   /* ------------------------------- handlers ------------------------------- */
   const sendOtp = () => {
@@ -59,55 +60,102 @@ const Login: React.FC = () => {
 
   /* ------------------------------- renderers ------------------------------ */
   return (
-    <View style={{ padding: 20 }}>
+    <View style={{ paddingTop: 30 }}>
+      <View style={{ position: "relative" }}>
+        <Image
+          source={{
+            uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/loginPhoto-min.webp",
+          }}
+          style={{ width: "100%", height: 360 }}
+          // objectFit="cover"
+          resizeMode="contain"
+        />
+        <View
+          style={{
+            position: "absolute",
+            top: 80,
+            left: 10,
+            backgroundColor: "rgba(255,255,255,0.5)",
+            borderRadius: 20,
+            paddingVertical: 5,
+            paddingHorizontal: 10,
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 14 }}>
+            Premium Silver Plated Om Bracelet{" "}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: -30,
+            paddingHorizontal: 15,
+          }}
+        >
+          <Image
+            source={{
+              uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/logooo.png",
+            }}
+            style={{ height: 100, width: 100 }}
+          />
+          <Text style={{ fontSize: 27, paddingLeft: 15 }}>Vedic Vaibhav</Text>
+        </View>
+      </View>
       {!isOtpSent ? (
         <>
-          <Text
-            style={{
-              fontSize: 16,
-              
-              color: "#FFFEFA",
-              marginTop: 15,
-            }}
-          >
-            Enter Phone Number
-          </Text>
-          <TextInput
-            placeholder="+91 Enter Phone Number"
-            keyboardType="phone-pad"
-            value={phone}
-            onChangeText={setPhone}
-            style={{
-              height: 45,
-              borderColor: "#ccc",
-              borderWidth: 1,
-              borderRadius: 600,
-              marginTop: 10,
-              paddingLeft: 10,
-              backgroundColor: "white",
-            }}
-          />
-          <TouchableOpacity
-            onPress={handleGetOtp}
-            style={{
-              backgroundColor: "white",
-              paddingVertical: 5,
-              borderRadius: 100,
-              marginTop: 20,
-              marginBottom: 20,
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                color: "#FF4726",
-                fontSize: 18,
-                 
-              }}
-            >
-              Get OTP
-            </Text>
-          </TouchableOpacity>
+          <View style={{}}>
+            <View style={{ paddingHorizontal: 15 }}>
+              <Text
+                style={{
+                  fontSize: 12,
+
+                  color: "black",
+                  marginTop: 30,
+                }}
+              >
+                Phone Number
+              </Text>
+              <TextInput
+                placeholder="+91 Enter Phone Number"
+                keyboardType="phone-pad"
+                value={phone}
+                onChangeText={setPhone}
+                style={{
+                  height: 45,
+                  borderColor: "#FF7B1B",
+                  borderWidth: 1,
+                  borderRadius: 7,
+                  marginTop: 5,
+                  paddingLeft: 10,
+                  backgroundColor: "white",
+                }}
+              />
+              <Text style={{ fontSize: 10, paddingTop: 5 }}>
+                Please enter a valid 10 digit phone number
+              </Text>
+              <TouchableOpacity
+                onPress={handleGetOtp}
+                style={{
+                  backgroundColor: "#FF6B00",
+                  paddingVertical: 12,
+                  borderRadius: 7,
+                  marginTop: 20,
+                  marginBottom: 20,
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 14,
+                  }}
+                >
+                  Request OTP
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </>
       ) : (
         <>
@@ -241,6 +289,14 @@ const Login: React.FC = () => {
           </TouchableOpacity>
         </>
       )}
+      <View>
+        <Text style={{textAlign:'center',width:'70%'}}>
+          By signing in, you agree to our
+          <Text>Terms of Us, Privacy & Policy</Text>
+          and
+          <Text>Content Policy</Text>
+        </Text>
+      </View>
     </View>
   );
 };

@@ -15,7 +15,7 @@ interface store{
 }
 
  const mainStore = create<store>((set, get)=>({
-    baseURL : urls.nihal,
+    baseURL : urls.nirmanyu,
     allProducts : [],
     addProducts : (products : EcomProductProps[]) =>{set((state)=>({
         allProducts : products
