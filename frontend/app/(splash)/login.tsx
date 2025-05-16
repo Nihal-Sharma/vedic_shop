@@ -159,142 +159,145 @@ const Login: React.FC = () => {
         </>
       ) : (
         <>
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: "bold",
-              color: "#FFF",
-              marginTop: 10,
-            }}
-          >
-            OTP Verification
-          </Text>
-          <Text style={{ color: "#FFF", marginTop: 4 }}>
-            We have sent a code to +91 {phone}
-          </Text>
+          <View style={{ paddingHorizontal: 15 }}>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: "bold",
+                color: "#FF6B00",
+                marginTop: 10,
+              }}
+            >
+              OTP Verification
+            </Text>
+            <Text style={{ color: "blacck", marginTop: 4 }}>
+              We have sent a code to +91 {phone}
+            </Text>
 
-          {/* OTP boxes */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              marginTop: 10,
-            }}
-          >
-            {otp.map((digit, i) => (
-              <TextInput
-                key={i}
-                ref={(ref) => {
-                  otpRefs.current[i] = ref;
-                }}
-                value={digit}
-                onChangeText={(val) => {
-                  const num = val.replace(/\D/g, "").slice(0, 1);
-                  const arr = [...otp];
-                  arr[i] = num;
-                  setOtp(arr);
-                  if (num && i < otp.length - 1)
-                    otpRefs.current[i + 1]?.focus();
-                }}
-                onKeyPress={({ nativeEvent }) => {
-                  if (nativeEvent.key !== "Backspace") return;
-                  const arr = [...otp];
-                  if (arr[i]) {
-                    arr[i] = "";
+            {/* OTP boxes */}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 10,
+              }}
+            >
+              {otp.map((digit, i) => (
+                <TextInput
+                  key={i}
+                  ref={(ref) => {
+                    otpRefs.current[i] = ref;
+                  }}
+                  value={digit}
+                  onChangeText={(val) => {
+                    const num = val.replace(/\D/g, "").slice(0, 1);
+                    const arr = [...otp];
+                    arr[i] = num;
                     setOtp(arr);
-                    if (i > 0) otpRefs.current[i - 1]?.focus();
-                  } else if (i > 0) {
-                    arr[i - 1] = "";
-                    setOtp(arr);
-                    otpRefs.current[i - 1]?.focus();
-                  }
-                }}
-                maxLength={1}
-                keyboardType="number-pad"
-                style={{
-                  backgroundColor: "#FFF",
-                  width: 50,
-                  height: 50,
-                  marginHorizontal: 5,
-                  textAlign: "center",
-                  fontSize: 20,
-                  borderRadius: 10,
-                }}
-              />
-            ))}
-          </View>
+                    if (num && i < otp.length - 1)
+                      otpRefs.current[i + 1]?.focus();
+                  }}
+                  onKeyPress={({ nativeEvent }) => {
+                    if (nativeEvent.key !== "Backspace") return;
+                    const arr = [...otp];
+                    if (arr[i]) {
+                      arr[i] = "";
+                      setOtp(arr);
+                      if (i > 0) otpRefs.current[i - 1]?.focus();
+                    } else if (i > 0) {
+                      arr[i - 1] = "";
+                      setOtp(arr);
+                      otpRefs.current[i - 1]?.focus();
+                    }
+                  }}
+                  maxLength={1}
+                  keyboardType="number-pad"
+                  style={{
+                    backgroundColor: "#FFF",
+                    width: 50,
+                    height: 50,
+                    marginHorizontal: 5,
+                    textAlign: "center",
+                    fontSize: 20,
+                    borderRadius: 10,
+                  }}
+                />
+              ))}
+            </View>
 
-          {/* counter / resend */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              marginTop: 10,
-            }}
-          >
-            {!counter ? (
-              resendCount < MAX_RESENDS ? (
-                <TouchableOpacity onPress={handleResendOtp}>
+            {/* counter / resend */}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 10,
+              }}
+            >
+              {!counter ? (
+                resendCount < MAX_RESENDS ? (
+                  <TouchableOpacity onPress={handleResendOtp}>
+                    <Text
+                      style={{
+                        color: "black",
+                        textDecorationLine: "underline",
+                      }}
+                    >
+                      Resend OTP
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <Text style={{ color: "black" }}>Resend limit reached</Text>
+                )
+              ) : (
+                <>
+                  <Text style={{ color: "black" }}>Didn't receive OTP? </Text>
+                  <Text style={{ color: "black", fontWeight: "600" }}>
+                    Retry after{" "}
+                  </Text>
                   <Text
                     style={{
-                      color: "black",
-                      textDecorationLine: "underline",
+                      color: "#FF4726",
+                      fontWeight: "bold",
+                      backgroundColor: "#FFFEFA",
+                      borderRadius: 10,
+                      paddingHorizontal: 5,
                     }}
                   >
-                    Resend OTP
+                    {counter}
+                    <Text style={{ fontWeight: "500" }}> seconds</Text>
                   </Text>
-                </TouchableOpacity>
-              ) : (
-                <Text style={{ color: "black" }}>Resend limit reached</Text>
-              )
-            ) : (
-              <>
-                <Text style={{ color: "black" }}>Didn't receive OTP? </Text>
-                <Text style={{ color: "black", fontWeight: "600" }}>
-                  Retry after{" "}
-                </Text>
-                <Text
-                  style={{
-                    color: "#FF4726",
-                    fontWeight: "bold",
-                    backgroundColor: "#FFFEFA",
-                    borderRadius: 10,
-                    paddingHorizontal: 5,
-                  }}
-                >
-                  {counter}
-                  <Text style={{ fontWeight: "500" }}> seconds</Text>
-                </Text>
-              </>
-            )}
-          </View>
+                </>
+              )}
+            </View>
 
-          {/* submit */}
-          <TouchableOpacity
-            onPress={handleSubmitOtp}
-            style={{
-              backgroundColor: "#FFF",
-              paddingVertical: 8,
-              borderRadius: 20,
-              marginTop: 10,
-              marginBottom: 10,
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{ color: "#FF4726", fontSize: 18, fontWeight: "bold" }}
+            {/* submit */}
+            <TouchableOpacity
+              onPress={handleSubmitOtp}
+              style={{
+                backgroundColor: "#FFF",
+                paddingVertical: 8,
+                borderRadius: 20,
+                marginTop: 10,
+                marginBottom: 10,
+                alignItems: "center",
+              }}
             >
-              Submit
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{ color: "#FF4726", fontSize: 18, fontWeight: "bold" }}
+              >
+                Submit
+              </Text>
+            </TouchableOpacity>
+          </View>
         </>
       )}
-      <View>
-        <Text style={{textAlign:'center',width:'70%'}}>
-          By signing in, you agree to our
-          <Text>Terms of Us, Privacy & Policy</Text>
-          and
-          <Text>Content Policy</Text>
+      <View style={{ alignItems: "center" }}>
+        <Text style={{ textAlign: "center", width: "75%" }}>
+          By signing in, you agree to our{" "}
+          <Text style={{ color: "#FF6B00" }}>
+            Terms of Use, Privacy & Policy
+          </Text>{" "}
+          and <Text style={{ color: "#FF6B00" }}>Content Policy</Text>.
         </Text>
       </View>
     </View>
