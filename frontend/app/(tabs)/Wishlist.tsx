@@ -195,7 +195,8 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: "#f8f8f8",
-    marginTop: 35,
+    // marginTop: 35,
+    
   },
   header: {
     flexDirection: "row",

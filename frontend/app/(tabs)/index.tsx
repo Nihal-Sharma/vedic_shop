@@ -1,77 +1,146 @@
-import { View, Text,ScrollView, FlatList, StatusBar, TouchableOpacity, Image, TextInput } from 'react-native'
-import React, { useState } from 'react'
-import EcommRecomended from '@/components/HomeComponent/EcommRecomended'
-import EcommCard from '@/components/HomeComponent/EcommCard'
-import EcomNavBar from '@/components/HomeComponent/EcomNavBar'
-import EcommFirstCategory from '@/components/HomeComponent/EcommFirstCategory'
-import EcommBanner from '@/components/HomeComponent/EcommBanner'
-import EcommBestSeller from '@/components/HomeComponent/EcommBestSeller'
-import EcommSilver from '@/components/HomeComponent/EcommSilver'
-import EcommSecondCategory from '@/components/HomeComponent/EcommSecondCategory'
-import EcommBrass from '@/components/HomeComponent/EcommBrass'
-import EcommCombo from '@/components/HomeComponent/EcommCombo'
-import EcommGrid from '@/components/HomeComponent/EcommGrid'
-import EcommSacred from '@/components/HomeComponent/EcommSacred'
-import EcommBanner2 from '@/components/HomeComponent/EcommBanner2'
-import EcommOccasion from '@/components/HomeComponent/EcommOcassion'
-import EcommFestival from '@/components/HomeComponent/EcommFestivel'
-import { router } from 'expo-router'
-import { Feather } from "@expo/vector-icons";
-// import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated'
+// app/HomeScreen.tsx
 
-const HomeScreen = () => {
-  const sections = [ "1" , "2" , "3", "4", "5", "6", "7", "8", "9", "10" , "11","12"];
-  const [text, setText] = useState('');
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  StatusBar,
+  StyleSheet,
+} from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { router } from "expo-router";
+
+// --- Your mock or fetched data source ---
+type Product = {
+  _id: string;
+  productName: string;
+  productCategory: { id: string; name: string };
+  productImages: string[];
+};
+
+const PRODUCTS: Product[] = [
+  {
+    _id: "6757da864eda333220eb75d3",
+    productName: "Black Hanuman Idol (Size: Approx. 11 cm)",
+    productCategory: { id: "67083512abce43a9732e6b3e", name: "Idols" },
+    productImages: [
+      "https://vedic-vaibhav.blr1.digitaloceanspaces.com/vedic-vaibhav/product-images/images_1739440039569.webp",
+    ],
+  },
+  {
+    _id: "6757db5a4eda333220eb75d5",
+    productName: "Chhatrapati Shivaji Maharaj Statue Small Brown",
+    productCategory: { id: "67083512abce43a9732e6b3e", name: "Idols" },
+    productImages: [
+      "https://vedic-vaibhav.blr1.digitaloceanspaces.com/vedic-vaibhav/product-images/images_1733811033496.jpeg",
+    ],
+  },
+  // …other products
+];
+
+// Your existing section components
+import EcomNavBar from "@/components/HomeComponent/EcomNavBar";
+import EcommFirstCategory from "@/components/HomeComponent/EcommFirstCategory";
+import EcommBanner from "@/components/HomeComponent/EcommBanner";
+import EcommBestSeller from "@/components/HomeComponent/EcommBestSeller";
+import EcommSilver from "@/components/HomeComponent/EcommSilver";
+import EcommSecondCategory from "@/components/HomeComponent/EcommSecondCategory";
+import EcommSacred from "@/components/HomeComponent/EcommSacred";
+import EcommOccasion from "@/components/HomeComponent/EcommOcassion";
+import EcommFestival from "@/components/HomeComponent/EcommFestivel";
+import EcommBrass from "@/components/HomeComponent/EcommBrass";
+import EcommCombo from "@/components/HomeComponent/EcommCombo";
+import EcommBanner2 from "@/components/HomeComponent/EcommBanner2";
+import EcommGrid from "@/components/HomeComponent/EcommGrid";
+
+export default function HomeScreen() {
+  const sections = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+  ];
+  const [text, setText] = useState("");
+  const [filtered, setFiltered] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (text.trim() === "") {
+      setFiltered([]);
+      return;
+    }
+    // find up to 4 matches
+    const matches = PRODUCTS.filter((p) =>
+      p.productName.toLowerCase().includes(text.toLowerCase())
+    );
+    setFiltered(matches.slice(0, 4));
+  }, [text]);
+
+  const renderSuggestion = ({ item }: { item: Product }) => (
+    <TouchableOpacity
+      style={styles.suggestionRow}
+      onPress={() =>
+        router.push({
+          pathname: "/Detail/[id]",
+          params: { id: item._id },
+        })
+      }
+    >
+      <Image
+        source={{ uri: item.productImages[0] }}
+        style={styles.suggestionImage}
+      />
+      <View style={{ flex: 1 }}>
+        <Text style={styles.suggestionName}>{item.productName}</Text>
+        <Text style={styles.suggestionCat}>{item.productCategory.name}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
     <>
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      <View style={{ position: "relative" , backgroundColor :'white'}}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <View style={styles.container}>
         <EcomNavBar />
-        {/* Search BAr */}
-        <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: "#fff",
-          borderWidth: 1,
-          borderColor: "#B2B2B2",
-          borderRadius: 10,
-          marginHorizontal: 10,
-          paddingHorizontal: 15,
-          marginTop: 1,
-          marginBottom :10,
-          elevation :2
-        }}
-      >
-        <TextInput
-          placeholder="Search “Om Bracelet”"
-          placeholderTextColor="#999"
-          style={{ flex: 1, height: 40 }}
-          onChangeText={newText => setText(newText)}
-        />
-        <Feather name="search" size={20} color="#444" />
-         </View>
-        {text !== '' && (
-       <View style={{
-        position: 'absolute',
-        top: 150, // adjust this based on EcomNavBar height
-        left: 11,
-        right: 11,
-        backgroundColor: '#FFF0E7',
 
-        zIndex: 10,
-        padding: 10,
-        borderRadius : 10,
+        {/* Search Bar */}
+        <View style={styles.searchContainer}>
+          <TextInput
+            placeholder="Search “Om Bracelet”"
+            placeholderTextColor="#999"
+            style={styles.searchInput}
+            value={text}
+            onChangeText={setText}
+          />
+          <Feather name="search" size={20} color="#444" />
+        </View>
 
-        
-      }}>
-        <Text>{text}</Text>
-      </View>
-    )}
+        {/* Suggestions Dropdown */}
+        {filtered.length > 0 && (
+          <View style={styles.dropdown}>
+            <FlatList
+              data={filtered}
+              keyExtractor={(p) => p._id}
+              renderItem={renderSuggestion}
+            />
+          </View>
+        )}
 
+        {/* Your existing sections */}
         <FlatList
-          data={sections} // an array like ['firstCategory', 'banner', 'bestSeller', ...]
-          keyExtractor={(item, index) => index.toString()}
+          data={sections}
+          keyExtractor={(_, idx) => idx.toString()}
           renderItem={({ item }) => {
             switch (item) {
               case "1":
@@ -86,7 +155,7 @@ const HomeScreen = () => {
                 return <EcommSecondCategory />;
               case "6":
                 return <EcommSacred />;
-               case "7":
+              case "7":
                 return <EcommOccasion />;
               case "8":
                 return <EcommFestival />;
@@ -98,23 +167,26 @@ const HomeScreen = () => {
                 return <EcommBanner2 />;
               case "12":
                 return <EcommGrid />;
-
-              // ... other cases
               default:
                 return null;
             }
           }}
-          contentContainerStyle={{ backgroundColor: "white" }}
+          contentContainerStyle={{ paddingBottom: 200 }}
           initialNumToRender={3}
           maxToRenderPerBatch={1}
           windowSize={9}
         />
-        <TouchableOpacity onPress={()=>{router.push('/Profile/ChatBot')}} style={{position:"absolute",bottom:200,right:20,backgroundColor:"black",borderRadius:50,paddingHorizontal:15,paddingVertical:14}}>
+
+        {/* Chatbot FAB */}
+        <TouchableOpacity
+          onPress={() => router.push("/Profile/ChatBot")}
+          style={styles.chatbotButton}
+        >
           <Image
             source={{
               uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/robote.png",
             }}
-            style={{width:27,height:30}}
+            style={{ width: 27, height: 30 }}
           />
         </TouchableOpacity>
       </View>
@@ -122,4 +194,57 @@ const HomeScreen = () => {
   );
 }
 
-export default HomeScreen
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#fff" },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#B2B2B2",
+    borderRadius: 10,
+    margin: 10,
+    paddingHorizontal: 15,
+    elevation: 2,
+  },
+  searchInput: { flex: 1, height: 40 },
+  dropdown: {
+    position: "absolute",
+    top: 160, // adjust to sit right below your search bar
+    left: 10,
+    right: 10,
+    backgroundColor: "#FFF0E7",
+    zIndex: 10,
+    padding: 8,
+    borderRadius: 8,
+    elevation: 4,
+  },
+  suggestionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 6,
+  },
+  suggestionImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  suggestionName: {
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  suggestionCat: {
+    fontSize: 12,
+    color: "#555",
+  },
+  chatbotButton: {
+    position: "absolute",
+    bottom: 200,
+    right: 20,
+    backgroundColor: "black",
+    borderRadius: 50,
+    paddingHorizontal: 15,
+    paddingVertical: 14,
+  },
+});
