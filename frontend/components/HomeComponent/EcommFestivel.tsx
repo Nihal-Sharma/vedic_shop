@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     // fontWeight: "700",
-    fontFamily: "Poppins-Medium",
+     
     marginBottom: 14,
     color: "#333",
   },
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   caption: {
     marginTop: 6,
     // fontWeight: "600",
-    fontFamily: "Poppins-Medium",
+     
     textAlign: "center",
     color: "#444",
   },

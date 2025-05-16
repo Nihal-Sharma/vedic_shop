@@ -188,13 +188,13 @@ const styles = StyleSheet.create({
     padding: 15,
     // marginTop:-100,
   },
-  headerTitle: { fontSize: 19, color: "white",fontFamily:'Poppins-Medium' },
+  headerTitle: { fontSize: 19, color: "white", },
   exploreBtn: {
     backgroundColor: "white",
     borderRadius: 24,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    fontFamily: "Poppins-Regular",
+     
     fontSize:12,
   },
 

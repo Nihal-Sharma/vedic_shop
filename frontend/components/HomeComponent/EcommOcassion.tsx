@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     // fontWeight: "700",
-    fontFamily: "Poppins-Medium",
+    
     marginBottom: 14,
   },
   row: {

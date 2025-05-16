@@ -170,11 +170,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     zIndex: 10,
   },
-  discountText: { fontSize: 12, color: "#fff", fontFamily: "Roboto-Medium" },
+  discountText: { fontSize: 12, color: "#fff",   },
   discountText1: {
     fontSize: 13,
     color: "#fff",
-    fontFamily: "Roboto-Medium",
+     
     marginTop: -5,
   },
   addIcon: {
@@ -199,13 +199,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   ratingText: { color: "#fff", fontWeight: "bold" },
-  title: { fontFamily: "Poppins-Regular", marginBottom: 4 },
+  title: {   marginBottom: 4 },
   priceRow: { flexDirection: "row", alignItems: "center", gap: 6 },
-  price: { fontSize: 16, fontFamily: "OpenSans-SemiBold" },
+  price: { fontSize: 16,   },
   originalPrice: {
     textDecorationLine: "line-through",
     color: "#888",
-    fontFamily: "OpenSans-Regular",
+     
   },
   taxNote: { color: "#666", marginTop: 2, paddingBottom: 18 },
   heartIcon: {

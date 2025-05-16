@@ -39,7 +39,54 @@ const EcommBestSeller: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const addProducts = mainStore((state)=>state.addProducts)
+    
+  // const loadProducts = useCallback(async () => {
+  //   try {
+  //     const { data } = await axios.get(`${baseURL}/fetch-all-products`);
+      
+  //     const mapped: EcomProductProps[] = data.map((p: any) => ({
+  //       _id: p._id,
+  //       productId: p.productId,
+  //       productName: p.productName,
+  //       productCategory: p.productCategory,
+  //       description: p.description,
+  //       originalPrice: p.originalPrice,
+  //       discountedPrice: p.discountedPrice,
+  //       subCategories: p.subCategories,
+  //       stock: p.stock,
+  //       productColors: p.productColors,
+  //       availableSizes: p.availableSizes,
+  //       dimensions: p.dimensions,
+  //       productImages: p.productImages,
+  //       addedOn: p.addedOn,
+  //       shop: p.shop,
+  //       isActive: p.isActive,
+  //       isFeatured: p.isFeatured,
+  //       isApproved: p.isApproved,
+  //       productRating: p.productRating,
 
+  //       /* keep raw string & numeric count */
+  //       productReview: p.productReview ?? "",
+  //       reviewCount: parseReviewCount(p.productReview),
+
+  //       __v: p.__v,
+  //       productBasePrice: p.productBasePrice,
+  //     }));
+
+  //     /* highest reviewCount first */
+  //     mapped.sort((a, b) => b.reviewCount - a.reviewCount);
+  //     setProducts(mapped.slice(0, 20));
+  //   } catch (e) {
+  //     console.error(e);
+  //     setError("Failed to load best‑seller products.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [baseURL]);
+
+  // useEffect(() => {
+  //   loadProducts();
+  // }, [loadProducts]);
   /* fetch once */
  useEffect(() => {
   let isMounted = true;
@@ -143,7 +190,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     // fontWeight: "bold",
-    fontFamily:'Poppins-Medium',
+     
     color: "#1f2937",
     marginBottom: 12,
   },

@@ -56,10 +56,12 @@ const EcommBrass = () => {
   }, [baseURL]);
 
   /* data prep */
-  const brass = products
+
+   const brass = products
     .filter((p) => p.productCategory?.name?.toLowerCase() === "divine brass")
     .slice(0, 12);
-  const pages = chunkArray(brass, 2);
+ 
+ const pages = chunkArray(brass, 2);
 
   /* carousel control */
   const scrollX = useRef(new Animated.Value(0)).current;

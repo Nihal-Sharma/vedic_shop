@@ -65,7 +65,7 @@ const Login: React.FC = () => {
           <Text
             style={{
               fontSize: 16,
-              fontFamily: "Poppins-Medium",
+              
               color: "#FFFEFA",
               marginTop: 15,
             }}
@@ -102,7 +102,7 @@ const Login: React.FC = () => {
               style={{
                 color: "#FF4726",
                 fontSize: 18,
-                fontFamily: "Poppins-Medium",
+                 
               }}
             >
               Get OTP

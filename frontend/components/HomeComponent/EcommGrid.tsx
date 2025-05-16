@@ -10,7 +10,15 @@ import {
 } from "react-native";
 
 /* --------- data: title • image • individual height (px) --------- */
-const CARD_DATA = [
+
+const numColumns = 2;
+const GAP = 12; // horizontal & vertical gap
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const CARD_WIDTH = (SCREEN_WIDTH - GAP * (numColumns + 1)) / numColumns; // keep 2‑up grid
+
+/* ───────────────────────── component ─────────────────────────── */
+const EcommGrid = () => {
+  const CARD_DATA = [
   {
     title: "Puja Offering",
     image:
@@ -37,13 +45,6 @@ const CARD_DATA = [
   },
 ];
 
-const numColumns = 2;
-const GAP = 12; // horizontal & vertical gap
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const CARD_WIDTH = (SCREEN_WIDTH - GAP * (numColumns + 1)) / numColumns; // keep 2‑up grid
-
-/* ───────────────────────── component ─────────────────────────── */
-const EcommGrid = () => {
   const handlePress = (title: string) => {
     // navigation or filter goes here
     console.log("Pressed:", title);
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 16,
     // fontWeight: "bold",
-    fontFamily: "Poppins-Medium",
+     
     marginBottom: 10,
   },
   cardBase: {
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     // fontWeight: "600",
-    fontFamily:'Roboto-Medium',
+     
   },
 });
 

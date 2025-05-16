@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     // fontWeight: "700",
-    fontFamily: "Alkatra-Medium",
+     
     marginLeft: GAP,
     color: "white",
     marginBottom: 14,
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     textAlign: "center",
     // fontWeight: "600",
-    fontFamily: "Poppins-Medium",
+     
     fontSize: 14,
   },
 });

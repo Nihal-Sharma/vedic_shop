@@ -69,7 +69,7 @@ const EcommSecondCategory = () => {
               //   flex: 1,
             }}
           >
-            <Text style={{ fontSize: 18, fontFamily: "Poppins-Medium" }}>
+            <Text style={{ fontSize: 18,  }}>
               SHOP BY PURPOSE
             </Text>
           </View>
@@ -91,7 +91,7 @@ const EcommSecondCategory = () => {
                   }}
                   resizeMode="cover"
                 />
-                <Text style={{ fontSize: 14, fontFamily: "Poppins-Medium" }}>
+                <Text style={{ fontSize: 14,   }}>
                   {item.title}
                 </Text>
               </TouchableOpacity>

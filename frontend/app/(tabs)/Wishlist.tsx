@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   badgeText: { color: "white", fontSize: 10, fontWeight: "bold" },
-  price: { fontSize: 16, fontFamily: "OpenSans-SemiBold" },
+  price: { fontSize: 16 },
   list: {
     padding: 16,
   },
@@ -280,10 +280,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 14,
   },
-  ratingText: { color: "white", fontSize: 12, fontFamily: "Poppins-Regular" },
+  ratingText: { color: "white", fontSize: 12  },
 
   detailsContainer: { paddingTop: 10, paddingLeft: 10 },
-  productName: { fontSize: 14, fontFamily: "Poppins-Regular", color: "#333" },
+  productName: { fontSize: 14,   color: "#333" },
   priceContainer: { flexDirection: "row", alignItems: "center", },
   currentPrice: { fontSize: 16, fontWeight: "bold", color: "#000" },
   originalPrice: {
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   moveToCartText: {
     color: "#FF6600",
     // fontWeight: "bold",
-    fontFamily: "OpenSans-SemiBold",
+     
     fontSize: 14,
   },
 });

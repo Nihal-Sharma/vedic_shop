@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, Dimensions, useWindowDimensions } from "react-native";
+import { View, Text, Image, TouchableOpacity, Dimensions, useWindowDimensions, ActivityIndicator } from "react-native";
 import React from "react";
 import { Entypo } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
@@ -47,7 +47,7 @@ const EcommFirstCategory = () => {
   const itemHeight = isSmallScreen ? 53 : 67;
   const fontSize = isSmallScreen ? 10 : 12;
 
-  
+  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   return (
     <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
       <View
@@ -74,7 +74,7 @@ const EcommFirstCategory = () => {
               style={{
                 marginTop: 5,
                 fontSize: fontSize,
-                fontFamily: "Inter_18pt-Regular",
+                
               }}
             >
               {item.title}
@@ -99,7 +99,7 @@ const EcommFirstCategory = () => {
           <Text
             style={{
               color: "#ff6600",
-              fontFamily: "Inter_18pt-Regular",
+               
               fontSize: fontSize,
               marginTop: 5,
             }}

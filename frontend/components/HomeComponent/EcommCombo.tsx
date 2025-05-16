@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // padding: 15,
   },
-  headerTitle: { fontSize: 19, color: "white",fontFamily: "Poppins-Medium", },
+  headerTitle: { fontSize: 19, color: "white",  },
   exploreBtn: {
     backgroundColor: "white",
     borderRadius: 24,

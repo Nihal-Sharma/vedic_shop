@@ -43,7 +43,7 @@ const EcomNavBar = () => {
             style={{ width: 46, height: 47 }}
           />
           <Text
-            style={{ fontSize: 18, fontFamily: "SAMARN__", color: "#E2660C" }}
+            style={{ fontSize: 18,   color: "#E2660C" }}
           >
             Vedic Shop
           </Text>
