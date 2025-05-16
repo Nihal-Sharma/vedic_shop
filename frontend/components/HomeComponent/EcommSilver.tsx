@@ -54,22 +54,22 @@ const EcommSilver = () => {
   /* fetch once on mount */
   useEffect(() => {
     (async () => {
-      // try {
-      //   const data = await fetchAllProducts(baseURL);
-      //   setProducts(data);
-      // } catch (err: any) {
-      //   setError(err.message || "Could not load products.");
-      // } finally {
-      //   setLoading(false);
-      // }
-      if(silverProds){setLoading(false)}
-      console.log("Silver Component rendered")
+      try {
+        const data = await fetchAllProducts(baseURL);
+        setProducts(data);
+       
+      } catch (err: any) {
+        setError(err.message || "Could not load products.");
+      } finally {
+        setLoading(false);
+      }
+      
     })();
-  }, [silverProds]);
+  }, []);
 
 
   /* filter for “Silver Idols” */
-  const silverIdols = silverProds
+  const silverIdols = products
     .filter((p) => p.productCategory?.name?.toLowerCase() === "silver idols")
     .slice(0, 12);
 
@@ -96,6 +96,7 @@ const EcommSilver = () => {
   }, [pages.length]);
 
   /* UI states */
+  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   if (loading) return <ActivityIndicator style={{ marginTop: 20 }} />;
   if (error)
     return <Text style={{ color: "red", padding: 16 }}>Error: {error}</Text>;

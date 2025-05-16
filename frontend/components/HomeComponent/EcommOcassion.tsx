@@ -7,9 +7,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
+  ActivityIndicator,
 } from "react-native";
 
-const OCCASIONS = [
+
+
+const EcommOccasion = () => {
+  const OCCASIONS = [
   {
     
     image:
@@ -31,8 +35,6 @@ const OCCASIONS = [
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/grah.webp",
   },
 ];
-
-const EcommOccasion = () => {
   const [fontsLoaded] = useFonts({
                 "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
                 "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
@@ -55,7 +57,7 @@ const EcommOccasion = () => {
   const handlePress = (title: string) => {
     console.log("Pressed:", title);
   };
-
+  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   return (
     <View
       style={{

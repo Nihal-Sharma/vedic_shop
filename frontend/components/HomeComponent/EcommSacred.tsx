@@ -9,13 +9,21 @@ import {
   Image,
   StyleSheet,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 
 
 /* -----------------------------------------
    Replace the image URLs when you have them
 ------------------------------------------*/
-const CARD_DATA = [
+
+
+const CARD_SIZE = 120; // width & height of the picture
+const GAP =6; // space between cards
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
+const EcommSacred = () => {
+  const CARD_DATA = [
   {
     title: "Car Dash",
     image:
@@ -37,12 +45,6 @@ const CARD_DATA = [
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/store-min.webp",
   },
 ];
-
-const CARD_SIZE = 120; // width & height of the picture
-const GAP =6; // space between cards
-const SCREEN_WIDTH = Dimensions.get("window").width;
-
-const EcommSacred = () => {
   const [fontsLoaded] = useFonts({
                 "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
                 "Alkatra-Medium": require("../../assets/fonts/Alkatra-Medium.ttf"),
@@ -68,7 +70,7 @@ const EcommSacred = () => {
       <Text style={styles.caption}>{item.title}</Text>
     </TouchableOpacity>
   );
-
+  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   return (
     <LinearGradient
       colors={["rgba(229,130,13,0.8)", "rgba(242,239,19,0.0624)"]} // subtle yellow–peach, tweak as desired

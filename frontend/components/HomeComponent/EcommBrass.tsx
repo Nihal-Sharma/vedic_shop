@@ -40,9 +40,14 @@ const EcommBrass = () => {
   useEffect(() => {
     (async () => {
       try {
+        if (!baseURL) {
+          setError("Base URL not set");
+          return;
+          }   
         const data = await fetchAllProducts(baseURL);
         setProducts(data);
       } catch (err: any) {
+        console.error("Product fetch error:", err);
         setError(err.message ?? "Could not load products.");
       } finally {
         setLoading(false);

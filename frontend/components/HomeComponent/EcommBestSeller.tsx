@@ -41,59 +41,57 @@ const EcommBestSeller: React.FC = () => {
   const addProducts = mainStore((state)=>state.addProducts)
 
   /* fetch once */
-  const loadProducts = useCallback(async () => {
+ useEffect(() => {
+  let isMounted = true;
+  const fetch = async () => {
     try {
+      if (!baseURL) throw new Error("baseURL is undefined");
+
       const { data } = await axios.get(`${baseURL}/fetch-all-products`);
-      addProducts(data)
-      const mapped: EcomProductProps[] = data.map((p: any) => ({
-        _id: p._id,
-        productId: p.productId,
-        productName: p.productName,
-        productCategory: p.productCategory,
-        description: p.description,
-        originalPrice: p.originalPrice,
-        discountedPrice: p.discountedPrice,
-        subCategories: p.subCategories,
-        stock: p.stock,
-        productColors: p.productColors,
-        availableSizes: p.availableSizes,
-        dimensions: p.dimensions,
-        productImages: p.productImages,
-        addedOn: p.addedOn,
-        shop: p.shop,
-        isActive: p.isActive,
-        isFeatured: p.isFeatured,
-        isApproved: p.isApproved,
-        productRating: p.productRating,
 
-        /* keep raw string & numeric count */
-        productReview: p.productReview ?? "",
-        reviewCount: parseReviewCount(p.productReview),
+      if (!Array.isArray(data)) throw new Error("Invalid data format");
+      if(isMounted){
+         setProducts(data)
+         setError(null);
+      }
+     
+      // const mapped: EcomProductProps[] = data.map((p: any) => ({
+      //   ...p,
+      //   reviewCount: (() => {
+      //     try {
+      //       return parseReviewCount(p.productReview ?? "");
+      //     } catch {
+      //       return 0;
+      //     }
+      //   })(),
+      // }));
 
-        __v: p.__v,
-        productBasePrice: p.productBasePrice,
-      }));
+      // mapped.sort((a, b) => b.reviewCount - a.reviewCount);
 
-      /* highest reviewCount first */
-      mapped.sort((a, b) => b.reviewCount - a.reviewCount);
-      setProducts(mapped.slice(0, 20));
+      // if (isMounted) {
+      //   setProducts(mapped.slice(0, 20));
+      //   setError(null);
+      // }
     } catch (e) {
-      console.error(e);
-      setError("Failed to load best‑seller products.");
+      console.error("loadProducts error:", e);
+      if (isMounted) setError("Failed to load best-seller products.");
     } finally {
-      setLoading(false);
+      if (isMounted) setLoading(false);
     }
-  }, [baseURL]);
+  };
 
-  useEffect(() => {
-    loadProducts();
-  }, [loadProducts]);
+  fetch();
+
+  return () => {
+    isMounted = false;
+  };
+}, [baseURL]);
 
   /* states */
+  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   if (loading) return <ActivityIndicator style={{ marginTop: 20 }} />;
   if (error) return <Text style={styles.error}>{error}</Text>;
-
-  /* render */
+ else {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Best Sellers</Text>
@@ -101,8 +99,22 @@ const EcommBestSeller: React.FC = () => {
       <FlatList
         data={products}
         horizontal
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => <EcommBestSellerCard {...item} />}
+        keyExtractor={(item, index) => item?._id ?? index.toString()}
+        // renderItem={({ item }) => <EcommBestSellerCard {...item} />}
+        renderItem={({ item }) => {
+  try {
+    return <EcommBestSellerCard {...item} />;
+  } catch (e) {
+    console.error("Render error in EcommBestSellerCard:", e, item);
+    return (
+      <Text style={{ color: "red", padding: 10 }}>
+        Failed to render a product card.
+      </Text>
+    );
+  }
+}}
+
+// ******************
         showsHorizontalScrollIndicator={false}
         ListEmptyComponent={
           <Text style={{ padding: 16 }}>No products found.</Text>
@@ -113,6 +125,9 @@ const EcommBestSeller: React.FC = () => {
       />
     </View>
   );
+ }
+  /* render */
+  
 };
 
 export default EcommBestSeller;

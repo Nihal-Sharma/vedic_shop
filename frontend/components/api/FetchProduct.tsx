@@ -37,6 +37,9 @@ export interface Product {
   productReview: string;
   __v: number;
   productBasePrice: number;
+  reviews : any[];
+  productVideoURLs :any[];
+  isCodAvailable :boolean
 }
 
 export interface Category {

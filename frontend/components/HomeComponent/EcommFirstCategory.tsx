@@ -3,9 +3,23 @@ import React from "react";
 import { Entypo } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 
-const screenWidth = Dimensions.get("window").width;
 
-const categories = [
+
+
+
+const EcommFirstCategory = () => {
+  const [fontsLoaded] = useFonts({
+      "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
+      "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
+      "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
+      "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
+      "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
+      "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+      "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+    });
+
+  const { width } = useWindowDimensions();
+    const categories = [
   {
     title: "New Launch",
     image:
@@ -27,20 +41,6 @@ const categories = [
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/category4.png",
   },
 ];
-
-const EcommFirstCategory = () => {
-  const [fontsLoaded] = useFonts({
-      "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
-      "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
-      "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
-      "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
-      "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
-      "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-      "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-    });
-
-  const { width } = useWindowDimensions();
-
   // Responsive size for small screens
   const isSmallScreen = width < 392;
   const itemSize = isSmallScreen ? 55 : 69;

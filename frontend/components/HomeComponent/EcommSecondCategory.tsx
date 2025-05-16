@@ -1,9 +1,12 @@
-import { View, Text, Image, TouchableOpacity, ImageBackground ,ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, ImageBackground ,ScrollView, ActivityIndicator } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
  
 
-const categories = [
+
+
+const EcommSecondCategory = () => {
+  const categories = [
   {
     title: "Wealth",
     image:
@@ -25,8 +28,6 @@ const categories = [
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/spritual.png",
   },
 ];
-
-const EcommSecondCategory = () => {
   const [fontsLoaded] = useFonts({
               "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
               "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
@@ -40,7 +41,7 @@ const EcommSecondCategory = () => {
   const handlePress = (category: string) => {
     console.log("Pressed:", category);
   };
-
+  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   return (
     <View>
       <ImageBackground

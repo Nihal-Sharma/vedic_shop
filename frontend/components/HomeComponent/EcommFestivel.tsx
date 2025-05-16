@@ -10,7 +10,10 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-const FESTIVALS = [
+
+
+const EcommFestival: React.FC = () => {
+  const FESTIVALS = [
   {
     title: "Holi",
     image:
@@ -32,8 +35,6 @@ const FESTIVALS = [
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/grah2.webp",
   },
 ];
-
-const EcommFestival: React.FC = () => {
   const { width } = useWindowDimensions();
   const isSmall = width < 392;
 

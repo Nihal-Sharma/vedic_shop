@@ -29,7 +29,6 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="Profile" options={{ headerShown: false }} />
           <Stack.Screen name="Detail" options={{ headerShown: false }} />
-          <Stack.Screen name="huehue" options={{ headerShown: false }} />
           <Stack.Screen name="Pages" options={{ headerShown: false }} />
           
           <Stack.Screen name="+not-found" />

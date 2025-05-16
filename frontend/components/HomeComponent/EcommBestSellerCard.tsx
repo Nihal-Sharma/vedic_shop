@@ -48,6 +48,10 @@ export interface EcomProductProps {
   reviewCount: number; // numeric count (always present)
   __v: number;
   productBasePrice: number;
+  reviews : any[];
+  productVideoURLs :any[];
+  isCodAvailable :boolean
+
 }
 
 /* ─────────── Best‑Seller Card ─────────── */
@@ -264,7 +268,7 @@ const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
   );
 };
 
-export default React.memo(EcommBestSellerCard);
+export default EcommBestSellerCard;
 
 /* ───────── styles (unchanged) ───────── */
 const styles = StyleSheet.create({

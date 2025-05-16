@@ -86,7 +86,7 @@ const HomeScreen = () => {
                 return <EcommSecondCategory />;
               case "6":
                 return <EcommSacred />;
-              case "7":
+               case "7":
                 return <EcommOccasion />;
               case "8":
                 return <EcommFestival />;

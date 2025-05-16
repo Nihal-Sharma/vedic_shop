@@ -47,6 +47,9 @@ export interface EcomProductProps {
   reviewCount?: number; // optional so other lists compile
   __v: number;
   productBasePrice: number;
+  reviews : any[];
+  productVideoURLs :any[];
+  isCodAvailable :boolean
 }
 
 const EcomProduct: React.FC<EcomProductProps> = (props) => {
