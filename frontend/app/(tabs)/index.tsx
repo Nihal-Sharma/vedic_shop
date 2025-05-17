@@ -171,7 +171,7 @@ export default function HomeScreen() {
                 return null;
             }
           }}
-          contentContainerStyle={{ paddingBottom: 200 }}
+          contentContainerStyle={{ paddingBottom: 20 }}
           initialNumToRender={3}
           maxToRenderPerBatch={1}
           windowSize={9}
