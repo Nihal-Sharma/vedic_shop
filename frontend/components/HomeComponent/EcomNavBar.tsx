@@ -21,8 +21,6 @@ const EcomNavBar = () => {
       style={{
         backgroundColor: "white",
         paddingTop: 35,
-    
-         
       }}
     >
       {/* Nav Bar */}
@@ -43,7 +41,7 @@ const EcomNavBar = () => {
             style={{ width: 46, height: 47 }}
           />
           <Text
-            style={{ fontSize: 18,   color: "#E2660C" }}
+            style={{ fontSize: 18, color: "#E2660C", fontFamily: "Samaran" }}
           >
             Vedic Shop
           </Text>
@@ -59,7 +57,6 @@ const EcomNavBar = () => {
       </View>
 
       {/* Search Bar */}
-      
     </View>
   );
 };

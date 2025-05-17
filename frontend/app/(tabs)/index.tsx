@@ -22,25 +22,7 @@ type Product = {
   productImages: string[];
 };
 
-const PRODUCTS: Product[] = [
-  {
-    _id: "6757da864eda333220eb75d3",
-    productName: "Black Hanuman Idol (Size: Approx. 11 cm)",
-    productCategory: { id: "67083512abce43a9732e6b3e", name: "Idols" },
-    productImages: [
-      "https://vedic-vaibhav.blr1.digitaloceanspaces.com/vedic-vaibhav/product-images/images_1739440039569.webp",
-    ],
-  },
-  {
-    _id: "6757db5a4eda333220eb75d5",
-    productName: "Chhatrapati Shivaji Maharaj Statue Small Brown",
-    productCategory: { id: "67083512abce43a9732e6b3e", name: "Idols" },
-    productImages: [
-      "https://vedic-vaibhav.blr1.digitaloceanspaces.com/vedic-vaibhav/product-images/images_1733811033496.jpeg",
-    ],
-  },
-  // …other products
-];
+
 
 // Your existing section components
 import EcomNavBar from "@/components/HomeComponent/EcomNavBar";
@@ -56,6 +38,7 @@ import EcommBrass from "@/components/HomeComponent/EcommBrass";
 import EcommCombo from "@/components/HomeComponent/EcommCombo";
 import EcommBanner2 from "@/components/HomeComponent/EcommBanner2";
 import EcommGrid from "@/components/HomeComponent/EcommGrid";
+import mainStore from "@/store/mainStore";
 
 export default function HomeScreen() {
   const sections = [
@@ -74,14 +57,14 @@ export default function HomeScreen() {
   ];
   const [text, setText] = useState("");
   const [filtered, setFiltered] = useState<Product[]>([]);
-
+  const products = mainStore((state)=>state.allProducts)
   useEffect(() => {
     if (text.trim() === "") {
       setFiltered([]);
       return;
     }
     // find up to 4 matches
-    const matches = PRODUCTS.filter((p) =>
+    const matches = products.filter((p) =>
       p.productName.toLowerCase().includes(text.toLowerCase())
     );
     setFiltered(matches.slice(0, 4));
@@ -175,6 +158,7 @@ export default function HomeScreen() {
           initialNumToRender={3}
           maxToRenderPerBatch={1}
           windowSize={9}
+        
         />
 
         {/* Chatbot FAB */}

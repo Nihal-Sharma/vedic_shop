@@ -107,7 +107,7 @@ const EcommBrass = () => {
         <View style={styles.headerRow}>
           <Text style={styles.headerTitle}>BRASS IDOL</Text>
           <TouchableOpacity style={styles.exploreBtn}>
-            <Text>Explore All</Text>
+            <Text style={{ fontFamily: "PoppinsRegular" }}>Explore All</Text>
           </TouchableOpacity>
         </View>
 
@@ -149,12 +149,12 @@ const EcommBrass = () => {
             return <Animated.View key={i} style={[styles.dot, { opacity }]} />;
           })}
         </View>
-        <View style={{position:'absolute',bottom:-13,left:20}}>
+        <View style={{ position: "absolute", bottom: -13, left: 20 }}>
           <Image
             source={{
               uri: "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/box.png",
             }}
-            style={{height:40,width:40}}
+            style={{ height: 40, width: 40 }}
           />
         </View>
       </View>
@@ -162,7 +162,7 @@ const EcommBrass = () => {
   );
 };
 
-export default EcommBrass;
+export default React.memo(EcommBrass);
 
 /* ───────── styles ───────── */
 const styles = StyleSheet.create({
@@ -186,12 +186,14 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginTop: 35,
   },
-  headerTitle: { fontSize: 19, color: "white", fontWeight: "bold" },
+  headerTitle: { fontSize: 19, color: "white", fontFamily: "PoppinsMedium" },
   exploreBtn: {
     backgroundColor: "white",
     borderRadius: 24,
     paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingTop: 4,
+    paddingBottom: 2,
+    
   },
   page: {
     width: SCREEN_WIDTH,

@@ -35,16 +35,7 @@ const EcommOccasion = () => {
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/grah.webp",
   },
 ];
-  const [fontsLoaded] = useFonts({
-                "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
-                "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
-                "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
-                "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
-                "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
-                "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-                "Roboto-Medium": require("../../assets/fonts/Roboto-Medium.ttf"),
-                "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-              });
+  
   const { width } = useWindowDimensions();
   const isSmall = width < 392;
 
@@ -57,7 +48,7 @@ const EcommOccasion = () => {
   const handlePress = (title: string) => {
     console.log("Pressed:", title);
   };
-  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
+  // if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   return (
     <View
       style={{
@@ -95,7 +86,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     // fontWeight: "700",
-    
+    fontFamily: "PoppinsMedium",
     marginBottom: 14,
   },
   row: {

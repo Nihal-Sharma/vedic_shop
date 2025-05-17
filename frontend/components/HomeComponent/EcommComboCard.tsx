@@ -170,11 +170,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     zIndex: 10,
   },
-  discountText: { fontSize: 12, color: "#fff",   },
+  discountText: { fontSize: 12, color: "#fff", fontFamily: "RobotoMedium" },
   discountText1: {
     fontSize: 13,
     color: "#fff",
-     
+    fontFamily: "RobotoMedium",
     marginTop: -5,
   },
   addIcon: {
@@ -195,19 +195,26 @@ const styles = StyleSheet.create({
     left: 6,
     backgroundColor: "green",
     paddingHorizontal: 6,
-    paddingVertical: 2,
+    // paddingBottom: 2,
+    paddingTop: 2,
     borderRadius: 12,
   },
-  ratingText: { color: "#fff", fontWeight: "bold" },
-  title: {   marginBottom: 4 },
+  ratingText: { color: "#fff", fontFamily: "PoppinsRegular" },
+  title: { marginBottom: 4, fontFamily: "PoppinsRegular" },
   priceRow: { flexDirection: "row", alignItems: "center", gap: 6 },
-  price: { fontSize: 16,   },
+  price: { fontSize: 16, fontFamily: "OpenSansSemiBold" },
   originalPrice: {
+    fontSize: 12,
     textDecorationLine: "line-through",
+    fontFamily: "OpenSansRegular",
     color: "#888",
-     
   },
-  taxNote: { color: "#666", marginTop: 2, paddingBottom: 18 },
+  taxNote: {
+    color: "#666",
+    marginTop: 2,
+    paddingBottom: 18,
+    fontFamily: "LatoRegular",
+ fontSize:9 },
   heartIcon: {
     position: "absolute",
     bottom: 0,

@@ -99,7 +99,16 @@ const Login: React.FC = () => {
             }}
             style={{ height: 100, width: 100 }}
           />
-          <Text style={{ fontSize: 27, paddingLeft: 15 }}>Vedic Vaibhav</Text>
+          <Text
+            style={{
+              fontSize: 27,
+              paddingLeft: 15,
+              fontFamily: "Samaran",
+              color: "#E2660C",
+            }}
+          >
+            Vedic Vaibhav
+          </Text>
         </View>
       </View>
       {!isOtpSent ? (
@@ -112,6 +121,7 @@ const Login: React.FC = () => {
 
                   color: "black",
                   marginTop: 30,
+                  fontFamily: "PoppinsMedium",
                 }}
               >
                 Phone Number
@@ -131,7 +141,13 @@ const Login: React.FC = () => {
                   backgroundColor: "white",
                 }}
               />
-              <Text style={{ fontSize: 10, paddingTop: 5 }}>
+              <Text
+                style={{
+                  fontSize: 10,
+                  paddingTop: 5,
+                  fontFamily: "LatoRegular",
+                }}
+              >
                 Please enter a valid 10 digit phone number
               </Text>
               <TouchableOpacity
@@ -149,6 +165,7 @@ const Login: React.FC = () => {
                   style={{
                     color: "white",
                     fontSize: 14,
+                    fontFamily: "PoppinsMedium",
                   }}
                 >
                   Request OTP
@@ -292,12 +309,35 @@ const Login: React.FC = () => {
         </>
       )}
       <View style={{ alignItems: "center" }}>
-        <Text style={{ textAlign: "center", width: "75%" }}>
+        <Text
+          style={{
+            textAlign: "center",
+            width: "75%",
+            fontFamily: "PoppinsRegular",
+            fontSize: 12,
+          }}
+        >
           By signing in, you agree to our{" "}
-          <Text style={{ color: "#FF6B00" }}>
+          <Text
+            style={{
+              color: "#FF6B00",
+              textDecorationLine: "underline",
+              textDecorationColor: "#FF6B00",
+            }}
+          >
             Terms of Use, Privacy & Policy
           </Text>{" "}
-          and <Text style={{ color: "#FF6B00" }}>Content Policy</Text>.
+          and{" "}
+          <Text
+            style={{
+              color: "#FF6B00",
+              textDecorationLine: "underline",
+              textDecorationColor: "#FF6B00",
+            }}
+          >
+            Content Policy
+          </Text>
+          .
         </Text>
       </View>
     </View>

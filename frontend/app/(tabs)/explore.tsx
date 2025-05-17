@@ -248,7 +248,7 @@ export default function ExploreScreen() {
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: "#fff",
     paddingTop: 40,
     paddingHorizontal: 15,
@@ -306,10 +306,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   label: {
-    marginTop: 8,
-    fontSize: 13,
+    marginTop: 5,
+    fontSize: 12,
+    paddingBottom:5,
     textAlign: "center",
     color: "#111827",
+    fontFamily: "PoppinsRegular",
   },
   error: {
     color: "red",
@@ -318,7 +320,7 @@ const styles = StyleSheet.create({
   },
   // ---- Section grid styles below ----
   section: {
-    marginBottom: 12,
+    marginBottom: 10,
   },
   sectionHeaderRow: {
     flexDirection: "row",
@@ -329,7 +331,8 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: 14,
     color: "#999",
-    fontWeight: "600",
+    // fontWeight: "600",
+    fontFamily: "PoppinsMedium",
     letterSpacing: 0.5,
     marginBottom: 2,
     marginRight: 10,

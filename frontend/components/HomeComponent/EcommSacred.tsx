@@ -45,17 +45,7 @@ const EcommSacred = () => {
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/store-min.webp",
   },
 ];
-  const [fontsLoaded] = useFonts({
-                "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
-                "Alkatra-Medium": require("../../assets/fonts/Alkatra-Medium.ttf"),
-                "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
-                "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
-                "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
-                "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
-                "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-                "Roboto-Medium": require("../../assets/fonts/Roboto-Medium.ttf"),
-                "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-              });
+  
   const handlePress = (title: string) => {
     console.log("Pressed:", title); // hook into navigation / filters
   };
@@ -70,7 +60,7 @@ const EcommSacred = () => {
       <Text style={styles.caption}>{item.title}</Text>
     </TouchableOpacity>
   );
-  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
+  // if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   return (
     <LinearGradient
       colors={["rgba(229,130,13,0.8)", "rgba(242,239,19,0.0624)"]} // subtle yellow–peach, tweak as desired
@@ -92,7 +82,7 @@ const EcommSacred = () => {
         keyExtractor={(item) => item.title}
         renderItem={renderItem}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: GAP }}
+        contentContainerStyle={{ paddingHorizontal: GAP, }}
         ItemSeparatorComponent={() => <View style={{ width: 1 }} />}
         snapToAlignment="start"
         decelerationRate="fast"
@@ -114,7 +104,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     // fontWeight: "700",
-     
+    fontFamily: "AlkatraMedium",
     marginLeft: GAP,
     color: "white",
     marginBottom: 14,
@@ -128,8 +118,8 @@ const styles = StyleSheet.create({
     marginTop: 4,
     textAlign: "center",
     // fontWeight: "600",
-     
-    fontSize: 14,
+fontFamily:'PoppinsMedium',
+    fontSize: 13,
   },
 });
 

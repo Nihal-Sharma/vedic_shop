@@ -76,7 +76,7 @@ const EcommCombo = () => {
             />
           </View>
           <TouchableOpacity style={styles.exploreBtn}>
-            <Text>Explore All</Text>
+            <Text style={{}}>Explore All</Text>
           </TouchableOpacity>
         </View>
 
@@ -109,7 +109,7 @@ const EcommCombo = () => {
   );
 };
 
-export default EcommCombo;
+export default React.memo(EcommCombo);
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -130,18 +130,20 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // padding: 15,
   },
-  headerTitle: { fontSize: 19, color: "white",  },
+  headerTitle: { fontSize: 19, color: "white", fontFamily: "PoppinsBold" },
   exploreBtn: {
     backgroundColor: "white",
     borderRadius: 24,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    
   },
   slide: {
-    width: SCREEN_WIDTH,         
+    width: SCREEN_WIDTH,
     flexDirection: "row",
     justifyContent: "space-evenly",
-    paddingVertical: 12,},
+    paddingVertical: 12,
+  },
   cardWrapper: {
     // flex: 1,
     // marginHorizontal: 6,

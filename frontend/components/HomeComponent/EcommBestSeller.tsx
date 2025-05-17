@@ -23,15 +23,7 @@ const parseReviewCount = (v: unknown): number => {
 };
 
 const EcommBestSeller: React.FC = () => {
-   const [fontsLoaded] = useFonts({
-        "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
-        "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
-        "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
-        "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
-        "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
-        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-      });
+   
       
   const baseURL = mainStore((s) => s.baseURL) ?? "http://localhost:5001";
 
@@ -99,6 +91,7 @@ const EcommBestSeller: React.FC = () => {
       if (!Array.isArray(data)) throw new Error("Invalid data format");
       if(isMounted){
          setProducts(data)
+         addProducts(data)
          setError(null);
       }
      
@@ -135,7 +128,6 @@ const EcommBestSeller: React.FC = () => {
 }, [baseURL]);
 
   /* states */
-  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   if (loading) return <ActivityIndicator style={{ marginTop: 20 }} />;
   if (error) return <Text style={styles.error}>{error}</Text>;
  else {
@@ -177,7 +169,7 @@ const EcommBestSeller: React.FC = () => {
   
 };
 
-export default EcommBestSeller;
+export default React.memo(EcommBestSeller);
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -190,9 +182,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     // fontWeight: "bold",
-     
+     fontFamily: "PoppinsMedium",
     color: "#1f2937",
-    marginBottom: 12,
+    marginBottom: 10,
   },
   error: { color: "red", padding: 16 },
 });

@@ -57,16 +57,7 @@ export interface EcomProductProps {
 /* ─────────── Best‑Seller Card ─────────── */
 const EcommBestSellerCard: React.FC<EcomProductProps> = (props) => {
   
-  const [fontsLoaded] = useFonts({
-          "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
-          "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
-          "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
-          "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
-          "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
-          "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-          "Roboto-Medium": require("../../assets/fonts/Roboto-Medium.ttf"),
-          "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-        });
+ 
   const {
     _id,
     productName,
@@ -272,7 +263,7 @@ export default EcommBestSellerCard;
 
 /* ───────── styles (unchanged) ───────── */
 const styles = StyleSheet.create({
-  container: { backgroundColor: "white", alignItems: "center"  },
+  container: { backgroundColor: "white", alignItems: "center" },
   scroll: { alignItems: "center", paddingRight: 10 },
   card: {
     width: 185,
@@ -282,7 +273,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     overflow: "hidden",
     position: "relative",
-    marginRight :8
+    marginRight: 8,
   },
   discountBadge: {
     position: "absolute",
@@ -294,12 +285,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     zIndex: 10,
   },
-  discountText: { fontSize: 13, color: "#fff",  },
+  discountText: { fontSize: 13, color: "#fff", fontFamily: "RobotoMedium" },
   discountText1: {
     fontSize: 13,
     color: "#fff",
-    
-    marginTop: -5,
+    fontFamily: "RobotoMedium",
+    marginTop: -2,
   },
   addIcon: {
     position: "absolute",
@@ -328,20 +319,27 @@ const styles = StyleSheet.create({
     left: 6,
     backgroundColor: "green",
     paddingHorizontal: 6,
-    paddingVertical: 2,
+    // paddingVertical: 2,
+    paddingTop: 2,
     borderRadius: 12,
   },
-  ratingText: { color: "#fff", fontSize: 12, fontWeight: "bold" },
-  title: {   fontSize: 14,  },
+  ratingText: { color: "#fff", fontSize: 12, fontFamily: "PoppinsRegular" },
+  title: { fontSize: 14, fontFamily: "PoppinsRegular" },
   priceRow: { flexDirection: "row", alignItems: "center", gap: 6 },
-  price: { fontSize: 16,  },
+  price: { fontSize: 16, fontFamily: "OpenSansSemiBold" },
   originalPrice: {
     fontSize: 13,
     textDecorationLine: "line-through",
+    fontFamily: "OpenSansRegular",
     color: "#888",
-     
   },
-  taxNote: { fontSize: 10, color: "#666", marginTop: 2, paddingBottom: 20 },
+  taxNote: {
+    fontSize: 10,
+    color: "#666",
+    marginTop: 2,
+    paddingBottom: 20,
+    fontFamily: " LatoRegular",
+  },
   heartIcon: {
     position: "absolute",
     bottom: 0,

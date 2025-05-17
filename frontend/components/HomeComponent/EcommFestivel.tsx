@@ -40,7 +40,7 @@ const EcommFestival: React.FC = () => {
 
   // if small screen, shrink cards a bit
   const cardSize = isSmall ? 70 : 85;
-  const fontSize = isSmall ? 12 : 14;
+  const fontSize = isSmall ? 11 : 13;
 
   const handlePress = (title: string) => {
     console.log("Pressed festival:", title);
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     // fontWeight: "700",
-     
+     fontFamily: "PoppinsMedium",
     marginBottom: 14,
     color: "#333",
   },
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
   caption: {
     marginTop: 6,
     // fontWeight: "600",
-     
+     fontFamily: "PoppinsMedium",
+    //  fontSize: 12,
     textAlign: "center",
     color: "#444",
   },

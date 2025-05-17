@@ -28,20 +28,11 @@ const EcommSecondCategory = () => {
       "https://vedic-vaibhav.blr1.cdn.digitaloceanspaces.com/vedic-vaibhav/ShopApp/spritual.png",
   },
 ];
-  const [fontsLoaded] = useFonts({
-              "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
-              "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
-              "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
-              "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
-              "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
-              "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-              "Roboto-Medium": require("../../assets/fonts/Roboto-Medium.ttf"),
-              "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-            });
+  
   const handlePress = (category: string) => {
     console.log("Pressed:", category);
   };
-  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
+  // if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
   return (
     <View>
       <ImageBackground
@@ -69,7 +60,7 @@ const EcommSecondCategory = () => {
               //   flex: 1,
             }}
           >
-            <Text style={{ fontSize: 18,  }}>
+            <Text style={{ fontSize: 18,fontFamily: "PoppinsMedium", }}>
               SHOP BY PURPOSE
             </Text>
           </View>
@@ -91,7 +82,7 @@ const EcommSecondCategory = () => {
                   }}
                   resizeMode="cover"
                 />
-                <Text style={{ fontSize: 14,   }}>
+                <Text style={{ fontSize: 13, fontFamily: "PoppinsMedium",color:'black' }}>
                   {item.title}
                 </Text>
               </TouchableOpacity>

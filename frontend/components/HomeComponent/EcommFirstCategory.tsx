@@ -8,15 +8,7 @@ import { useFonts } from "expo-font";
 
 
 const EcommFirstCategory = () => {
-  const [fontsLoaded] = useFonts({
-      "SAMARN__": require("../../assets/fonts/SAMARN__.ttf"),
-      "Inter_18pt-Medium": require("../../assets/fonts/Inter_18pt-Medium.ttf"),
-      "OpenSans-Regular": require("../../assets/fonts/OpenSans-Regular.ttf"),
-      "OpenSans-Bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
-      "OpenSans-SemiBold": require("../../assets/fonts/OpenSans-SemiBold.ttf"),
-      "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-      "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-    });
+
 
   const { width } = useWindowDimensions();
     const categories = [
@@ -47,7 +39,7 @@ const EcommFirstCategory = () => {
   const itemHeight = isSmallScreen ? 53 : 67;
   const fontSize = isSmallScreen ? 10 : 12;
 
-  if (!fontsLoaded) return <ActivityIndicator style={{ marginTop: 20 }} />;
+  
   return (
     <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
       <View
@@ -74,7 +66,7 @@ const EcommFirstCategory = () => {
               style={{
                 marginTop: 5,
                 fontSize: fontSize,
-                
+                fontFamily: "InterMedium",
               }}
             >
               {item.title}
@@ -99,7 +91,7 @@ const EcommFirstCategory = () => {
           <Text
             style={{
               color: "#ff6600",
-               
+              fontFamily: "InterMedium",
               fontSize: fontSize,
               marginTop: 5,
             }}
